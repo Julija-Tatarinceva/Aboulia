@@ -3,14 +3,15 @@ using UnityEngine.Events;
 
 public class CharacterController2D : MonoBehaviour
 {
-    [SerializeField] private float jumpForce = 10f;                          // Amount of force added when the player jumps.
+    [SerializeField] private float jumpForce = 100f;                          // Amount of force added when the player jumps.
+    [SerializeField] private float runSpeed = 150f;
     [Range(0, .3f)] [SerializeField] private float movementSmoothing = .05f;  // How much to smooth out the movement
     [SerializeField] private LayerMask whatIsGround;                          // A mask determining what is ground to the character
     [SerializeField] private Transform groundCheck;                           // A position marking where to check if the player is grounded.
 
     const float groundedRadius = .3f; // Radius of the overlap circle to determine if grounded
     public bool grounded;            // Whether the player is grounded.
-    private Rigidbody2D rigidbody2D; // Player's rigidbody component
+    private Rigidbody2D rigidbody; // Player's rigidbody component
     private bool facingRight = true;  // For determining which way the player is currently facing.
     private Vector3 velocity = Vector3.zero;
     private PlayerMovement2D movementScript;
@@ -25,7 +26,7 @@ public class CharacterController2D : MonoBehaviour
     public class BoolEvent : UnityEvent<bool> { }
 
     private void Awake(){
-        rigidbody2D = GetComponent<Rigidbody2D>();
+        rigidbody = GetComponent<Rigidbody2D>();
         movementScript = GetComponent<PlayerMovement2D>();
         if (OnLandEvent == null)
             OnLandEvent = new UnityEvent();
@@ -45,22 +46,22 @@ public class CharacterController2D : MonoBehaviour
                 // It can, for example, play a special landing sound or break a jumping animation early.
                 if (!wasGrounded)
                     OnLandEvent.Invoke();
-                // movementScript.jump = false;
             }
         }
     }
     public void Move(float move, bool jump){
         // Using the physics engine to add velocity to the player's body
-        Vector3 targetVelocity = new Vector2(move, rigidbody2D.velocity.y);
-        rigidbody2D.velocity = Vector3.SmoothDamp(rigidbody2D.velocity, targetVelocity, ref velocity, movementSmoothing); 
+        float _horizontalMove = move * runSpeed * Time.fixedDeltaTime;
+        Vector3 targetVelocity = new Vector2(_horizontalMove, rigidbody.velocity.y);
+        rigidbody.velocity = Vector3.SmoothDamp(rigidbody.velocity, targetVelocity, ref velocity, movementSmoothing); 
        
         // Change the way the sprite is facing if turned around
-        if (move > 0 && !facingRight || move < 0 && facingRight) 
+        if (_horizontalMove > 0 && !facingRight || _horizontalMove < 0 && facingRight) 
             Flip();
 
         if (!grounded || !jump) return; // Moving is finished unless the player jumping
         
-        rigidbody2D.AddForce(new Vector2(0f, jumpForce * 1.3f));
+        rigidbody.AddForce(new Vector2(0f, jumpForce * 1.3f));
         grounded = false;
     }
     
