@@ -7,6 +7,7 @@ public class PlayerMovement2D : MonoBehaviour {
     private float _horizontalMove = 0f;
     public bool jump = false;
 
+    
     public GameObject player;
     private void Update(){
         // Using keys as input, these keys can be changed in project's settings
