@@ -1,8 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class CharacterController2D : MonoBehaviour
-{
+public class CharacterController2D : MonoBehaviour {
     [SerializeField] private float jumpForce = 100f;                          // Amount of force added when the player jumps.
     [SerializeField] private float runSpeed = 150f;
     [Range(0, .3f)] [SerializeField] private float movementSmoothing = .05f;  // How much to smooth out the movement
@@ -50,7 +49,7 @@ public class CharacterController2D : MonoBehaviour
         }
     }
     public void Move(float move, bool jump){
-        // Using the physics engine to add velocity to the player's body
+        // Using the physics engine to set velocity (not to apply force!) to the player's body
         float _horizontalMove = move * runSpeed * Time.fixedDeltaTime;
         Vector3 targetVelocity = new Vector2(_horizontalMove, rigidbody.velocity.y);
         rigidbody.velocity = Vector3.SmoothDamp(rigidbody.velocity, targetVelocity, ref velocity, movementSmoothing); 
@@ -61,7 +60,7 @@ public class CharacterController2D : MonoBehaviour
 
         if (!grounded || !jump) return; // Moving is finished unless the player jumping
         
-        rigidbody.AddForce(new Vector2(0f, jumpForce * 1.3f));
+        rigidbody.AddForce(new Vector2(0f, jumpForce * 1.3f)); // Jumping is just throwing the body upwards with force
         grounded = false;
     }
     

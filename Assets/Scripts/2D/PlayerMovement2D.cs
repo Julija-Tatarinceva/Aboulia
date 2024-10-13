@@ -2,15 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement2D : MonoBehaviour
-{
+public class PlayerMovement2D : MonoBehaviour {
     public CharacterController2D characterController2D;
     private float _horizontalMove = 0f;
     public bool jump = false;
 
     public GameObject player;
-    private void Update()
-    {
+    private void Update(){
         // Using keys as input, these keys can be changed in project's settings
         _horizontalMove = Input.GetAxisRaw("Horizontal");
 
