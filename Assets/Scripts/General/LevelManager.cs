@@ -30,10 +30,11 @@ public class LevelManager : MonoBehaviour
 
     public void SwitchTo3D(){
         Invoke("SwitchTo2D", 5f);
-        ide2D.SetActive(false);
+        ide3D.SetActive(true);
         foreach (var pair in transitionablePairs2D) {
             pair.StartTransition();
         }
-        ide3D.SetActive(true);
+
+        ide2D.SetActive(false);
     }
 }
