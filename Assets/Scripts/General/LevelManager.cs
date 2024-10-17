@@ -23,7 +23,7 @@ public class LevelManager : MonoBehaviour
         Invoke("SwitchTo3D", 5f);
         ide2D.SetActive(true);
         foreach (var pair in transitionablePairs3D) {
-            pair.StartTransition();
+            pair.BeginTransition();
         }
         ide3D.SetActive(false);
     }
@@ -32,7 +32,7 @@ public class LevelManager : MonoBehaviour
         Invoke("SwitchTo2D", 5f);
         ide3D.SetActive(true);
         foreach (var pair in transitionablePairs2D) {
-            pair.StartTransition();
+            pair.BeginTransition();
         }
 
         ide2D.SetActive(false);
