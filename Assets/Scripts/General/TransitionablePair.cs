@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TransitionablePair : MonoBehaviour
-{
+public class TransitionablePair : MonoBehaviour {
+    // This code currently is only used for the player objects, since they cannot be created from one object both in 2D and 3D
+    // The 3D and 2D models have to be teleported to new locations after transitioning
     public TransitionablePair target; // A clone of this object in the other dimension
     private Vector3 posBeforeTransition;
     private void Start(){

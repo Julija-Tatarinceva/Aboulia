@@ -6,6 +6,8 @@ public class DimensionSwitcher : MonoBehaviour
     public Transform player;
     private Plane slicingPlane;
     public GameObject obj1;
+    public GameObject obj2;
+    public GameObject obj3;
 
     // Store the intersection points
     private List<Vector3> intersectionPoints = new List<Vector3>();
@@ -20,6 +22,10 @@ public class DimensionSwitcher : MonoBehaviour
             DrawSlicingPlane(slicingPlane, player.position);
             // Slice the object and generate 2D geometry
             SliceObject(obj1);
+            Generate2DPolygonFromIntersections();
+            SliceObject(obj2);
+            Generate2DPolygonFromIntersections();
+            SliceObject(obj3);
             Generate2DPolygonFromIntersections();
         }
     }
@@ -110,7 +116,7 @@ public class DimensionSwitcher : MonoBehaviour
         float distance2 = slicingPlane.GetDistanceToPoint(v2);
 
         float t = distance1 / (distance1 - distance2);
-        Debug.Log(Vector3.Lerp(v1, v2, t));
+        // Debug.Log(Vector3.Lerp(v1, v2, t));
         return Vector3.Lerp(v1, v2, t);  // Interpolating to find the intersection point
     }
 
@@ -118,7 +124,7 @@ public class DimensionSwitcher : MonoBehaviour
     void Generate2DPolygonFromIntersections(){
         if (intersectionPoints.Count < 3){
             Debug.LogWarning("Not enough points to form a polygon");
-            Debug.Log(intersectionPoints.Count);
+            // Debug.Log(intersectionPoints.Count);
             return;
         }
         
@@ -142,16 +148,37 @@ public class DimensionSwitcher : MonoBehaviour
 
         // Triangulation: This assumes the polygon is convex and ordered correctly (or you could use a library like LibTessDotNet)
         List<int> triangles = new List<int>();
+        for (int i = 0; i < polygon2D.Count; i++)
+        {
+            if (i != 0 && polygon2D[i] == polygon2D[i - 1])
+            {
+                // Shift elements one position back starting from the current position
+                for (int j = i; j < polygon2D.Count - 1; j++)
+                {
+                    polygon2D[j] = polygon2D[j + 1];
+                }
+
+                // Remove the last element since it's now a duplicate after shifting
+                polygon2D.RemoveAt(polygon2D.Count - 1);
+
+                // Decrement 'i' to recheck the current position (since it now contains the next element)
+                i--;
+            }
+        }
         for (int i = 1; i < polygon2D.Count - 1; i++){
             triangles.Add(0);
             triangles.Add(i);
             triangles.Add(i + 1);
         }
 
-        // Convert the 2D points back to 3D for rendering (setting Z = 0)
+        // Convert the 2D points back to 3D for rendering (setting Z = 0))
         Vector3[] vertices3D = new Vector3[polygon2D.Count];
-        for (int i = 0; i < polygon2D.Count; i++)
+        for (int i = 0; i < polygon2D.Count; i++){
             vertices3D[i] = new Vector3(polygon2D[i].x, polygon2D[i].y, polygon2D[i].z);
+            GameObject point = new GameObject("point " + i.ToString());
+            point.transform.position = vertices3D[i];
+        }
+            
 
         // Create the 2D mesh
         Mesh polygonMesh = new Mesh();
