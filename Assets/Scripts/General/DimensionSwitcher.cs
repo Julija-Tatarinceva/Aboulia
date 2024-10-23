@@ -11,6 +11,7 @@ public class DimensionSwitcher : MonoBehaviour {
     // Store the intersection points
     private List<Vector3> _intersectionPoints = new List<Vector3>();
     private String tagOfSlicedObject;
+    private Vector3 locationOfSlicedObject;
     public Sprite mySprite;
 
     void Update() {
@@ -100,6 +101,7 @@ public class DimensionSwitcher : MonoBehaviour {
                 _intersectionPoints.Add(ProjectTo2D(FindIntersection(v2, v0), planeRight, planeUp));
         }
         tagOfSlicedObject = obj.tag;
+        locationOfSlicedObject = obj.transform.position;
     }
 
     // Function to find the intersection point between two vertices and the slicing plane
@@ -121,7 +123,7 @@ public class DimensionSwitcher : MonoBehaviour {
         foreach (var vertex in polygon2D) centroid += vertex;
         centroid /= polygon2D.Count;
         
-        // Sort vertices to ensure correct triangulation-
+        // Clean up and sort vertices to ensure correct triangulation
         CleanupVertices(ref polygon2D);
         SortVerticesClockwise(ref polygon2D, centroid);
 
@@ -140,6 +142,7 @@ public class DimensionSwitcher : MonoBehaviour {
 
         // Fit the sprite to the collider
         FitSpriteToCollider(spriteRenderer, polygonCollider);
+        polygonObject.transform.position = new Vector3(locationOfSlicedObject.x, locationOfSlicedObject.y, 0);
     }
 
     void CleanupVertices(ref List<Vector3> polygon2D) {
@@ -192,7 +195,7 @@ public class DimensionSwitcher : MonoBehaviour {
     }
     void FitSpriteToCollider(SpriteRenderer spriteRenderer, PolygonCollider2D collider) {
         // Set the SpriteRenderer to use Tiled mode or Sliced mode, which allows resizing without affecting scale
-        spriteRenderer.drawMode = SpriteDrawMode.Sliced;
+        spriteRenderer.drawMode = SpriteDrawMode.Tiled;
         // Get the bounds of the PolygonCollider2D
         Bounds colliderBounds = collider.bounds;
         // Set the size of the SpriteRenderer to match the collider's size
