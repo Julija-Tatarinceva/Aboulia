@@ -12,7 +12,7 @@ public class TransitionablePair : MonoBehaviour {
     }
     public void BeginTransition(){ // Getting position of the first clone in the dimension player is switching OUT of
         Vector3 changeInPosition = transform.position - posBeforeTransition;
-        // changeInPosition.z = 0; // Does not matter a lot, but if moved too far away a 2D object can be out of range for cameras
+        changeInPosition.z = 0; // Does not matter a lot, but if moved too far away a 2D object can be out of range for cameras
         target.FinishTransition(changeInPosition);       
         posBeforeTransition = transform.position; // Next transition the current position will be used as the first point
     } 

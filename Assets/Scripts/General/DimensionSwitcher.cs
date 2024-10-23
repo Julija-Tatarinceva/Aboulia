@@ -1,13 +1,17 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 
 public class DimensionSwitcher : MonoBehaviour {
     public Transform player;
+    public LevelManager levelManager;
     private Plane _slicingPlane; // The plane that is used for slicing 3D objects when switching from 3D to 2D
     public GameObject[] slicableObjects = new GameObject[1]; //All the objects that will be sliced after dimension switch, can be modified in th editor
     // Store the intersection points
     private List<Vector3> _intersectionPoints = new List<Vector3>();
+    private String tagOfSlicedObject;
+    public Sprite mySprite;
 
     void Update() {
         // Trigger dimension switch
@@ -21,6 +25,7 @@ public class DimensionSwitcher : MonoBehaviour {
                 SliceObject(objectToSlice);
                 Generate2DPolygonFromIntersections(_intersectionPoints);
             }
+            levelManager.SwitchTo2D();
         }
     }
     
@@ -55,7 +60,6 @@ public class DimensionSwitcher : MonoBehaviour {
         
         Mesh mesh = meshFilter.mesh;
         Vector3[] localVertices = mesh.vertices; // These are local-space vertices
-
         // Get the local-to-world matrix, which includes position, rotation, and scale
         Matrix4x4 localToWorld = obj.transform.localToWorldMatrix;
 
@@ -67,7 +71,6 @@ public class DimensionSwitcher : MonoBehaviour {
 
         // Clear previous intersection points
         _intersectionPoints.Clear();
-        
         // Defining the slicing plane's local coordinate system (planeRight and planeUp)
         // If needed to stop projecting slices, this block can be commented out
         Vector3 planeNormal = _slicingPlane.normal;
@@ -88,20 +91,15 @@ public class DimensionSwitcher : MonoBehaviour {
             bool v2Above = _slicingPlane.GetSide(v2);
             
             // Checking if this triangle intersects the slicing plane & finding the intersection points on the triangle's edges
-            // If needed to stop projecting slices, (ProjectTo2D(intersection, planeRight, planeUp)) can be switched to (intersection)
-            if (v0Above != v1Above){
-                Vector3 intersection = FindIntersection(v0, v1);
-                _intersectionPoints.Add(ProjectTo2D(intersection, planeRight, planeUp));
-            }
-            if (v1Above != v2Above){
-                Vector3 intersection = FindIntersection(v1, v2);
-                _intersectionPoints.Add(ProjectTo2D(intersection, planeRight, planeUp));
-            }
-            if (v2Above != v0Above){
-                Vector3 intersection = FindIntersection(v2, v0);
-                _intersectionPoints.Add(ProjectTo2D(intersection, planeRight, planeUp));
-            }
+            // If needed to stop projecting slices, (ProjectTo2D(intersection, planeRight, planeUp)) can be switched to FindIntersection(x, x)
+            if (v0Above != v1Above)
+                _intersectionPoints.Add(ProjectTo2D(FindIntersection(v0, v1), planeRight, planeUp));
+            if (v1Above != v2Above)
+                _intersectionPoints.Add(ProjectTo2D(FindIntersection(v1, v2), planeRight, planeUp));
+            if (v2Above != v0Above)
+                _intersectionPoints.Add(ProjectTo2D(FindIntersection(v2, v0), planeRight, planeUp));
         }
+        tagOfSlicedObject = obj.tag;
     }
 
     // Function to find the intersection point between two vertices and the slicing plane
@@ -113,23 +111,36 @@ public class DimensionSwitcher : MonoBehaviour {
     }
     
     // It is needed to connect the intersection points in a 2D space to create the polygon, triangulate the polygon for rendering in Unity
-    void Generate2DPolygonFromIntersections(List<Vector3> polygon2D){
-        if (polygon2D.Count < 3) return; // Need at least 3 points to create a polygon
-
+    void Generate2DPolygonFromIntersections(List<Vector3> polygon2D) {
+        if (polygon2D.Count < 3) return; // We need at least 3 points to create a polygon
         // Create a new GameObject for the 2D polygon
-        GameObject polygonObject = new GameObject("Sliced2DPolygon", typeof(PolygonCollider2D));
-
-        // Sort vertices to ensure correct triangulation
-        CleanupVertices(ref polygon2D);
-        SortVerticesClockwise(ref polygon2D);
+        GameObject polygonObject = new GameObject("Sliced2DPolygon", typeof(PolygonCollider2D), typeof(SpriteRenderer));
+        polygonObject.tag = tagOfSlicedObject;
+        // Calculating the centroid (center point) of the polygon
+        Vector3 centroid = Vector3.zero;
+        foreach (var vertex in polygon2D) centroid += vertex;
+        centroid /= polygon2D.Count;
         
+        // Sort vertices to ensure correct triangulation-
+        CleanupVertices(ref polygon2D);
+        SortVerticesClockwise(ref polygon2D, centroid);
+
         // Create a 2D collider using the 2D vertices
         Vector2[] colliderPoints = new Vector2[polygon2D.Count];
+        PolygonCollider2D polygonCollider = polygonObject.GetComponent<PolygonCollider2D>();
+        // The collider needs to be centered relative to the center of the game object
+        Vector3 distanceDiff = centroid - polygonObject.transform.position;
         for (int i = 0; i < polygon2D.Count; i++)
-            colliderPoints[i] = polygon2D[i];
-        polygonObject.GetComponent<PolygonCollider2D>().points = colliderPoints;
-    }
+            colliderPoints[i] = new Vector2(polygon2D[i].x - distanceDiff.x, polygon2D[i].y - distanceDiff.y);
+        polygonCollider.points = colliderPoints;
+        
+        // Set up the SpriteRenderer
+        SpriteRenderer spriteRenderer = polygonObject.GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = mySprite; // Assign your sprite here
 
+        // Fit the sprite to the collider
+        FitSpriteToCollider(spriteRenderer, polygonCollider);
+    }
 
     void CleanupVertices(ref List<Vector3> polygon2D) {
         for (int i = 2; i < polygon2D.Count; i++) {
@@ -154,22 +165,15 @@ public class DimensionSwitcher : MonoBehaviour {
                 for (int j = i; j < polygon2D.Count - 1; j++) 
                     polygon2D[j] = polygon2D[j + 1];
             
-            // Remove the last element since it's now a duplicate after shifting
-            polygon2D.RemoveAt(polygon2D.Count - 1);
-            // Decrement 'i' to recheck the current position (since it now contains the next element)
-            i--;
+            polygon2D.RemoveAt(polygon2D.Count - 1); // Remove the last element since it's now a duplicate after shifting
+            i--; // Decrement 'i' to recheck the current position (since it now contains the next element)
         }
         // Getting rid of duplicates 
         polygon2D = polygon2D.Distinct().ToList();
     }
     
     //After slicing vertices can be created randomly, so in order to create triangles correctly the vertices have to be sorted clockwise
-    void SortVerticesClockwise(ref List<Vector3> vertices){
-        // Calculating the centroid (center point) of the polygon
-        Vector3 centroid = Vector3.zero;
-        foreach (var vertex in vertices) centroid += vertex;
-        centroid /= vertices.Count;
-
+    void SortVerticesClockwise(ref List<Vector3> vertices, Vector3 centroid){
         // Sorting vertices based on their angle from the centroid
         vertices.Sort((a, b) => {
             float angleA = Mathf.Atan2(a.y - centroid.y, a.x - centroid.x);
@@ -177,6 +181,7 @@ public class DimensionSwitcher : MonoBehaviour {
             return angleA.CompareTo(angleB);
         });
     }
+    
     // Function to project a 3D point onto the slicing plane's 2D space
     Vector2 ProjectTo2D(Vector3 point, Vector3 planeRight, Vector3 planeUp) {
         // Convert the point into the plane's local 2D coordinate system
@@ -184,5 +189,14 @@ public class DimensionSwitcher : MonoBehaviour {
         float x = Vector3.Dot(localPoint, planeRight); // X-coordinate
         float y = Vector3.Dot(localPoint, planeUp);    // Y-coordinate
         return new Vector2(x, y);                      // Return as 2D point
+    }
+    void FitSpriteToCollider(SpriteRenderer spriteRenderer, PolygonCollider2D collider) {
+        // Set the SpriteRenderer to use Tiled mode or Sliced mode, which allows resizing without affecting scale
+        spriteRenderer.drawMode = SpriteDrawMode.Sliced;
+        // Get the bounds of the PolygonCollider2D
+        Bounds colliderBounds = collider.bounds;
+        // Set the size of the SpriteRenderer to match the collider's size
+        Vector2 newSize = new Vector2(colliderBounds.size.x, colliderBounds.size.y);
+        spriteRenderer.size = newSize;
     }
 }
