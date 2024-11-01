@@ -6,15 +6,18 @@ public class PlayerMovement2D : MonoBehaviour {
     public CharacterController2D characterController2D;
     private float _horizontalMove = 0f;
     public bool jump = false;
-
+    public Animator animator;
+    public Rigidbody2D playerRigidbody2D;
     
     public GameObject player;
     private void Update(){
         // Using keys as input, these keys can be changed in project's settings
         _horizontalMove = Input.GetAxisRaw("Horizontal");
-
+        animator.SetFloat("Speed", Mathf.Abs(_horizontalMove));
+        animator.SetFloat("VerticalMove", playerRigidbody2D.velocity.y);
         if (Input.GetButtonDown("Jump") && !jump){
             jump = true;
+            // animator.SetTrigger("Jump");
         }
     }
     // Since movement is a physics operation, it should be done through Fixed Update, which is not tied to frame rate
@@ -23,5 +26,4 @@ public class PlayerMovement2D : MonoBehaviour {
         characterController2D.Move(_horizontalMove, jump);
         jump = false;
     }
-    
 }

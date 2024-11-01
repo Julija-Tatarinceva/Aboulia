@@ -13,10 +13,10 @@ public class PlayerMovement3D : MonoBehaviour {
     public Vector3 velocity;
     public Transform cam;
     // Start is called before the first frame update
-    void Start()
-    {
-
-    }
+    // void Start()
+    // {
+    //
+    // }
 
     // Update is called once per frame
     void Update()
