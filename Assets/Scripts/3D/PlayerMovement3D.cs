@@ -6,21 +6,16 @@ public class PlayerMovement3D : MonoBehaviour {
     public CharacterController characterController;
     public float speed = 8.0f;
     public float turnSmoothTime = 0.1f;
+    public Animator animator;
     float turnSmoothVelocity;
     float targetAngle;
     float verticalSpeed;
     Vector3 moveDirection;
     public Vector3 velocity;
     public Transform cam;
-    // Start is called before the first frame update
-    // void Start()
-    // {
-    //
-    // }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         moveDirection = new Vector3(horizontal, 0f, vertical).normalized; // Turning the inputs into a normalized vector
@@ -35,6 +30,6 @@ public class PlayerMovement3D : MonoBehaviour {
             characterController.Move(direction.normalized * (speed * Time.deltaTime));
             // characterController.Move(velocity * Time.deltaTime); // not much of a difference
         }
-    
+        animator.SetFloat("Speed", Mathf.Abs(horizontal) + Mathf.Abs(vertical));
     }
 }

@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour
     public TransitionablePair[] transitionablePairs3D;
     public GameObject ide2D;
     public GameObject ide3D;
+    public int switchAmount = 0;
     // Start is called before the first frame update
     void Start(){
         Invoke("SwitchTo3D", 5f);
@@ -36,5 +37,13 @@ public class LevelManager : MonoBehaviour
         }
 
         ide2D.SetActive(false);
+    }
+
+    public void SwitchPressed(){
+        switchAmount++;
+        Debug.Log(switchAmount + " Pressed");
+        if (switchAmount == 2) {
+            Debug.Log("Door opened");
+        }
     }
 }
