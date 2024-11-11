@@ -9,34 +9,45 @@ public class LevelManager : MonoBehaviour
     public GameObject ide2D;
     public GameObject ide3D;
     public int switchAmount = 0;
+    public bool isIn2D = false; //for now
     // Start is called before the first frame update
     void Start(){
-        Invoke("SwitchTo3D", 5f);
+        // Invoke("SwitchTo3D", 5f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        // if (Input.GetKeyDown(KeyCode.T) && isIn2D)
+        // {
+        //     Debug.Log("yay");
+        //     SwitchTo3D();
+        // }
+        //
+        // if (Input.GetKeyDown(KeyCode.T))
+        // {
+        //     Debug.Log("no");
+        // }
     }
 
     public void SwitchTo2D(){
-        Invoke("SwitchTo3D", 15f);
         ide2D.SetActive(true);
-        foreach (var pair in transitionablePairs3D) {
+        foreach (var pair in transitionablePairs3D)
+        {
             pair.BeginTransition();
         }
         ide3D.SetActive(false);
+        isIn2D = true;
     }
 
-    public void SwitchTo3D(){
-        Invoke("SwitchTo2D", 15f);
+    public void SwitchTo3D(Vector3 planeRight){
         ide3D.SetActive(true);
-        foreach (var pair in transitionablePairs2D) {
+        foreach (var pair in transitionablePairs2D)
+        {
             pair.BeginTransition();
         }
-
         ide2D.SetActive(false);
+        isIn2D = false;
     }
 
     public void SwitchPressed(){

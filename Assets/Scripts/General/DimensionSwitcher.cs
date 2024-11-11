@@ -8,17 +8,21 @@ public class DimensionSwitcher : MonoBehaviour {
     public LevelManager levelManager;
     private Plane _slicingPlane; // The plane that is used for slicing 3D objects when switching from 3D to 2D
     public GameObject[] slicableObjects = new GameObject[1]; //All the objects that will be sliced after dimension switch, can be modified in th editor
+    public List<GameObject> slicedObjects = new List<GameObject>();
     // Store the intersection points
     private List<Vector3> _intersectionPoints = new List<Vector3>();
     private String tagOfSlicedObject;
     private Vector3 locationOfSlicedObject;
+    public Vector3 planeRight;
     public Sprite mySprite;
 
     void Update() {
-        // Trigger dimension switch
-        if (Input.GetKeyDown(KeyCode.T)){
-            Vector3 forwardDirection = player.forward;
-            _slicingPlane = new Plane(forwardDirection, player.position);
+        // Trigger dimension switch to 2D world
+        if (Input.GetKeyDown(KeyCode.T) && levelManager.isIn2D == false){
+            // When switching to 2D all slicable objects need to be sliced, since 3D objects can't be used for 2D world
+            // Slicing plane is used to check for intersections with slicable objects
+            Vector3 forwardDirection = player.forward; // This is the normal of the slicing plane
+            _slicingPlane = new Plane(forwardDirection, player.position); 
             Debug.DrawLine(player.position, player.position + forwardDirection, Color.green);
             DrawSlicingPlane(_slicingPlane, player.position);
             // Slice the object and generate 2D geometry
@@ -28,19 +32,25 @@ public class DimensionSwitcher : MonoBehaviour {
             }
             levelManager.SwitchTo2D();
         }
+        // Trigger dimension switch to 3D world
+        else if (Input.GetKeyDown(KeyCode.T) && levelManager.isIn2D == true) {
+            // Cleaning all the 2D objects that were created by slicing
+            foreach (GameObject createdObject in slicedObjects)
+                Destroy(createdObject);
+            slicedObjects.Clear();
+            
+            levelManager.SwitchTo3D(planeRight);
+        }
     }
     
     // For debug purposes
     void DrawSlicingPlane(Plane slicingPlane, Vector3 planeCenter, float planeSize = 5.0f){
-        // Get the normal of the plane
-        Vector3 planeNormal = slicingPlane.normal;
+        Vector3 planeNormal = slicingPlane.normal; // Get the normal of the plane
         // Draw the normal direction
         Debug.DrawRay(planeCenter, planeNormal * 2.0f, Color.red); // Red line for the normal
         // Find two vectors that are perpendicular to the plane's normal
         Vector3 planeRight = Vector3.Cross(planeNormal, Vector3.up).normalized;
-        if (planeRight == Vector3.zero)
-            // If planeNormal is pointing straight up or down, choose another axis to cross with
-            planeRight = Vector3.Cross(planeNormal, Vector3.forward).normalized;
+        Debug.DrawRay(planeCenter, planeRight * -2.0f, Color.blue); // Red line for the right
         
         Vector3 planeUp = Vector3.Cross(planeNormal, planeRight).normalized;
         // Calculate the four corners of a square on the plane
@@ -61,27 +71,28 @@ public class DimensionSwitcher : MonoBehaviour {
         
         Mesh mesh = meshFilter.mesh;
         Vector3[] localVertices = mesh.vertices; // These are local-space vertices
-        // Get the local-to-world matrix, which includes position, rotation, and scale
-        Matrix4x4 localToWorld = obj.transform.localToWorldMatrix;
-
-        // Convert local vertices to world space, including scaling
-        Vector3[] worldVertices = new Vector3[localVertices.Length];
+        Matrix4x4 localToWorld = obj.transform.localToWorldMatrix; // Get the local-to-world matrix, which includes position, rotation, and scale
+        
+        Vector3[] worldVertices = new Vector3[localVertices.Length]; // Convert local vertices to world space, including scaling
+        
         for (int i = 0; i < localVertices.Length; i++) // Transform the local vertex by the object's local-to-world matrix
             worldVertices[i] = localToWorld.MultiplyPoint3x4(localVertices[i]);
-        int[] triangles = mesh.triangles;
 
-        // Clear previous intersection points
-        _intersectionPoints.Clear();
+        int[] triangles = mesh.triangles;
+        
+        _intersectionPoints.Clear(); // Clear previous intersection points
+        
         // Defining the slicing plane's local coordinate system (planeRight and planeUp)
         // If needed to stop projecting slices, this block can be commented out
         Vector3 planeNormal = _slicingPlane.normal;
-        Vector3 planeRight = Vector3.Cross(planeNormal, Vector3.up).normalized;
+        planeRight = Vector3.Cross(planeNormal, Vector3.up).normalized;
         if (planeRight == Vector3.zero)
             planeRight = Vector3.Cross(planeNormal, Vector3.forward).normalized;
         Vector3 planeUp = Vector3.Cross(planeNormal, planeRight).normalized;
 
         // Iterate over all triangles in the mesh
         for (int i = 0; i < triangles.Length; i += 3){
+            // Getting each vertex of the triangle separately
             Vector3 v0 = worldVertices[triangles[i]];
             Vector3 v1 = worldVertices[triangles[i + 1]];
             Vector3 v2 = worldVertices[triangles[i + 2]];
@@ -94,12 +105,13 @@ public class DimensionSwitcher : MonoBehaviour {
             // Checking if this triangle intersects the slicing plane & finding the intersection points on the triangle's edges
             // If needed to stop projecting slices, (ProjectTo2D(intersection, planeRight, planeUp)) can be switched to FindIntersection(x, x)
             if (v0Above != v1Above)
-                _intersectionPoints.Add(ProjectTo2D(FindIntersection(v0, v1), planeRight, planeUp));
+                _intersectionPoints.Add(ProjectTo2D(FindIntersection(v0, v1), planeRight, planeUp, planeNormal, obj.transform.position));
             if (v1Above != v2Above)
-                _intersectionPoints.Add(ProjectTo2D(FindIntersection(v1, v2), planeRight, planeUp));
+                _intersectionPoints.Add(ProjectTo2D(FindIntersection(v1, v2), planeRight, planeUp, planeNormal, obj.transform.position));
             if (v2Above != v0Above)
-                _intersectionPoints.Add(ProjectTo2D(FindIntersection(v2, v0), planeRight, planeUp));
+                _intersectionPoints.Add(ProjectTo2D(FindIntersection(v2, v0), planeRight, planeUp, planeNormal, obj.transform.position));
         }
+        // Setting the same tag and location to the newly created object
         tagOfSlicedObject = obj.tag;
         locationOfSlicedObject = obj.transform.position;
     }
@@ -117,6 +129,7 @@ public class DimensionSwitcher : MonoBehaviour {
         if (polygon2D.Count < 3) return; // We need at least 3 points to create a polygon
         // Create a new GameObject for the 2D polygon
         GameObject polygonObject = new GameObject("Sliced2DPolygon", typeof(PolygonCollider2D), typeof(SpriteRenderer));
+        slicedObjects.Add(polygonObject);
         polygonObject.tag = tagOfSlicedObject;
         // Calculating the centroid (center point) of the polygon
         Vector3 centroid = Vector3.zero;
@@ -132,17 +145,22 @@ public class DimensionSwitcher : MonoBehaviour {
         PolygonCollider2D polygonCollider = polygonObject.GetComponent<PolygonCollider2D>();
         // The collider needs to be centered relative to the center of the game object
         Vector3 distanceDiff = centroid - polygonObject.transform.position;
+
         for (int i = 0; i < polygon2D.Count; i++)
             colliderPoints[i] = new Vector2(polygon2D[i].x - distanceDiff.x, polygon2D[i].y - distanceDiff.y);
+
         polygonCollider.points = colliderPoints;
         
         // Set up the SpriteRenderer
         SpriteRenderer spriteRenderer = polygonObject.GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = mySprite; // Assign your sprite here
+        spriteRenderer.sprite = mySprite; // Assign sprite here
 
         // Fit the sprite to the collider
         FitSpriteToCollider(spriteRenderer, polygonCollider);
-        polygonObject.transform.position = new Vector3(locationOfSlicedObject.x, locationOfSlicedObject.y, 0);
+
+        // Adjust position based on the object's z position relative to the slicing plane to retain 3D spacing
+        Vector3 zOffset = (locationOfSlicedObject - player.position).z * _slicingPlane.normal;
+        polygonObject.transform.position = new Vector3(locationOfSlicedObject.x, locationOfSlicedObject.y, 0) - zOffset; // +zOffset or -zOffset flips the 2D world
     }
 
     void CleanupVertices(ref List<Vector3> polygon2D) {
@@ -186,13 +204,17 @@ public class DimensionSwitcher : MonoBehaviour {
     }
     
     // Function to project a 3D point onto the slicing plane's 2D space
-    Vector2 ProjectTo2D(Vector3 point, Vector3 planeRight, Vector3 planeUp) {
-        // Convert the point into the plane's local 2D coordinate system
-        Vector3 localPoint = point - player.position; // Translate relative to plane origin
-        float x = Vector3.Dot(localPoint, planeRight); // X-coordinate
-        float y = Vector3.Dot(localPoint, planeUp);    // Y-coordinate
-        return new Vector2(x, y);                      // Return as 2D point
+    Vector2 ProjectTo2D(Vector3 point, Vector3 planeRight, Vector3 planeUp, Vector3 planeNormal, Vector3 objPosition) {
+        // Translate the point relative to the slicing plane origin
+        Vector3 localPoint = point - player.position;
+        float x = Vector3.Dot(localPoint, planeRight);   // X-coordinate
+        float y = Vector3.Dot(localPoint, planeUp);      // Y-coordinate
+
+        // Project along the plane normal to maintain depth separation between objects
+        float z = Vector3.Dot(objPosition - player.position, planeNormal);
+        return new Vector2(x, y);
     }
+
     void FitSpriteToCollider(SpriteRenderer spriteRenderer, PolygonCollider2D collider) {
         // Set the SpriteRenderer to use Tiled mode or Sliced mode, which allows resizing without affecting scale
         spriteRenderer.drawMode = SpriteDrawMode.Tiled;
