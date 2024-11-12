@@ -30,16 +30,16 @@ public class DimensionSwitcher : MonoBehaviour {
                 SliceObject(objectToSlice);
                 Generate2DPolygonFromIntersections(_intersectionPoints);
             }
-            levelManager.SwitchTo2D();
+            levelManager.SwitchTo2D(planeRight);
         }
         // Trigger dimension switch to 3D world
-        else if (Input.GetKeyDown(KeyCode.T) && levelManager.isIn2D == true) {
+        else if (Input.GetKeyDown(KeyCode.T) && levelManager.isIn2D) {
             // Cleaning all the 2D objects that were created by slicing
             foreach (GameObject createdObject in slicedObjects)
                 Destroy(createdObject);
             slicedObjects.Clear();
             
-            levelManager.SwitchTo3D(planeRight);
+            levelManager.SwitchTo3D();
         }
     }
     

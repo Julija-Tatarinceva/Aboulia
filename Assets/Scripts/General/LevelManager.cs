@@ -30,17 +30,17 @@ public class LevelManager : MonoBehaviour
         // }
     }
 
-    public void SwitchTo2D(){
+    public void SwitchTo2D(Vector3 planeRight){
         ide2D.SetActive(true);
         foreach (var pair in transitionablePairs3D)
         {
-            pair.BeginTransition();
+            pair.BeginTransition(planeRight);
         }
         ide3D.SetActive(false);
         isIn2D = true;
     }
 
-    public void SwitchTo3D(Vector3 planeRight){
+    public void SwitchTo3D(){
         ide3D.SetActive(true);
         foreach (var pair in transitionablePairs2D)
         {

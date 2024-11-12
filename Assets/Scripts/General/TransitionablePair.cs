@@ -19,29 +19,29 @@ public class TransitionablePair : MonoBehaviour {
         // Debug.Log(transform.position + direction.ToString());
     }
 
-    // public void BeginTransition(Vector3 planeRight){ // Getting position of the first clone in the 2D
-    //     // Calculate the distance the player has moved along the x-axis
-    //     // moveDistance = Mathf.Abs(transform.position.x - posBeforeTransition.x);
-    //
-    //     // Calculate the direction vector from posBeforeTransition to planeRight (x and z only)
-    //     direction = -planeRight.normalized;
-    //         // (-planeRight - posBeforeTransition).normalized;
-    //     
-    //     // Calculate the change in position, keeping y intact
-    //     Vector3 changeInPosition = new Vector3(
-    //         direction.x * moveDistance,
-    //         transform.position.y - posBeforeTransition.y,  // Keep the y component difference
-    //         direction.z * moveDistance
-    //     );
-    //
-    //     // Apply this change in position to the target
-    //     target.FinishTransition(changeInPosition);
-    //     posBeforeTransition = transform.position;
-    // } 
-    public void BeginTransition(){ // Getting position of the first clone in the 3D
+    public void BeginTransition(Vector3 planeRight){ // Getting position of the first clone in the 2D
         Vector3 changeInPosition = transform.position - posBeforeTransition;
         
+        // Calculate the direction vector from posBeforeTransition to planeRight (x and z only)
+        target.direction = -planeRight.normalized;
+            
         changeInPosition.z = 0; // Does not matter a lot, but if moved too far away a 2D object can be out of range for the camera
+        // Apply this change in position to the target
+        target.FinishTransition(changeInPosition);
+        posBeforeTransition = transform.position;
+    } 
+    public void BeginTransition(){ // Getting position of the first clone in the 3D
+        // Calculate the distance the player has moved along the x-axis
+        moveDistance = transform.position.x - posBeforeTransition.x;
+        
+        // Calculate the change in position, keeping y intact
+        // We need to move the 3D character along the x-axis on the slicing plane, since in the 2D the player moves along the default axes.
+        Vector3 changeInPosition = new Vector3(
+            direction.x * moveDistance,
+            transform.position.y - posBeforeTransition.y,  // Keep the y component difference
+            direction.z * moveDistance
+        );
+        
         target.FinishTransition(changeInPosition);       
         posBeforeTransition = transform.position; // Next transition the current position will be used as the first point
     } 
