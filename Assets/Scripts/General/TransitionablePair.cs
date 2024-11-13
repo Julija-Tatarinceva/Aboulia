@@ -16,14 +16,12 @@ public class TransitionablePair : MonoBehaviour {
 
     public void Update() {
         Debug.DrawRay(transform.position, direction * 20, Color.red);
-        // Debug.Log(transform.position + direction.ToString());
     }
 
-    public void BeginTransition(Vector3 planeRight /*, float distance*/){ // Beginning transition from the 3D
-        // Vector3 changeInPosition = transform.position - posBeforeTransition;
+    public void BeginTransition(Vector3 planeRight){ // Beginning transition from the 3D
         Vector3 changeInPosition = new Vector3(
-            transform.position.x - posBeforeTransition.x /* + distance*/,
-            transform.position.y - posBeforeTransition.y,  // Keep the y component difference
+            transform.position.x,
+            transform.position.y,  // Keep the y component difference
             0
         );
         
@@ -32,9 +30,9 @@ public class TransitionablePair : MonoBehaviour {
             
         // changeInPosition.z = 0; // Does not matter a lot, but if moved too far away a 2D object can be out of range for the camera
         // Apply this change in position to the target
-        target.FinishTransition(changeInPosition);
-        Debug.Log(changeInPosition + " change");
-        posBeforeTransition = transform.position;
+        target.transform.position = changeInPosition;
+        target.posBeforeTransition = target.transform.position; // Update posBeforeTransition for the next transition
+        // target.FinishTransition(changeInPosition);
     } 
     public void BeginTransition(){ // Beginning transition from the 2D
         // Calculate the distance the player has moved along the x-axis
@@ -48,9 +46,7 @@ public class TransitionablePair : MonoBehaviour {
             direction.z * moveDistance
         );
         
-        target.FinishTransition(changeInPosition);       
-        Debug.Log(changeInPosition + " change");
-        posBeforeTransition = transform.position; // Next transition the current position will be used as the first point
+        target.FinishTransition(changeInPosition);      
     } 
     private void FinishTransition(Vector3 changeInPosition){ // Moving the clone in the dimension player is switching IN to
         transform.position += changeInPosition; // Move the player along this new position

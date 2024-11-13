@@ -22,29 +22,24 @@ public class DimensionSwitcher : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.T) && levelManager.isIn2D == false){
             // When switching to 2D all slicable objects need to be sliced, since 3D objects can't be used for 2D world
             // Slicing plane is used to check for intersections with slicable objects
-            if (player.position != previousPlaneCenter) { // There is no need to generate a new 2D layout if the player hasn't moved
-                // Cleaning all the 2D objects that were created by slicing
-                foreach (GameObject createdObject in slicedObjects)
-                    Destroy(createdObject);
-                slicedObjects.Clear();
-                
-                Vector3 forwardDirection = player.forward; // This is the normal of the slicing plane
-                _slicingPlane = new Plane(forwardDirection, player.position);
-                GameObject polygonObject = new GameObject("Test");
-                polygonObject.transform.position = new Vector2(player.position.x, player.position.y);
-                
-                DrawSlicingPlane(_slicingPlane, player.position);
-                
-                // Slice the object and generate 2D geometry
-                foreach (GameObject objectToSlice in slicableObjects){
-                    SliceObject(objectToSlice);
-                    Generate2DPolygonFromIntersections(_intersectionPoints);
-                }
+            Vector3 forwardDirection = player.forward; // This is the normal of the slicing plane
+            _slicingPlane = new Plane(forwardDirection, player.position);
+            DrawSlicingPlane(_slicingPlane, player.position);
+            
+            // Slice the object and generate 2D geometry
+            foreach (GameObject objectToSlice in slicableObjects){
+                SliceObject(objectToSlice);
+                Generate2DPolygonFromIntersections(_intersectionPoints);
             }
             levelManager.SwitchTo2D(planeRight);
         }
         // Trigger dimension switch to 3D world
         else if (Input.GetKeyDown(KeyCode.T) && levelManager.isIn2D) {
+            // Cleaning all the 2D objects that were created by slicing
+            foreach (GameObject createdObject in slicedObjects)
+                Destroy(createdObject);
+            slicedObjects.Clear();
+            
             levelManager.SwitchTo3D();
             previousPlaneCenter = player.position; // Saving the position to check if the player has moved when next transition happens
         }
@@ -56,7 +51,7 @@ public class DimensionSwitcher : MonoBehaviour {
         // Draw the normal direction
         Debug.DrawRay(planeCenter, planeNormal * 2.0f, Color.red); // Red line for the normal
         // Find two vectors that are perpendicular to the plane's normal
-        Vector3 planeRight = Vector3.Cross(planeNormal, Vector3.up).normalized;
+        planeRight = Vector3.Cross(planeNormal, Vector3.up).normalized;
         Debug.DrawRay(planeCenter, planeRight * -2.0f, Color.blue); // Blue line for the right
         Vector3 planeUp = Vector3.Cross(planeNormal, planeRight).normalized;
         // Calculate the four corners of a square on the plane
@@ -74,16 +69,12 @@ public class DimensionSwitcher : MonoBehaviour {
     void SliceObject(GameObject obj) {
         MeshFilter meshFilter = obj.GetComponent<MeshFilter>();
         if (!meshFilter) return;
-        
         Mesh mesh = meshFilter.mesh;
         Vector3[] localVertices = mesh.vertices; // These are local-space vertices
         Matrix4x4 localToWorld = obj.transform.localToWorldMatrix; // Get the local-to-world matrix, which includes position, rotation, and scale
-        
         Vector3[] worldVertices = new Vector3[localVertices.Length]; // Convert local vertices to world space, including scaling
-        
         for (int i = 0; i < localVertices.Length; i++) // Transform the local vertex by the object's local-to-world matrix
             worldVertices[i] = localToWorld.MultiplyPoint3x4(localVertices[i]);
-
         int[] triangles = mesh.triangles;
         
         _intersectionPoints.Clear(); // Clear previous intersection points
@@ -93,7 +84,7 @@ public class DimensionSwitcher : MonoBehaviour {
         Vector3 planeNormal = _slicingPlane.normal;
         planeRight = Vector3.Cross(planeNormal, Vector3.up).normalized;
         Vector3 planeUp = Vector3.Cross(planeNormal, planeRight).normalized;
-
+        
         // Iterate over all triangles in the mesh
         for (int i = 0; i < triangles.Length; i += 3){
             // Getting each vertex of the triangle separately
@@ -109,11 +100,11 @@ public class DimensionSwitcher : MonoBehaviour {
             // Checking if this triangle intersects the slicing plane & finding the intersection points on the triangle's edges
             // If needed to stop projecting slices, (ProjectTo2D(intersection, planeRight, planeUp)) can be switched to FindIntersection(x, x)
             if (v0Above != v1Above)
-                _intersectionPoints.Add(ProjectTo2D(FindIntersection(v0, v1), planeRight, planeUp, planeNormal, obj.transform.position));
+                _intersectionPoints.Add(ProjectTo2D(FindIntersection(v0, v1), planeUp, planeNormal, obj.transform.position));
             if (v1Above != v2Above)
-                _intersectionPoints.Add(ProjectTo2D(FindIntersection(v1, v2), planeRight, planeUp, planeNormal, obj.transform.position));
+                _intersectionPoints.Add(ProjectTo2D(FindIntersection(v1, v2), planeUp, planeNormal, obj.transform.position));
             if (v2Above != v0Above)
-                _intersectionPoints.Add(ProjectTo2D(FindIntersection(v2, v0), planeRight, planeUp, planeNormal, obj.transform.position));
+                _intersectionPoints.Add(ProjectTo2D(FindIntersection(v2, v0), planeUp, planeNormal, obj.transform.position));
         }
         // Setting the same tag and location to the newly created object
         tagOfSlicedObject = obj.tag;
@@ -211,7 +202,7 @@ public class DimensionSwitcher : MonoBehaviour {
     }
     
     // Function to project a 3D point onto the slicing plane's 2D space
-    Vector2 ProjectTo2D(Vector3 point, Vector3 planeRight, Vector3 planeUp, Vector3 planeNormal, Vector3 objPosition) {
+    Vector2 ProjectTo2D(Vector3 point, Vector3 planeUp, Vector3 planeNormal, Vector3 objPosition) {
         // Translate the point relative to the slicing plane origin
         Vector3 localPoint = point - player.position;
         float x = Vector3.Dot(localPoint, planeRight);   // X-coordinate
