@@ -19,18 +19,24 @@ public class TransitionablePair : MonoBehaviour {
         // Debug.Log(transform.position + direction.ToString());
     }
 
-    public void BeginTransition(Vector3 planeRight){ // Getting position of the first clone in the 2D
-        Vector3 changeInPosition = transform.position - posBeforeTransition;
+    public void BeginTransition(Vector3 planeRight /*, float distance*/){ // Beginning transition from the 3D
+        // Vector3 changeInPosition = transform.position - posBeforeTransition;
+        Vector3 changeInPosition = new Vector3(
+            transform.position.x - posBeforeTransition.x /* + distance*/,
+            transform.position.y - posBeforeTransition.y,  // Keep the y component difference
+            0
+        );
         
         // Calculate the direction vector from posBeforeTransition to planeRight (x and z only)
         target.direction = -planeRight.normalized;
             
-        changeInPosition.z = 0; // Does not matter a lot, but if moved too far away a 2D object can be out of range for the camera
+        // changeInPosition.z = 0; // Does not matter a lot, but if moved too far away a 2D object can be out of range for the camera
         // Apply this change in position to the target
         target.FinishTransition(changeInPosition);
+        Debug.Log(changeInPosition + " change");
         posBeforeTransition = transform.position;
     } 
-    public void BeginTransition(){ // Getting position of the first clone in the 3D
+    public void BeginTransition(){ // Beginning transition from the 2D
         // Calculate the distance the player has moved along the x-axis
         moveDistance = transform.position.x - posBeforeTransition.x;
         
@@ -43,6 +49,7 @@ public class TransitionablePair : MonoBehaviour {
         );
         
         target.FinishTransition(changeInPosition);       
+        Debug.Log(changeInPosition + " change");
         posBeforeTransition = transform.position; // Next transition the current position will be used as the first point
     } 
     private void FinishTransition(Vector3 changeInPosition){ // Moving the clone in the dimension player is switching IN to

@@ -8,12 +8,13 @@ public class DimensionSwitcher : MonoBehaviour {
     public LevelManager levelManager;
     private Plane _slicingPlane; // The plane that is used for slicing 3D objects when switching from 3D to 2D
     public GameObject[] slicableObjects = new GameObject[1]; //All the objects that will be sliced after dimension switch, can be modified in th editor
-    public List<GameObject> slicedObjects = new List<GameObject>();
+    public List<GameObject> slicedObjects;
     // Store the intersection points
     private List<Vector3> _intersectionPoints = new List<Vector3>();
     private String tagOfSlicedObject;
     private Vector3 locationOfSlicedObject;
     public Vector3 planeRight;
+    public Vector3 previousPlaneCenter = new(0, 0, 0);
     public Sprite mySprite;
 
     void Update() {
@@ -21,25 +22,31 @@ public class DimensionSwitcher : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.T) && levelManager.isIn2D == false){
             // When switching to 2D all slicable objects need to be sliced, since 3D objects can't be used for 2D world
             // Slicing plane is used to check for intersections with slicable objects
-            Vector3 forwardDirection = player.forward; // This is the normal of the slicing plane
-            _slicingPlane = new Plane(forwardDirection, player.position); 
-            Debug.DrawLine(player.position, player.position + forwardDirection, Color.green);
-            DrawSlicingPlane(_slicingPlane, player.position);
-            // Slice the object and generate 2D geometry
-            foreach (GameObject objectToSlice in slicableObjects){
-                SliceObject(objectToSlice);
-                Generate2DPolygonFromIntersections(_intersectionPoints);
+            if (player.position != previousPlaneCenter) { // There is no need to generate a new 2D layout if the player hasn't moved
+                // Cleaning all the 2D objects that were created by slicing
+                foreach (GameObject createdObject in slicedObjects)
+                    Destroy(createdObject);
+                slicedObjects.Clear();
+                
+                Vector3 forwardDirection = player.forward; // This is the normal of the slicing plane
+                _slicingPlane = new Plane(forwardDirection, player.position);
+                GameObject polygonObject = new GameObject("Test");
+                polygonObject.transform.position = new Vector2(player.position.x, player.position.y);
+                
+                DrawSlicingPlane(_slicingPlane, player.position);
+                
+                // Slice the object and generate 2D geometry
+                foreach (GameObject objectToSlice in slicableObjects){
+                    SliceObject(objectToSlice);
+                    Generate2DPolygonFromIntersections(_intersectionPoints);
+                }
             }
             levelManager.SwitchTo2D(planeRight);
         }
         // Trigger dimension switch to 3D world
         else if (Input.GetKeyDown(KeyCode.T) && levelManager.isIn2D) {
-            // Cleaning all the 2D objects that were created by slicing
-            foreach (GameObject createdObject in slicedObjects)
-                Destroy(createdObject);
-            slicedObjects.Clear();
-            
             levelManager.SwitchTo3D();
+            previousPlaneCenter = player.position; // Saving the position to check if the player has moved when next transition happens
         }
     }
     
@@ -50,8 +57,7 @@ public class DimensionSwitcher : MonoBehaviour {
         Debug.DrawRay(planeCenter, planeNormal * 2.0f, Color.red); // Red line for the normal
         // Find two vectors that are perpendicular to the plane's normal
         Vector3 planeRight = Vector3.Cross(planeNormal, Vector3.up).normalized;
-        Debug.DrawRay(planeCenter, planeRight * -2.0f, Color.blue); // Red line for the right
-        
+        Debug.DrawRay(planeCenter, planeRight * -2.0f, Color.blue); // Blue line for the right
         Vector3 planeUp = Vector3.Cross(planeNormal, planeRight).normalized;
         // Calculate the four corners of a square on the plane
         Vector3 corner1 = planeCenter + (planeRight * planeSize / 2) + (planeUp * planeSize / 2);
@@ -86,8 +92,6 @@ public class DimensionSwitcher : MonoBehaviour {
         // If needed to stop projecting slices, this block can be commented out
         Vector3 planeNormal = _slicingPlane.normal;
         planeRight = Vector3.Cross(planeNormal, Vector3.up).normalized;
-        if (planeRight == Vector3.zero)
-            planeRight = Vector3.Cross(planeNormal, Vector3.forward).normalized;
         Vector3 planeUp = Vector3.Cross(planeNormal, planeRight).normalized;
 
         // Iterate over all triangles in the mesh
@@ -131,6 +135,7 @@ public class DimensionSwitcher : MonoBehaviour {
         GameObject polygonObject = new GameObject("Sliced2DPolygon", typeof(PolygonCollider2D), typeof(SpriteRenderer));
         slicedObjects.Add(polygonObject);
         polygonObject.tag = tagOfSlicedObject;
+        
         // Calculating the centroid (center point) of the polygon
         Vector3 centroid = Vector3.zero;
         foreach (var vertex in polygon2D) centroid += vertex;
@@ -169,7 +174,9 @@ public class DimensionSwitcher : MonoBehaviour {
             float area = polygon2D[i-2].x * (polygon2D[i-1].y - polygon2D[i].y) +
                          polygon2D[i-1].x * (polygon2D[i].y - polygon2D[i-2].y) +
                          polygon2D[i].x * (polygon2D[i-2].y - polygon2D[i-1].y);
-            if (!Mathf.Approximately(area, 0.0f)) continue; // We don't need to remove one of the point if they are not collinear
+            
+            if (!Mathf.Approximately(area, 0.0f)) continue; // We don't need to remove one of the points if they are not collinear
+            
             // Calculate distances between each pair of points
             float d1 = Vector3.Distance(polygon2D[i-2], polygon2D[i-1]);
             float d2 = Vector3.Distance(polygon2D[i-1], polygon2D[i]);
