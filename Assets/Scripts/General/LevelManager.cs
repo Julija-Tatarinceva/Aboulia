@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelManager : MonoBehaviour
-{
+public class LevelManager : MonoBehaviour {
+    public DimensionSwitcher dimensionSwitcher;
     public TransitionablePair[] transitionablePairs2D;
     public TransitionablePair[] transitionablePairs3D;
     public GameObject ide2D;
@@ -12,22 +13,18 @@ public class LevelManager : MonoBehaviour
     public bool isIn2D = false; //for now
     // Start is called before the first frame update
     void Start(){
-        // Invoke("SwitchTo3D", 5f);
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        // if (Input.GetKeyDown(KeyCode.T) && isIn2D)
-        // {
-        //     Debug.Log("yay");
-        //     SwitchTo3D();
-        // }
-        //
-        // if (Input.GetKeyDown(KeyCode.T))
-        // {
-        //     Debug.Log("no");
-        // }
+    void Update(){
+        if (Input.GetKeyDown(KeyCode.T) && isIn2D == false) { // Trigger dimension switch to 2D world
+            Vector3 planeRight = dimensionSwitcher.Slice3DWorld();
+            SwitchTo2D(planeRight);
+        }
+        else if (Input.GetKeyDown(KeyCode.T) && isIn2D) { // Trigger dimension switch to 3D world
+            SwitchTo3D();
+            dimensionSwitcher.Clean2DWorld();
+        }
     }
 
     public void SwitchTo2D(Vector3 planeRight){

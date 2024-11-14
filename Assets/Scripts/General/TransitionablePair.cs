@@ -15,13 +15,13 @@ public class TransitionablePair : MonoBehaviour {
     }
 
     public void Update() {
-        Debug.DrawRay(transform.position, direction * 20, Color.red);
+        // Debug.DrawRay(transform.position, direction * 20, Color.red);
     }
 
     public void BeginTransition(Vector3 planeRight){ // Beginning transition from the 3D
         Vector3 changeInPosition = new Vector3(
             transform.position.x,
-            transform.position.y,  // Keep the y component difference
+            target.transform.position.y,  // Keep the y component difference
             0
         );
         
@@ -32,7 +32,6 @@ public class TransitionablePair : MonoBehaviour {
         // Apply this change in position to the target
         target.transform.position = changeInPosition;
         target.posBeforeTransition = target.transform.position; // Update posBeforeTransition for the next transition
-        // target.FinishTransition(changeInPosition);
     } 
     public void BeginTransition(){ // Beginning transition from the 2D
         // Calculate the distance the player has moved along the x-axis
