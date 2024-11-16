@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour {
     public DimensionSwitcher dimensionSwitcher;
@@ -9,8 +10,17 @@ public class LevelManager : MonoBehaviour {
     public TransitionablePair[] transitionablePairs3D;
     public GameObject ide2D;
     public GameObject ide3D;
-    public int switchesPressed = 0;
+    public GameObject Life3, Life2, Life1;
+    public Text timeText;
+    public Sprite lostLifeSprite;
     public bool isIn2D = false; //for now
+    public int switchesPressed = 0;
+    public int lives = 3;
+    int seconds, minutes, startSeconds;
+    string strMinutes = "0"; 
+    string strSeconds = "0";
+    public float TimePassed = 0;
+    
     // Start is called before the first frame update
     void Start(){
     }
@@ -25,8 +35,22 @@ public class LevelManager : MonoBehaviour {
             SwitchTo3D();
             dimensionSwitcher.Clean2DWorld();
         }
+        
+        #region TimeCalculator
+        TimePassed += Time.deltaTime;
+        seconds = (int)TimePassed - (60 * minutes);
+        if(seconds==60){
+            minutes++;
+            if(minutes<=9) strMinutes = "0" + minutes;
+            else strMinutes = minutes.ToString();
+        }
+        if(seconds<=9) strSeconds = "0" + seconds;
+        else strSeconds = seconds.ToString();
+        timeText.text = strMinutes + ":" + strSeconds;
+        #endregion
     }
 
+    #region Dimension Switching
     public void SwitchTo2D(Vector3 planeRight){
         ide2D.SetActive(true);
         foreach (var pair in transitionablePairs3D)
@@ -46,7 +70,8 @@ public class LevelManager : MonoBehaviour {
         ide2D.SetActive(false);
         isIn2D = false;
     }
-
+    #endregion
+    
     public void SwitchPressed(){
         switchesPressed++;
         Debug.Log(switchesPressed + " Pressed");
