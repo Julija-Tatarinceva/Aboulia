@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SwitchScript : MonoBehaviour {
+public class SwitchScript1 : MonoBehaviour {
     private bool _inRange = false;
     // Start is called before the first frame update
     void OnCollisionEnter2D() {
