@@ -1377,8 +1377,8 @@ Transform:
   m_GameObject: {fileID: 376919936}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.03, y: 17.61, z: -13.83}
-  m_LocalScale: {x: 30, y: 6.393872, z: 0.5073385}
+  m_LocalPosition: {x: 15.03, y: 18.4, z: -13.83}
+  m_LocalScale: {x: 30, y: 4.845065, z: 0.5073385}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1610357721}
@@ -5861,11 +5861,13 @@ MonoBehaviour:
   - {fileID: 1505145703}
   - {fileID: 1126853621}
   - {fileID: 623747380}
+  - {fileID: 1891114372}
   slicedObjects:
   - {fileID: 1891656234}
   planeRight: {x: 0, y: 0, z: 0}
   previousPlaneCenter: {x: 0, y: 0, z: 0}
-  mySprite: {fileID: 21300000, guid: edba0ee8b4eddf749a80388ff34b71a5, type: 3}
+  groundSprite: {fileID: 21300000, guid: 15846f1866051a042bb3607f5f1ea337, type: 3}
+  acidSprite: {fileID: 21300000, guid: 5f87d4723f67cdd4d86c9e626e7f74ce, type: 3}
 --- !u!1 &1545349897
 GameObject:
   m_ObjectHideFlags: 0
@@ -7270,7 +7272,7 @@ GameObject:
   - component: {fileID: 1891114374}
   m_Layer: 4
   m_Name: Acid
-  m_TagString: Untagged
+  m_TagString: Acid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7284,8 +7286,8 @@ Transform:
   m_GameObject: {fileID: 1891114372}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.9239492, y: -6.626254, z: 1.1896896}
-  m_LocalScale: {x: 30, y: 0.17783, z: 18.008696}
+  m_LocalPosition: {x: -1.9239492, y: -5.62, z: 1.1896896}
+  m_LocalScale: {x: 30, y: 1.5546933, z: 18.008696}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 770590440}
@@ -7627,8 +7629,8 @@ Transform:
   m_GameObject: {fileID: 1957556885}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.03, y: 17.61, z: -3.17}
-  m_LocalScale: {x: 30, y: 6.393872, z: 0.45462957}
+  m_LocalPosition: {x: 15.03, y: 18.36, z: -3.17}
+  m_LocalScale: {x: 30, y: 4.8450646, z: 0.45462957}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1610357721}
@@ -8176,11 +8178,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 132210511960286634, guid: bfba7d044846d744abb55c88634a877c, type: 3}
       propertyPath: far clip plane
-      value: 30
+      value: 39.13
       objectReference: {fileID: 0}
     - target: {fileID: 132210511960286634, guid: bfba7d044846d744abb55c88634a877c, type: 3}
       propertyPath: near clip plane
-      value: 0.3
+      value: -13.62
       objectReference: {fileID: 0}
     - target: {fileID: 132210511960286634, guid: bfba7d044846d744abb55c88634a877c, type: 3}
       propertyPath: orthographic size
@@ -8202,6 +8204,14 @@ PrefabInstance:
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 345094367}
+    - target: {fileID: 3370590359609048655, guid: bfba7d044846d744abb55c88634a877c, type: 3}
+      propertyPath: m_Lens.FarClipPlane
+      value: 39.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 3370590359609048655, guid: bfba7d044846d744abb55c88634a877c, type: 3}
+      propertyPath: m_Lens.NearClipPlane
+      value: -13.62
+      objectReference: {fileID: 0}
     - target: {fileID: 5315044243604563735, guid: bfba7d044846d744abb55c88634a877c, type: 3}
       propertyPath: orthographic size
       value: 9.98001

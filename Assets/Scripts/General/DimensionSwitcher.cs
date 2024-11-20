@@ -14,7 +14,8 @@ public class DimensionSwitcher : MonoBehaviour {
     private Vector3 _locationOfSlicedObject;
     public Vector3 planeRight;
     public Vector3 previousPlaneCenter = new(0, 0, 0);
-    public Sprite mySprite;
+    public Sprite groundSprite;
+    public Sprite acidSprite;
 
     public Vector3 Slice3DWorld() {
         // When switching to 2D all slicable objects need to be sliced, since 3D objects can't be used for 2D world
@@ -151,7 +152,10 @@ public class DimensionSwitcher : MonoBehaviour {
         
         // Set up the SpriteRenderer
         SpriteRenderer spriteRenderer = polygonObject.GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = mySprite; // Assign sprite here
+        if (_tagOfSlicedObject == "Acid") 
+            spriteRenderer.sprite = acidSprite;
+        else
+            spriteRenderer.sprite = groundSprite;
 
         // Fit the sprite to the collider
         FitSpriteToCollider(spriteRenderer, polygonCollider);
@@ -168,7 +172,7 @@ public class DimensionSwitcher : MonoBehaviour {
                          polygon2D[i-1].x * (polygon2D[i].y - polygon2D[i-2].y) +
                          polygon2D[i].x * (polygon2D[i-2].y - polygon2D[i-1].y);
             
-            if (!Mathf.Approximately(area, 0.0f)) continue; // We don't need to remove one of the points if they are not collinear
+            if (area != 0f) continue; // We don't need to remove one of the points if they are not collinear
             
             // Calculate distances between each pair of points
             float d1 = Vector3.Distance(polygon2D[i-2], polygon2D[i-1]);
@@ -190,7 +194,8 @@ public class DimensionSwitcher : MonoBehaviour {
             i--; // Decrement 'i' to recheck the current position (since it now contains the next element)
         }
         // Getting rid of duplicates 
-        polygon2D = polygon2D.Distinct().ToList();
+        polygon2D = polygon2D.Select(v => new Vector3((float)Math.Round(v.x, 4), (float)Math.Round(v.y, 4)))
+            .Distinct().ToList();
     }
     
     //After slicing vertices can be created randomly, so in order to create triangles correctly the vertices have to be sorted clockwise
