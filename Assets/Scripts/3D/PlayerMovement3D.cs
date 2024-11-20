@@ -13,6 +13,7 @@ public class PlayerMovement3D : MonoBehaviour {
     Vector3 moveDirection;
     public Vector3 velocity;
     public Transform cam;
+    public GameObject slicingPlanePreview;
 
     // Update is called once per frame
     void Update() {
@@ -29,6 +30,12 @@ public class PlayerMovement3D : MonoBehaviour {
             // The controller component handles the movement of the body
             characterController.Move(direction.normalized * (speed * Time.deltaTime));
             // characterController.Move(velocity * Time.deltaTime); // not much of a difference
+        }
+        if (Input.GetKeyDown("q")) {
+            slicingPlanePreview.SetActive(true);
+        }
+        if (Input.GetKeyUp("q")) {
+            slicingPlanePreview.SetActive(false);
         }
         animator.SetFloat("Speed", Mathf.Abs(horizontal) + Mathf.Abs(vertical));
     }

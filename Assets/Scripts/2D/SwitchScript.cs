@@ -6,20 +6,15 @@ using UnityEngine;
     public LevelManager levelManager;
     public Door3DOpening DoorOpening;
     public GameObject textInstructions;
-
     public bool playerIsClose = false;
-
     public Sprite newSprite;
-
     public SpriteRenderer spriteRenderer;
-
     public Collider2D box;
     
     void Update() {
         if (playerIsClose && Input.GetButtonDown("Interact")) {
             spriteRenderer.sprite = newSprite;
             levelManager.switchesPressed += 1;
-            Debug.Log("FUCK MEeeeeeeeeeeeee");
             box.enabled = false;
         }
     }

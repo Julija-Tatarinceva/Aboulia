@@ -17,25 +17,19 @@ public class Door3DOpening : MonoBehaviour
         }
         if(_playerNear && Input.GetButtonDown("Interact"))
         {
-            // levelManager.LevelFinished();
+            levelManager.LoadNextLevel();
         }
     }
 
-    void OnTriggerEnter2D(Collider2D coll)
-    {
-        if (levelManager.switchesPressed == 2 && coll.CompareTag("Player"))
-        {
-            Debug.Log("You are gay");
+    void OnTriggerEnter2D(Collider2D coll) {
+        if (levelManager.switchesPressed == 2 && coll.CompareTag("Player")) {
             _playerNear = true;
             doorFragAnim.Play("3DDoorOpen");
             //upperDoorFragAnim.SetBool("isOpen", true);
         }
     }
-    void OnTriggerExit2D(Collider2D coll)
-    {
-        if(coll.CompareTag("Player"))
-        {
-            Debug.Log("You are not gay");
+    void OnTriggerExit2D(Collider2D coll) {
+        if(coll.CompareTag("Player")) {
             _playerNear = false;
             doorFragAnim.Play("3DDoorClose");
         }
