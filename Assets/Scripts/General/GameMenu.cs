@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PauseMenu : MonoBehaviour
+public class GameMenu : MonoBehaviour
 {
     public GameObject pauseMenuUI;
     public GameObject deathMenu;
@@ -15,51 +15,38 @@ public class PauseMenu : MonoBehaviour
     public Animator Animator;
     public static bool gameIsPaused = false;
 
-    void Update()
-    {
-        if (Input.GetButtonDown("Cancel"))
-        {
-            if (gameIsPaused == true)
-            {
+    void Update() {
+        if (Input.GetButtonDown("Cancel")) {
+            if (gameIsPaused)
                 Resume();
-            }
             else
-            {
                 Pause();
-            }
         }
     }
 
-    public void Resume()
-    {
+    public void Resume() {
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         gameIsPaused = false;
-        //Joystick.enabled = true;
     }
 
-    void Pause()
-    {
+    void Pause() {
         pauseMenuUI.SetActive(true);
         gameIsPaused = true;
         Time.timeScale = 0f;
-        // Joystick.enabled = false;
     }
 
-    public void MainMenu()
-    {
+    public void MainMenu() {
         SceneManager.LoadScene("MainMenu");
         Time.timeScale = 1f;
     }
 
-    public void DeathMenuActive()
-    {
+    public void DeathMenuActive() {
         deathMenu.SetActive(true);
         Time.timeScale = 0f;
     }
 
-    public void Restart()
-    {
+    public void Restart() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Time.timeScale = 1f;
     }
@@ -83,13 +70,11 @@ public class PauseMenu : MonoBehaviour
     //     Animator.Play("Idle");
     // }
 
-    public void Exit()
-    {
+    public void Exit() {
         Debug.Log("Quit");
     }
 
-    public void LevelFailed()
-    {
+    public void LevelFailed() {
         levelFailedMenu.SetActive(true);
         Time.timeScale = 0f;
     }
