@@ -24,7 +24,8 @@ public class LevelManager : MonoBehaviour {
     
     // Start is called before the first frame update
     void Start(){
-    }
+        // lostLifeSprite = Resources.Load<Sprite>("Robotic/GUI_sci-fi.png");
+    } 
 
     // Update is called once per frame
     void Update(){
@@ -42,11 +43,15 @@ public class LevelManager : MonoBehaviour {
         seconds = (int)TimePassed - (60 * minutes);
         if(seconds==60){
             minutes++;
-            if(minutes<=9) strMinutes = "0" + minutes;
-            else strMinutes = minutes.ToString();
+            if(minutes>9) 
+                strMinutes = minutes.ToString();
+            else if (minutes < 9) 
+                strMinutes = "0" + minutes;
         }
-        if(seconds<=9) strSeconds = "0" + seconds;
-        else strSeconds = seconds.ToString();
+        if(seconds<=9) 
+            strSeconds = "0" + seconds;
+        else 
+            strSeconds = seconds.ToString();
         timeText.text = strMinutes + ":" + strSeconds;
         #endregion
     }

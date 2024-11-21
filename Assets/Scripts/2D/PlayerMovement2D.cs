@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement2D : MonoBehaviour {
@@ -25,5 +23,12 @@ public class PlayerMovement2D : MonoBehaviour {
     private void FixedUpdate(){
         characterController2D.Move(_horizontalMove, jump);
         jump = false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D coll)
+    {
+        if (coll.gameObject.layer == LayerMask.NameToLayer("Deadly")) {
+            // HandlePlayerDeath();
+        }
     }
 }
