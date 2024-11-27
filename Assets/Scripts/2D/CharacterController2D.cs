@@ -27,8 +27,6 @@ public class CharacterController2D : MonoBehaviour {
     private void Awake(){
         rigidbody = GetComponent<Rigidbody2D>();
         movementScript = GetComponent<PlayerMovement2D>();
-        if (OnLandEvent == null)
-            OnLandEvent = new UnityEvent();
     }
     private void FixedUpdate(){
         bool wasGrounded = grounded; // Saving the old value to check later if it has changed between frame updates
@@ -41,10 +39,6 @@ public class CharacterController2D : MonoBehaviour {
         foreach (var t in colliders){
             if (t.gameObject != gameObject){ // excluding the component bearer
                 grounded = true;
-                // If the player has been airborne the previous frame, then we need to invoke an event for landing.
-                // It can, for example, play a special landing sound or break a jumping animation early.
-                if (!wasGrounded)
-                    OnLandEvent.Invoke();
             }
         }
     }

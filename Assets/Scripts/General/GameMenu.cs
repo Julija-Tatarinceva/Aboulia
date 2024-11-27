@@ -51,24 +51,24 @@ public class GameMenu : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    // public void Respawn()
-    // {
-    //     if (FindObjectOfType<LevelManager>().levelIncludes3D == true)
-    //     {
-    //         if (Player3D.activeSelf)
-    //         {
-    //             FindObjectOfType<MController3D>().isGrounded = true;
-    //             FindObjectOfType<MController3D>().dead = false;
-    //             FindObjectOfType<Runestone>().Teleport();
-    //             Player3D.transform.position = Spawn3D.transform.position;
-    //         }
-    //     }
-    //     FindObjectOfType<LevelManager>().NumberOfLives(false);
-    //     Player.transform.position = Spawn.transform.position;
-    //     deathMenu.SetActive(false);
-    //     Time.timeScale = 1f;
-    //     Animator.Play("Idle");
-    // }
+    public void Respawn()
+    {
+        // if (FindObjectOfType<LevelManager>().levelIncludes3D == true)
+        // {
+        //     if (Player3D.activeSelf)
+        //     {
+        //         FindObjectOfType<MController3D>().isGrounded = true;
+        //         FindObjectOfType<MController3D>().dead = false;
+        //         FindObjectOfType<Runestone>().Teleport();
+        //         Player3D.transform.position = Spawn3D.transform.position;
+        //     }
+        // }
+        // FindObjectOfType<LevelManager>().NumberOfLives(false);
+        Player.transform.position = Spawn.transform.position;
+        deathMenu.SetActive(false);
+        Time.timeScale = 1f;
+        Animator.Play("Idle");
+    }
 
     public void Exit() {
         Debug.Log("Quit");

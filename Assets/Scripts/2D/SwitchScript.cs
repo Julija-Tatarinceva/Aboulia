@@ -5,7 +5,8 @@ using UnityEngine;
 {
     public LevelManager levelManager;
     public Door3DOpening DoorOpening;
-    public GameObject textInstructions;
+    // public GameObject ;
+    public InstructionsText textInstructions;
     public bool playerIsClose = false;
     public Sprite newSprite;
     public SpriteRenderer spriteRenderer;
@@ -20,16 +21,16 @@ using UnityEngine;
     }
 
     void OnTriggerEnter2D(Collider2D other) {
-        if (other.tag == "Player") {
+        if (other.CompareTag("Player")) {
             playerIsClose = true;
-            textInstructions.SetActive(true);
+            textInstructions.SetActive();
         }
     }
 
     void OnTriggerExit2D(Collider2D other) {
-        if (other.tag == "Player") {
+        if (other.CompareTag("Player")) {
             playerIsClose = false;
-            textInstructions.SetActive(false);
+            textInstructions.SetInactive();
         }
     }
 }

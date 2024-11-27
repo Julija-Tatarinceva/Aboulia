@@ -1,9 +1,13 @@
 using UnityEngine;
 
 public class PlayerMovement2D : MonoBehaviour {
+    private static readonly int Grounded = Animator.StringToHash("Grounded");
+    private static readonly int VerticalMove = Animator.StringToHash("VerticalMove");
+    private static readonly int Speed = Animator.StringToHash("Speed");
+    private static readonly int IsGrounded = Animator.StringToHash("IsGrounded");
     public CharacterController2D characterController2D;
     private float _horizontalMove = 0f;
-    public bool jump = false;
+    public bool jump;
     public Animator animator;
     public Rigidbody2D playerRigidbody2D;
     
@@ -11,11 +15,11 @@ public class PlayerMovement2D : MonoBehaviour {
     private void Update(){
         // Using keys as input, these keys can be changed in project's settings
         _horizontalMove = Input.GetAxisRaw("Horizontal");
-        animator.SetFloat("Speed", Mathf.Abs(_horizontalMove));
-        animator.SetFloat("VerticalMove", playerRigidbody2D.velocity.y);
+        animator.SetFloat(Speed, Mathf.Abs(_horizontalMove));
+        animator.SetFloat(VerticalMove, playerRigidbody2D.velocity.y);
+        animator.SetBool(IsGrounded, characterController2D.grounded);
         if (Input.GetButtonDown("Jump") && !jump){
             jump = true;
-            // animator.SetTrigger("Jump");
         }
     }
     // Since movement is a physics operation, it should be done through Fixed Update, which is not tied to frame rate

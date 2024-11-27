@@ -29,7 +29,7 @@ public class Door3DOpening : MonoBehaviour
         }
     }
     void OnTriggerExit2D(Collider2D coll) {
-        if(coll.CompareTag("Player")) {
+        if(levelManager.switchesPressed == 2 && coll.CompareTag("Player")) {
             _playerNear = false;
             doorFragAnim.Play("3DDoorClose");
         }

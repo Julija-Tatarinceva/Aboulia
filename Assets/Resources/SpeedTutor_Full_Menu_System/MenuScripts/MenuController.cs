@@ -165,7 +165,7 @@ namespace SpeedTutorMainMenuSystem
             volumeText.text = volume.ToString("0.0");
         }
 
-        public void VolumeApply()
+        public void VolumeApply() //vol
         {
             PlayerPrefs.SetFloat("masterVolume", AudioListener.volume);
             Debug.Log(PlayerPrefs.GetFloat("masterVolume"));
@@ -248,7 +248,7 @@ namespace SpeedTutorMainMenuSystem
         {
             if (ButtonType == "Yes")
             {
-                SceneManager.LoadScene(_newGameButtonLevel);
+                SceneManager.LoadScene("FirstScene");
             }
 
             if (ButtonType == "No")
