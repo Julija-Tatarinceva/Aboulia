@@ -5,42 +5,46 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class LevelManager : MonoBehaviour {
     public DimensionSwitcher dimensionSwitcher;
     public InputActionAsset inputActions; // Used for checking key binds
     public TransitionablePair[] transitionablePairs2D;
     public TransitionablePair[] transitionablePairs3D;
-    public GameObject ide2D, ide3D, Life3, Life2, Life1;
+    
+    public GameMenu gameMenu;
+    public GameObject Ide2D, Ide3D, life3, life2, life1;
+    
     public Text timeText;
     public Sprite lostLifeSprite;
-    public bool isIn2D = false; //for now
-    public int switchesPressed = 0;
+    public static bool IsIn2D = false; //for now
+    
+    public static int SwitchesPressed = 0;
     public int lives = 3;
-    public static int language = 0; // 0 = English (default), 1 = Latvian, 2 = Russian
-    public static string interactButton = "";
-    public static GameObject mainCanvas;
-    int seconds, minutes, startSeconds;
-    string strMinutes = "0"; 
-    string strSeconds = "0";
-    public float TimePassed = 0;
+    public static int Language = 0; // 0 = English (default), 1 = Latvian, 2 = Russian
+    int _seconds, _minutes, _startSeconds;
+    
+    string _strMinutes = "0"; 
+    string _strSeconds = "0";
+    public static string InteractButton = "";
+    
+    public float timePassed = 0;
     
     void Start(){
         if (PlayerPrefs.HasKey("Language")){
-            language = PlayerPrefs.GetInt("Language");
-            Debug.Log(language);
+            Language = PlayerPrefs.GetInt("Language");
+            Debug.Log(Language);
         }
-        // Find the action by name
-        var interactAction = inputActions.FindAction("Interact");
-            
-        if (interactAction == null) {
-            Debug.LogError("Interact action not found!");
+        if (!inputActions) {
+            Debug.LogError("Interact action not found! Set it manually!");
             return;
         }
+        var interactAction = inputActions.FindAction("Interact"); // Find the action by name
             
         // Retrieve the binding
         var binding = interactAction.bindings[0];
-        interactButton = InputControlPath.ToHumanReadableString( // Getting the exact key name out of the control path
+        InteractButton = InputControlPath.ToHumanReadableString( // Getting the exact key name out of the control path
             binding.effectivePath,
             InputControlPath.HumanReadableStringOptions.OmitDevice
         );
@@ -48,63 +52,77 @@ public class LevelManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update(){
-        if (Input.GetKeyDown(KeyCode.T) && isIn2D == false) { // Trigger dimension switch to 2D world
+        if (Input.GetKeyDown(KeyCode.T) && IsIn2D == false) { // Trigger dimension switch to 2D world
             Vector3 planeRight = dimensionSwitcher.Slice3DWorld();
             SwitchTo2D(planeRight);
         }
-        else if (Input.GetKeyDown(KeyCode.T) && isIn2D) { // Trigger dimension switch to 3D world
+        else if (Input.GetKeyDown(KeyCode.T) && IsIn2D) { // Trigger dimension switch to 3D world
             SwitchTo3D();
             dimensionSwitcher.Clean2DWorld();
         }
         
         #region TimeCalculator
-        TimePassed += Time.deltaTime; // Fetching time that has passed since the last frame and adding it to the sum
+        timePassed += Time.deltaTime; // Fetching time that has passed since the last frame and adding it to the sum
         // Using math to output the time in seconds using minutes:seconds format
-        seconds = (int)TimePassed - (60 * minutes);
-        if(seconds==60){ // Adding another minute to the timer
-            minutes++;
-            if(minutes>9) 
-                strMinutes = minutes.ToString();
-            else if (minutes < 9) 
-                strMinutes = "0" + minutes;
-            else if (minutes == 0)
-                strMinutes = "00";
+        _seconds = (int)timePassed - (60 * _minutes);
+        if(_seconds==60){ // Adding another minute to the timer
+            _minutes++;
+            if(_minutes>9) 
+                _strMinutes = _minutes.ToString();
+            else if (_minutes < 9) 
+                _strMinutes = "0" + _minutes;
+            else if (_minutes == 0)
+                _strMinutes = "00";
         }
-        if(seconds<=9) 
-            strSeconds = "0" + seconds;
+        if(_seconds<=9) 
+            _strSeconds = "0" + _seconds;
         else 
-            strSeconds = seconds.ToString();
-        timeText.text = strMinutes + ":" + strSeconds;
+            _strSeconds = _seconds.ToString();
+        timeText.text = _strMinutes + ":" + _strSeconds;
         #endregion
     }
 
     #region Dimension Switching
     public void SwitchTo2D(Vector3 planeRight){
-        ide2D.SetActive(true);
+        Ide2D.SetActive(true);
         foreach (var pair in transitionablePairs3D)
         {
             pair.BeginTransition(planeRight);
         }
-        ide3D.SetActive(false);
-        isIn2D = true;
+        Ide3D.SetActive(false);
+        IsIn2D = true;
     }
 
     public void SwitchTo3D(){
-        ide3D.SetActive(true);
+        Ide3D.SetActive(true);
         foreach (var pair in transitionablePairs2D)
         {
             pair.BeginTransition();
         }
-        ide2D.SetActive(false);
-        isIn2D = false;
+        Ide2D.SetActive(false);
+        IsIn2D = false;
     }
     #endregion
     
     public void SwitchPressed(){
-        switchesPressed++;
-        Debug.Log(switchesPressed + " Pressed");
+        SwitchesPressed++;
+        Debug.Log(SwitchesPressed + " Pressed");
     }
-    public void LoadNextLevel() {
+
+    public void LostLife() {
+        lives--;
+        if (lives == 2)
+            life3.GetComponent<Image>().sprite = lostLifeSprite;
+        else if (lives == 1)
+            life2.GetComponent<Image>().sprite = lostLifeSprite;
+        else{
+            life1.GetComponent<Image>().sprite = lostLifeSprite;
+            gameMenu.LevelFailed();
+            return;
+        }
+        gameMenu.SetDeathMenuActive();
+    }
+    public static void LoadNextLevel() {
         SceneManager.LoadScene((SceneManager.GetActiveScene().buildIndex)+1);
     }
 }

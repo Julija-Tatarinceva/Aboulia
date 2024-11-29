@@ -2,36 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Door3DOpening : MonoBehaviour
-{
-    public Collider2D doorCollider;
-    public LevelManager levelManager;
+public class Door3DOpening : MonoBehaviour {
+    public InstructionsText instructionsText;
     public Animator doorFragAnim;
-    // public Animator doorScreenAnim;
     bool _playerNear;
 
     void Update()
     {
-        if(levelManager.switchesPressed == 2) {
+        if(LevelManager.SwitchesPressed == 2) {
             // doorFragAnim.Play("3DDoorUnlockedKeyboard");
         }
         if(_playerNear && Input.GetButtonDown("Interact"))
         {
-            levelManager.LoadNextLevel();
+            LevelManager.LoadNextLevel();
         }
     }
 
     void OnTriggerEnter2D(Collider2D coll) {
-        if (levelManager.switchesPressed == 2 && coll.CompareTag("Player")) {
+        if (LevelManager.SwitchesPressed == 2 && coll.CompareTag("Player")) {
             _playerNear = true;
             doorFragAnim.Play("3DDoorOpen");
-            //upperDoorFragAnim.SetBool("isOpen", true);
+            instructionsText.SetActive();
         }
     }
     void OnTriggerExit2D(Collider2D coll) {
-        if(levelManager.switchesPressed == 2 && coll.CompareTag("Player")) {
+        if(LevelManager.SwitchesPressed == 2 && coll.CompareTag("Player")) {
             _playerNear = false;
             doorFragAnim.Play("3DDoorClose");
+            instructionsText.SetInactive();
         }
     }
 }

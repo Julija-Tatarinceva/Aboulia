@@ -9,25 +9,29 @@ public class InstructionsText : MonoBehaviour{
     static GameObject _mainCanvas;
     
     public void SetActive(){
-        if (!instructionsTextBox){
-            if(!_instructionsInstance) _instructionsInstance = GameObject.Find("Instructions Instance");
+        if (!instructionsTextBox){ // Create instructions for the first time
+            // Canvas and the instruction template only need to be found once for this class
+            if(!_instructionsInstance) _instructionsInstance = GameObject.Find("InstructionsParent");
             if(!_mainCanvas) _mainCanvas = GameObject.Find("ingame text");
-            instructionsTextBox = Instantiate(_instructionsInstance, _mainCanvas.transform);
-            instructionsTextBox.transform.position = transform.position;
-            TextMeshProUGUI text = instructionsTextBox.GetComponent<TextMeshProUGUI>();
-            if (LevelManager.language == 0) {
-                text.text = "Press " + LevelManager.interactButton + " to interact";
-            }
-            else if(LevelManager.language == 1) {
-                text.text = "Spiediet " + LevelManager.interactButton + " lai mijiedarbotos";
-            }
-            else if(LevelManager.language == 2) {
-                text.text = "Нажмите " + LevelManager.interactButton + " для взаимодействовия";
-            }
+            
+            // Copy and reposition the template
+            instructionsTextBox = Instantiate(_instructionsInstance, _mainCanvas.transform); // the copy has Canvas as the parent
             float height = GetComponent<BoxCollider2D>().size.y; // Getting the height of the trigger collider
-            instructionsTextBox.transform.position = new Vector2(transform.position.x, transform.position.y + height/2);
+            instructionsTextBox.transform.position = new Vector2(this.transform.position.x, transform.position.y + height);
+            
+            // Getting the right text in, language is determined by the Level Manager
+            TextMeshProUGUI text = instructionsTextBox.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+            if (LevelManager.Language == 0) {
+                text.text = "Press " + LevelManager.InteractButton + " to interact"; //English
+            }
+            else if(LevelManager.Language == 1) {
+                text.text = "Spiediet " + LevelManager.InteractButton + " lai mijiedarbotos"; //Latvian
+            }
+            else if(LevelManager.Language == 2) {
+                text.text = "Нажмите " + LevelManager.InteractButton + " для взаимодействовия"; //Russian
+            }
         }
-        else 
+        else // The instructions for this object have already been generated
             instructionsTextBox.SetActive(true);
     }
 

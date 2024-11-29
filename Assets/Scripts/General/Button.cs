@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class Button : MonoBehaviour
 {
     public GameObject button;
-    public GameObject Vstuplenye;
+    [FormerlySerializedAs("Vstuplenye")] public GameObject vstuplenye;
     public AudioSource myFx;
     public AudioClip hoverSound;
 

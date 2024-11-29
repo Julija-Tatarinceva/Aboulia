@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace SpeedTutorMainMenuSystem
 {
-    public class Init_LoadPreferences : MonoBehaviour
+    public class InitLoadPreferences : MonoBehaviour
     {
         #region Variables
         //BRIGHTNESS

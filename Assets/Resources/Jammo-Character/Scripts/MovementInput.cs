@@ -2,39 +2,41 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 //This script requires you to have setup your animator with 3 parameters, "InputMagnitude", "InputX", "InputZ"
 //With a blend tree to control the inputmagnitude and allow blending between animations.
 [RequireComponent(typeof(CharacterController))]
 public class MovementInput : MonoBehaviour {
 
-    public float Velocity;
-    [Space]
+    [FormerlySerializedAs("Velocity")] public float velocity;
+    [FormerlySerializedAs("InputX")] [Space]
 
-	public float InputX;
-	public float InputZ;
+	public float inputX;
+	[FormerlySerializedAs("InputZ")] public float inputZ;
 	public Vector3 desiredMoveDirection;
 	public bool blockRotationPlayer;
 	public float desiredRotationSpeed = 0.1f;
 	public Animator anim;
-	public float Speed;
+	[FormerlySerializedAs("Speed")] public float speed;
 	public float allowPlayerRotation = 0.1f;
 	public Camera cam;
 	public CharacterController controller;
 	public bool isGrounded;
 
+    [FormerlySerializedAs("HorizontalAnimSmoothTime")]
     [Header("Animation Smoothing")]
     [Range(0, 1f)]
-    public float HorizontalAnimSmoothTime = 0.2f;
-    [Range(0, 1f)]
-    public float VerticalAnimTime = 0.2f;
-    [Range(0,1f)]
-    public float StartAnimTime = 0.3f;
-    [Range(0, 1f)]
-    public float StopAnimTime = 0.15f;
+    public float horizontalAnimSmoothTime = 0.2f;
+    [FormerlySerializedAs("VerticalAnimTime")] [Range(0, 1f)]
+    public float verticalAnimTime = 0.2f;
+    [FormerlySerializedAs("StartAnimTime")] [Range(0,1f)]
+    public float startAnimTime = 0.3f;
+    [FormerlySerializedAs("StopAnimTime")] [Range(0, 1f)]
+    public float stopAnimTime = 0.15f;
 
     public float verticalVel;
-    private Vector3 moveVector;
+    private Vector3 _moveVector;
 
 	// Use this for initialization
 	void Start () {
@@ -56,15 +58,15 @@ public class MovementInput : MonoBehaviour {
         {
             verticalVel -= 1;
         }
-        moveVector = new Vector3(0, verticalVel * .2f * Time.deltaTime, 0);
-        controller.Move(moveVector);
+        _moveVector = new Vector3(0, verticalVel * .2f * Time.deltaTime, 0);
+        controller.Move(_moveVector);
 
 
     }
 
     void PlayerMoveAndRotation() {
-		InputX = Input.GetAxis ("Horizontal");
-		InputZ = Input.GetAxis ("Vertical");
+		inputX = Input.GetAxis ("Horizontal");
+		inputZ = Input.GetAxis ("Vertical");
 
 		var camera = Camera.main;
 		var forward = cam.transform.forward;
@@ -76,11 +78,11 @@ public class MovementInput : MonoBehaviour {
 		forward.Normalize ();
 		right.Normalize ();
 
-		desiredMoveDirection = forward * InputZ + right * InputX;
+		desiredMoveDirection = forward * inputZ + right * inputX;
 
 		if (blockRotationPlayer == false) {
 			transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (desiredMoveDirection), desiredRotationSpeed);
-            controller.Move(desiredMoveDirection * Time.deltaTime * Velocity);
+            controller.Move(desiredMoveDirection * Time.deltaTime * velocity);
 		}
 	}
 
@@ -103,22 +105,22 @@ public class MovementInput : MonoBehaviour {
 
 	void InputMagnitude() {
 		//Calculate Input Vectors
-		InputX = Input.GetAxis ("Horizontal");
-		InputZ = Input.GetAxis ("Vertical");
+		inputX = Input.GetAxis ("Horizontal");
+		inputZ = Input.GetAxis ("Vertical");
 
 		//anim.SetFloat ("InputZ", InputZ, VerticalAnimTime, Time.deltaTime * 2f);
 		//anim.SetFloat ("InputX", InputX, HorizontalAnimSmoothTime, Time.deltaTime * 2f);
 
 		//Calculate the Input Magnitude
-		Speed = new Vector2(InputX, InputZ).sqrMagnitude;
+		speed = new Vector2(inputX, inputZ).sqrMagnitude;
 
         //Physically move player
 
-		if (Speed > allowPlayerRotation) {
-			anim.SetFloat ("Blend", Speed, StartAnimTime, Time.deltaTime);
+		if (speed > allowPlayerRotation) {
+			anim.SetFloat ("Blend", speed, startAnimTime, Time.deltaTime);
 			PlayerMoveAndRotation ();
-		} else if (Speed < allowPlayerRotation) {
-			anim.SetFloat ("Blend", Speed, StopAnimTime, Time.deltaTime);
+		} else if (speed < allowPlayerRotation) {
+			anim.SetFloat ("Blend", speed, stopAnimTime, Time.deltaTime);
 		}
 	}
 }

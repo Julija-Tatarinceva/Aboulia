@@ -260,6 +260,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2170731343244852767}
   - component: {fileID: 1172233919857415660}
+  - component: {fileID: 8550374024416866724}
   - component: {fileID: 8311650226113444645}
   - component: {fileID: 5502563643020921000}
   m_Layer: 0
@@ -304,6 +305,19 @@ MonoBehaviour:
   doorCollider: {fileID: 5502563643020921000}
   levelManager: {fileID: 0}
   doorFragAnim: {fileID: 8311650226113444645}
+--- !u!114 &8550374024416866724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4133784489940799136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee799a336b8300043aa96f882a42251d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  instructionsTextBox: {fileID: 0}
 --- !u!95 &8311650226113444645
 Animator:
   serializedVersion: 5

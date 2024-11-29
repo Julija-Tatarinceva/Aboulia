@@ -2,22 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
-public class GameMenu : MonoBehaviour
-{
+public class GameMenu : MonoBehaviour {
+    public LevelManager levelManager;
     public GameObject pauseMenuUI;
     public GameObject deathMenu;
     public GameObject levelFailedMenu;
-    public GameObject Spawn;
-    public GameObject Spawn3D;
-    public GameObject Player;
-    public GameObject Player3D;
-    public Animator Animator;
-    public static bool gameIsPaused = false;
+    public GameObject spawn;
+    public GameObject spawn3D;
+    public GameObject player;
+    public GameObject player3D;
+    public Animator animator;
+    public static bool GameIsPaused = false;
 
     void Update() {
         if (Input.GetButtonDown("Cancel")) {
-            if (gameIsPaused)
+            if (GameIsPaused)
                 Resume();
             else
                 Pause();
@@ -27,12 +28,12 @@ public class GameMenu : MonoBehaviour
     public void Resume() {
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
-        gameIsPaused = false;
+        GameIsPaused = false;
     }
 
     void Pause() {
         pauseMenuUI.SetActive(true);
-        gameIsPaused = true;
+        GameIsPaused = true;
         Time.timeScale = 0f;
     }
 
@@ -41,7 +42,7 @@ public class GameMenu : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    public void DeathMenuActive() {
+    public void SetDeathMenuActive() {
         deathMenu.SetActive(true);
         Time.timeScale = 0f;
     }
@@ -51,23 +52,10 @@ public class GameMenu : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    public void Respawn()
-    {
-        // if (FindObjectOfType<LevelManager>().levelIncludes3D == true)
-        // {
-        //     if (Player3D.activeSelf)
-        //     {
-        //         FindObjectOfType<MController3D>().isGrounded = true;
-        //         FindObjectOfType<MController3D>().dead = false;
-        //         FindObjectOfType<Runestone>().Teleport();
-        //         Player3D.transform.position = Spawn3D.transform.position;
-        //     }
-        // }
-        // FindObjectOfType<LevelManager>().NumberOfLives(false);
-        Player.transform.position = Spawn.transform.position;
+    public void Respawn() {
         deathMenu.SetActive(false);
         Time.timeScale = 1f;
-        Animator.Play("Idle");
+        player.GetComponent<PlayerMovement2D>().Respawn();
     }
 
     public void Exit() {

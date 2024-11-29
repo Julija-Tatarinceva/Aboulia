@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class CharacterSkinController : MonoBehaviour
 {
-    Animator animator;
-    Renderer[] characterMaterials;
+    Animator _animator;
+    Renderer[] _characterMaterials;
 
     public Texture2D[] albedoList;
     [ColorUsage(true,true)]
     public Color[] eyeColors;
-    public enum EyePosition { normal, happy, angry, dead}
+    public enum EyePosition { Normal, Happy, Angry, Dead}
     public EyePosition eyeState;
 
     // Start is called before the first frame update
     void Start()
     {
-        animator = GetComponent<Animator>();
-        characterMaterials = GetComponentsInChildren<Renderer>();
+        _animator = GetComponent<Animator>();
+        _characterMaterials = GetComponentsInChildren<Renderer>();
         
     }
 
@@ -27,42 +27,42 @@ public class CharacterSkinController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             //ChangeMaterialSettings(0);
-            ChangeEyeOffset(EyePosition.normal);
+            ChangeEyeOffset(EyePosition.Normal);
             ChangeAnimatorIdle("normal");
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             //ChangeMaterialSettings(1);
-            ChangeEyeOffset(EyePosition.angry);
+            ChangeEyeOffset(EyePosition.Angry);
             ChangeAnimatorIdle("angry");
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             //ChangeMaterialSettings(2);
-            ChangeEyeOffset(EyePosition.happy);
+            ChangeEyeOffset(EyePosition.Happy);
             ChangeAnimatorIdle("happy");
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             //ChangeMaterialSettings(3);
-            ChangeEyeOffset(EyePosition.dead);
+            ChangeEyeOffset(EyePosition.Dead);
             ChangeAnimatorIdle("dead");
         }
     }
 
     void ChangeAnimatorIdle(string trigger)
     {
-        animator.SetTrigger(trigger);
+        _animator.SetTrigger(trigger);
     }
 
     void ChangeMaterialSettings(int index)
     {
-        for (int i = 0; i < characterMaterials.Length; i++)
+        for (int i = 0; i < _characterMaterials.Length; i++)
         {
-            if (characterMaterials[i].transform.CompareTag("PlayerEyes"))
-                characterMaterials[i].material.SetColor("_EmissionColor", eyeColors[index]);
+            if (_characterMaterials[i].transform.CompareTag("PlayerEyes"))
+                _characterMaterials[i].material.SetColor("_EmissionColor", eyeColors[index]);
             else
-                characterMaterials[i].material.SetTexture("_MainTex",albedoList[index]);
+                _characterMaterials[i].material.SetTexture("_MainTex",albedoList[index]);
         }
     }
 
@@ -72,26 +72,26 @@ public class CharacterSkinController : MonoBehaviour
 
         switch (pos)
         {
-            case EyePosition.normal:
+            case EyePosition.Normal:
                 offset = new Vector2(0, 0);
                 break;
-            case EyePosition.happy:
+            case EyePosition.Happy:
                 offset = new Vector2(.33f, 0);
                 break;
-            case EyePosition.angry:
+            case EyePosition.Angry:
                 offset = new Vector2(.66f, 0);
                 break;
-            case EyePosition.dead:
+            case EyePosition.Dead:
                 offset = new Vector2(.33f, .66f);
                 break;
             default:
                 break;
         }
 
-        for (int i = 0; i < characterMaterials.Length; i++)
+        for (int i = 0; i < _characterMaterials.Length; i++)
         {
-            if (characterMaterials[i].transform.CompareTag("PlayerEyes"))
-                characterMaterials[i].material.SetTextureOffset("_MainTex", offset);
+            if (_characterMaterials[i].transform.CompareTag("PlayerEyes"))
+                _characterMaterials[i].material.SetTextureOffset("_MainTex", offset);
         }
     }
 }

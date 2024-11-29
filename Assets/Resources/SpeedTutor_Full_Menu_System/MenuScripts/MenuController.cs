@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 namespace SpeedTutorMainMenuSystem
 {
@@ -16,17 +17,17 @@ namespace SpeedTutorMainMenuSystem
         [SerializeField] private int defaultSen;
         [SerializeField] private bool defaultInvertY;
 
-        [Header("Levels To Load")]
-        public string _newGameButtonLevel;
-        private string levelToLoad;
+        [FormerlySerializedAs("_newGameButtonLevel")] [Header("Levels To Load")]
+        public string newGameButtonLevel;
+        private string _levelToLoad;
 
-        private int menuNumber;
+        private int _menuNumber;
         #endregion
 
         #region Menu Dialogs
         [Header("Main Menu Components")]
         [SerializeField] private GameObject menuDefaultCanvas;
-        [SerializeField] private GameObject GeneralSettingsCanvas;
+        [FormerlySerializedAs("GeneralSettingsCanvas")] [SerializeField] private GameObject generalSettingsCanvas;
         [SerializeField] private GameObject graphicsMenu;
         [SerializeField] private GameObject soundMenu;
         [SerializeField] private GameObject gameplayMenu;
@@ -58,7 +59,7 @@ namespace SpeedTutorMainMenuSystem
         #region Initialisation - Button Selection & Menu Order
         private void Start()
         {
-            menuNumber = 1;
+            _menuNumber = 1;
         }
         #endregion
 
@@ -74,19 +75,19 @@ namespace SpeedTutorMainMenuSystem
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                if (menuNumber == 2 || menuNumber == 7 || menuNumber == 8)
+                if (_menuNumber == 2 || _menuNumber == 7 || _menuNumber == 8)
                 {
                     GoBackToMainMenu();
                     ClickSound();
                 }
 
-                else if (menuNumber == 3 || menuNumber == 4 || menuNumber == 5)
+                else if (_menuNumber == 3 || _menuNumber == 4 || _menuNumber == 5)
                 {
                     GoBackToOptionsMenu();
                     ClickSound();
                 }
 
-                else if (menuNumber == 6) //CONTROLS MENU
+                else if (_menuNumber == 6) //CONTROLS MENU
                 {
                     GoBackToGameplayMenu();
                     ClickSound();
@@ -106,28 +107,28 @@ namespace SpeedTutorMainMenuSystem
             {
                 gameplayMenu.SetActive(false);
                 controlsMenu.SetActive(true);
-                menuNumber = 6;
+                _menuNumber = 6;
             }
 
             if (buttonType == "Graphics")
             {
-                GeneralSettingsCanvas.SetActive(false);
+                generalSettingsCanvas.SetActive(false);
                 graphicsMenu.SetActive(true);
-                menuNumber = 3;
+                _menuNumber = 3;
             }
 
             if (buttonType == "Sound")
             {
-                GeneralSettingsCanvas.SetActive(false);
+                generalSettingsCanvas.SetActive(false);
                 soundMenu.SetActive(true);
-                menuNumber = 4;
+                _menuNumber = 4;
             }
 
             if (buttonType == "Gameplay")
             {
-                GeneralSettingsCanvas.SetActive(false);
+                generalSettingsCanvas.SetActive(false);
                 gameplayMenu.SetActive(true);
-                menuNumber = 5;
+                _menuNumber = 5;
             }
 
             if (buttonType == "Exit")
@@ -139,22 +140,22 @@ namespace SpeedTutorMainMenuSystem
             if (buttonType == "Options")
             {
                 menuDefaultCanvas.SetActive(false);
-                GeneralSettingsCanvas.SetActive(true);
-                menuNumber = 2;
+                generalSettingsCanvas.SetActive(true);
+                _menuNumber = 2;
             }
 
             if (buttonType == "LoadGame")
             {
                 menuDefaultCanvas.SetActive(false);
                 loadGameDialog.SetActive(true);
-                menuNumber = 8;
+                _menuNumber = 8;
             }
 
             if (buttonType == "NewGame")
             {
                 menuDefaultCanvas.SetActive(false);
                 newGameDialog.SetActive(true);
-                menuNumber = 7;
+                _menuNumber = 7;
             }
         }
         #endregion
@@ -212,9 +213,9 @@ namespace SpeedTutorMainMenuSystem
         }
 
         #region ResetButton
-        public void ResetButton(string GraphicsMenu)
+        public void ResetButton(string graphicsMenu)
         {
-            if (GraphicsMenu == "Brightness")
+            if (graphicsMenu == "Brightness")
             {
                 brightnessEffect.brightness = defaultBrightness;
                 brightnessSlider.value = defaultBrightness;
@@ -222,7 +223,7 @@ namespace SpeedTutorMainMenuSystem
                 BrightnessApply();
             }
 
-            if (GraphicsMenu == "Audio")
+            if (graphicsMenu == "Audio")
             {
                 AudioListener.volume = defaultVolume;
                 volumeSlider.value = defaultVolume;
@@ -230,7 +231,7 @@ namespace SpeedTutorMainMenuSystem
                 VolumeApply();
             }
 
-            if (GraphicsMenu == "Graphics")
+            if (graphicsMenu == "Graphics")
             {
                 controllerSenText.text = defaultSen.ToString("0");
                 controllerSenSlider.value = defaultSen;
@@ -244,29 +245,29 @@ namespace SpeedTutorMainMenuSystem
         #endregion
 
         #region Dialog Options - This is where we load what has been saved in player prefs!
-        public void ClickNewGameDialog(string ButtonType)
+        public void ClickNewGameDialog(string buttonType)
         {
-            if (ButtonType == "Yes")
+            if (buttonType == "Yes")
             {
                 SceneManager.LoadScene("FirstScene");
             }
 
-            if (ButtonType == "No")
+            if (buttonType == "No")
             {
                 GoBackToMainMenu();
             }
         }
 
-        public void ClickLoadGameDialog(string ButtonType)
+        public void ClickLoadGameDialog(string buttonType)
         {
-            if (ButtonType == "Yes")
+            if (buttonType == "Yes")
             {
                 if (PlayerPrefs.HasKey("SavedLevel"))
                 {
                     Debug.Log("I WANT TO LOAD THE SAVED GAME");
                     //LOAD LAST SAVED SCENE
-                    levelToLoad = PlayerPrefs.GetString("SavedLevel");
-                    SceneManager.LoadScene(levelToLoad);
+                    _levelToLoad = PlayerPrefs.GetString("SavedLevel");
+                    SceneManager.LoadScene(_levelToLoad);
                 }
 
                 else
@@ -278,7 +279,7 @@ namespace SpeedTutorMainMenuSystem
                 }
             }
 
-            if (ButtonType == "No")
+            if (buttonType == "No")
             {
                 GoBackToMainMenu();
             }
@@ -288,7 +289,7 @@ namespace SpeedTutorMainMenuSystem
         #region Back to Menus
         public void GoBackToOptionsMenu()
         {
-            GeneralSettingsCanvas.SetActive(true);
+            generalSettingsCanvas.SetActive(true);
             graphicsMenu.SetActive(false);
             soundMenu.SetActive(false);
             gameplayMenu.SetActive(false);
@@ -297,7 +298,7 @@ namespace SpeedTutorMainMenuSystem
             BrightnessApply();
             VolumeApply();
 
-            menuNumber = 2;
+            _menuNumber = 2;
         }
 
         public void GoBackToMainMenu()
@@ -306,18 +307,18 @@ namespace SpeedTutorMainMenuSystem
             newGameDialog.SetActive(false);
             loadGameDialog.SetActive(false);
             noSaveDialog.SetActive(false);
-            GeneralSettingsCanvas.SetActive(false);
+            generalSettingsCanvas.SetActive(false);
             graphicsMenu.SetActive(false);
             soundMenu.SetActive(false);
             gameplayMenu.SetActive(false);
-            menuNumber = 1;
+            _menuNumber = 1;
         }
 
         public void GoBackToGameplayMenu()
         {
             controlsMenu.SetActive(false);
             gameplayMenu.SetActive(true);
-            menuNumber = 5;
+            _menuNumber = 5;
         }
 
         public void ClickQuitOptions()
