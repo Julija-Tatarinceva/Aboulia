@@ -7,7 +7,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: deathPlayer
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -18,7 +18,8 @@ AnimationClip:
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
     - time: 0
       value: {fileID: 21300000, guid: 249199ec16530b542b5168f5692a7975, type: 3}
     - time: 0.083333336
@@ -43,6 +44,7 @@ AnimationClip:
     path: 
     classID: 212
     script: {fileID: 0}
+    flags: 2
   m_SampleRate: 60
   m_WrapMode: 0
   m_Bounds:
@@ -57,6 +59,8 @@ AnimationClip:
       typeID: 212
       customType: 23
       isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
     pptrCurveMapping:
     - {fileID: 21300000, guid: 249199ec16530b542b5168f5692a7975, type: 3}
     - {fileID: 21300000, guid: ce7af04a61f845c45bc1eeb9d641ad0d, type: 3}
@@ -94,9 +98,9 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.8333333
-    functionName: CallDeathMenu
+    functionName: HandlePlayerDeath
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 11500000, guid: de6beb9000cb7334395d856e21771523, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
