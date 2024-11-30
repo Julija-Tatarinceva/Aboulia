@@ -1,19 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 public class GameMenu : MonoBehaviour {
-    public LevelManager levelManager;
     public GameObject pauseMenuUI;
     public GameObject deathMenu;
     public GameObject levelFailedMenu;
-    public GameObject spawn;
-    public GameObject spawn3D;
     public GameObject player;
     public GameObject player3D;
-    public Animator animator;
     public static bool GameIsPaused = false;
 
     void Update() {

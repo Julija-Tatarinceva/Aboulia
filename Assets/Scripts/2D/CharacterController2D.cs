@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 public class CharacterController2D : MonoBehaviour {
     [SerializeField] private float jumpForce = 100f;                          // Amount of force added when the player jumps.
@@ -15,16 +13,8 @@ public class CharacterController2D : MonoBehaviour {
     private bool _facingRight = true;  // For determining which way the player is currently facing.
     private Vector3 _velocity = Vector3.zero;
     private PlayerMovement2D _movementScript;
-
-    [FormerlySerializedAs("OnLandEvent")]
-    [Header("Events")]
-    [Space]
-
-    public UnityEvent onLandEvent;
+    
     float _originalScaleToKeep;
-
-    [System.Serializable]
-    public class BoolEvent : UnityEvent<bool> { }
 
     private void Awake(){
         _rigidbody = GetComponent<Rigidbody2D>();

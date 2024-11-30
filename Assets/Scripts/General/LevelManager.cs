@@ -1,11 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 public class LevelManager : MonoBehaviour {
     public DimensionSwitcher dimensionSwitcher;
@@ -14,8 +10,8 @@ public class LevelManager : MonoBehaviour {
     public TransitionablePair[] transitionablePairs3D;
     
     public GameMenu gameMenu;
-    public GameObject Ide2D, Ide3D, life3, life2, life1;
-    
+    public GameObject ide2D, ide3D, life3, life2, life1;
+
     public Text timeText;
     public Sprite lostLifeSprite;
     public static bool IsIn2D = false; //for now
@@ -23,15 +19,20 @@ public class LevelManager : MonoBehaviour {
     public static int SwitchesPressed = 0;
     public int lives = 3;
     public static int Language = 0; // 0 = English (default), 1 = Latvian, 2 = Russian
-    int _seconds, _minutes, _startSeconds;
+    private int _seconds, _minutes, _startSeconds;
     
-    string _strMinutes = "0"; 
+    string _strMinutes = "00"; 
     string _strSeconds = "0";
     public static string InteractButton = "";
     
     public float timePassed = 0;
     
     void Start(){
+        // Need to create the initial 2D space
+        Vector3 planeRight = dimensionSwitcher.Slice3DWorld();
+        SwitchTo2D(planeRight);
+        
+        // Applying user settings
         if (PlayerPrefs.HasKey("Language")){
             Language = PlayerPrefs.GetInt("Language");
             Debug.Log(Language);
@@ -53,53 +54,51 @@ public class LevelManager : MonoBehaviour {
     // Update is called once per frame
     void Update(){
         if (Input.GetKeyDown(KeyCode.T) && IsIn2D == false) { // Trigger dimension switch to 2D world
+            // planeRight is passed to all paired objects to determine which way they should be moved in 3D to match the 2D counterpart
             Vector3 planeRight = dimensionSwitcher.Slice3DWorld();
             SwitchTo2D(planeRight);
         }
         else if (Input.GetKeyDown(KeyCode.T) && IsIn2D) { // Trigger dimension switch to 3D world
             SwitchTo3D();
-            dimensionSwitcher.Clean2DWorld();
+            dimensionSwitcher.Clean2DWorld(); // Free scene of no longer needed 2D objects
         }
         
         #region TimeCalculator
         timePassed += Time.deltaTime; // Fetching time that has passed since the last frame and adding it to the sum
         // Using math to output the time in seconds using minutes:seconds format
         _seconds = (int)timePassed - (60 * _minutes);
-        if(_seconds==60){ // Adding another minute to the timer
+        if(_seconds==60) {
+            // Adding another minute to the timer
             _minutes++;
-            if(_minutes>9) 
-                _strMinutes = _minutes.ToString();
-            else if (_minutes < 9) 
-                _strMinutes = "0" + _minutes;
-            else if (_minutes == 0)
-                _strMinutes = "00";
+            _strMinutes = _minutes switch {
+                >= 9 => _minutes.ToString(),
+                < 9 => "0"
+            };
         }
-        if(_seconds<=9) 
-            _strSeconds = "0" + _seconds;
-        else 
-            _strSeconds = _seconds.ToString();
+        _strSeconds = _seconds switch {
+            <=9 => "0" + _seconds,
+            _ => _seconds.ToString()
+        };
         timeText.text = _strMinutes + ":" + _strSeconds;
         #endregion
     }
 
     #region Dimension Switching
     public void SwitchTo2D(Vector3 planeRight){
-        Ide2D.SetActive(true);
-        foreach (var pair in transitionablePairs3D)
-        {
+        ide2D.SetActive(true);
+        foreach (var pair in transitionablePairs3D) { // Every object is moved if its counterpart has moved
             pair.BeginTransition(planeRight);
         }
-        Ide3D.SetActive(false);
+        ide3D.SetActive(false);
         IsIn2D = true;
     }
 
     public void SwitchTo3D(){
-        Ide3D.SetActive(true);
-        foreach (var pair in transitionablePairs2D)
-        {
+        ide3D.SetActive(true);
+        foreach (var pair in transitionablePairs2D) { // Every object is moved if its counterpart has moved
             pair.BeginTransition();
         }
-        Ide2D.SetActive(false);
+        ide2D.SetActive(false);
         IsIn2D = false;
     }
     #endregion
@@ -111,14 +110,17 @@ public class LevelManager : MonoBehaviour {
 
     public void LostLife() {
         lives--;
-        if (lives == 2)
-            life3.GetComponent<Image>().sprite = lostLifeSprite;
-        else if (lives == 1)
-            life2.GetComponent<Image>().sprite = lostLifeSprite;
-        else{
-            life1.GetComponent<Image>().sprite = lostLifeSprite;
-            gameMenu.LevelFailed();
-            return;
+        switch (lives) { // Using switch since there are only 3 discrete situations
+            case 2:
+                life3.GetComponent<Image>().sprite = lostLifeSprite;
+                break;
+            case 1:
+                life2.GetComponent<Image>().sprite = lostLifeSprite;
+                break;
+            case 0: // If there are no lives left then the level is failed
+                life1.GetComponent<Image>().sprite = lostLifeSprite;
+                gameMenu.LevelFailed();
+                return;
         }
         gameMenu.SetDeathMenuActive();
     }

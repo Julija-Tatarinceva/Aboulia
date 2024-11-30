@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TransitionablePair : MonoBehaviour {
@@ -44,7 +41,7 @@ public class TransitionablePair : MonoBehaviour {
             transform.position.y - _posBeforeTransition.y,  // Keep the y component difference
             direction.z * _moveDistance
         );
-        
+        if (CompareTag("Interactable")) gameObject.SetActive(false); // Move the object away for now (TEMP)
         target.FinishTransition(changeInPosition);      
     } 
     private void FinishTransition(Vector3 changeInPosition){ // Moving the clone in the dimension player is switching IN to
