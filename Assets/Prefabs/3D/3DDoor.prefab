@@ -259,6 +259,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2170731343244852767}
+  - component: {fileID: 8001712613018774794}
   - component: {fileID: 1172233919857415660}
   - component: {fileID: 8550374024416866724}
   - component: {fileID: 8311650226113444645}
@@ -290,6 +291,20 @@ Transform:
   - {fileID: 6296812450566143170}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8001712613018774794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4133784489940799136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 901c8ec638365af48af1b82148428769, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  direction: {x: 0, y: 0, z: 0}
 --- !u!114 &1172233919857415660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,8 +317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c4fc6f9c7f94c54e8b11135a311e2b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorCollider: {fileID: 5502563643020921000}
-  levelManager: {fileID: 0}
+  instructionsText: {fileID: 0}
   doorFragAnim: {fileID: 8311650226113444645}
 --- !u!114 &8550374024416866724
 MonoBehaviour:

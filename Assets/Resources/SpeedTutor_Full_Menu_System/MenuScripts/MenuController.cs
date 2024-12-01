@@ -249,7 +249,7 @@ namespace SpeedTutorMainMenuSystem
         {
             if (buttonType == "Yes")
             {
-                SceneManager.LoadScene("FirstScene");
+                SceneManager.LoadScene((SceneManager.GetActiveScene().buildIndex)+1);
             }
 
             if (buttonType == "No")

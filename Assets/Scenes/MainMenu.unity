@@ -2737,11 +2737,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5d5c31acba0a5a438753f4a661150ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Level1Record: {fileID: 1513066336}
-  Level2Record: {fileID: 79084185}
-  Level3Record: {fileID: 86733867}
-  Level4Record: {fileID: 605789030}
-  LoadGame: {fileID: 319190453}
+  level1Record: {fileID: 1513066336}
+  level2Record: {fileID: 79084185}
+  level3Record: {fileID: 86733867}
+  level4Record: {fileID: 605789030}
+  loadGame: {fileID: 319190453}
 --- !u!1 &1965815502
 GameObject:
   m_ObjectHideFlags: 0

@@ -29,8 +29,11 @@ public class LevelManager : MonoBehaviour {
     
     void Start(){
         // Need to create the initial 2D space
-        Vector3 planeRight = dimensionSwitcher.Slice3DWorld();
-        SwitchTo2D(planeRight);
+        if (SceneManager.GetActiveScene().buildIndex != 1)
+        {
+            Vector3 planeRight = dimensionSwitcher.Slice3DWorld();
+            SwitchTo2D(planeRight);
+        }
         
         // Applying user settings
         if (PlayerPrefs.HasKey("Language")){
@@ -72,7 +75,7 @@ public class LevelManager : MonoBehaviour {
             _minutes++;
             _strMinutes = _minutes switch {
                 >= 9 => _minutes.ToString(),
-                < 9 => "0"
+                < 9 => "0" + _minutes
             };
         }
         _strSeconds = _seconds switch {
