@@ -36,8 +36,8 @@ public class LevelManager : MonoBehaviour {
         }
         
         // Applying user settings
-        if (PlayerPrefs.HasKey("Language")){
-            Language = PlayerPrefs.GetInt("Language");
+        if (PlayerPrefs.HasKey("lang")){
+            Language = PlayerPrefs.GetInt("lang");
             Debug.Log(Language);
         }
         if (!inputActions) {

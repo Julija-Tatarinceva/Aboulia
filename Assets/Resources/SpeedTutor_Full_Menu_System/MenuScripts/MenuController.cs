@@ -286,6 +286,20 @@ namespace SpeedTutorMainMenuSystem
         }
         #endregion
 
+        public void LangChangeLV() {
+            PlayerPrefs.SetInt("lang", 1);
+        }
+
+        public void LangChangeRU()
+        {
+            PlayerPrefs.SetInt("lang", 2);
+        }
+
+        public void LangChangeEN()
+        {
+            PlayerPrefs.SetInt("lang", 0);
+        }
+        
         #region Back to Menus
         public void GoBackToOptionsMenu()
         {

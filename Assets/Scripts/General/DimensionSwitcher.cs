@@ -41,7 +41,7 @@ public class DimensionSwitcher : MonoBehaviour {
                 // It is needed to get the counterpart of the slicable object and move it to the new spot on the slicing plane
                 // Debug.Log("Cutting switch");
                 objectToSlice.GetComponent<TransitionablePair>().target.transform.gameObject.SetActive(true);
-                AdjustPosition(objectToSlice.GetComponent<TransitionablePair>().target.transform.gameObject); // Counterparts are connected with TransitionablePar script
+                AdjustPosition(objectToSlice.GetComponent<TransitionablePair>().target.transform.gameObject, _locationOfSlicedObject); // Counterparts are connected with TransitionablePar script
             }
             else {
                 SliceObject(objectToSlice); 
@@ -197,19 +197,19 @@ public class DimensionSwitcher : MonoBehaviour {
         polygonCollider.points = colliderPoints;
         
         SetUpSpriteRenderer(polygonObject, polygonCollider); // Set up the SpriteRenderer
-        AdjustPosition(polygonObject); // Placing the new object in the 2D world
+        AdjustPosition(polygonObject, centroid3D); // Placing the new object in the 2D world
     }
 
     // The sliced object's 3D position needs to be projected onto the slicing plane
-    private void AdjustPosition(GameObject polygonObject) {
+    private void AdjustPosition(GameObject polygonObject, Vector3 centerPoint) {
         // Adjust position based on the object's z position relative to the slicing plane to retain 3D spacing
-        Vector3 zOffset = (centroid3D - player.position).z * _slicingPlane.normal;
+        Vector3 zOffset = (centerPoint - player.position).z * _slicingPlane.normal;
         if (Vector3.Dot(planeRight, Vector3.right) > 0) { // If plane right is not facing the same direction as x-axis, world needs to be mirrored
-            float xOffset = centroid3D.x - player.transform.position.x; // This is the distance from the sliced object to the plane origin
-            polygonObject.transform.position = new Vector3(centroid3D.x-xOffset*2, _locationOfSlicedObject.y, 0f) - zOffset;
+            float xOffset = centerPoint.x - player.transform.position.x; // This is the distance from the sliced object to the plane origin
+            polygonObject.transform.position = new Vector3(centerPoint.x-xOffset*2, centerPoint.y, 0f) - zOffset;
         }
         else
-            polygonObject.transform.position = new Vector3(centroid3D.x, _locationOfSlicedObject.y, 0) - zOffset; // +zOffset or -zOffset flips the 2D world
+            polygonObject.transform.position = new Vector3(centerPoint.x, centerPoint.y, 0) - zOffset; // +zOffset or -zOffset flips the 2D world
     }
 
     void CleanupVertices(ref List<Vector3> polygon2D) {
