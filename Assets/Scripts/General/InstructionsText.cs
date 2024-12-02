@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Components;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
 public class InstructionsText : MonoBehaviour{
     public GameObject instructionsTextBox;
@@ -35,16 +34,18 @@ public class InstructionsText : MonoBehaviour{
         height = GetComponent<BoxCollider2D>().size.y; // Getting the height of the trigger collider
         instructionsTextBox.transform.position = new Vector2(transform.position.x, transform.position.y + height);
             
-        // Getting the right text in, language is determined by the Level Manager
-        TextMeshProUGUI text = instructionsTextBox.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
-        if (LevelManager.Language == 0) {
-            text.text = "Press " + LevelManager.InteractButton + " to interact"; //English
-        }
-        else if(LevelManager.Language == 1) {
-            text.text = "Spiediet " + LevelManager.InteractButton + " lai mijiedarbotos"; //Latvian
-        }
-        else if(LevelManager.Language == 2) {
-            text.text = "Нажмите " + LevelManager.InteractButton + " для взаимодействовия"; //Russian
+        // Get the LocalizeStringEvent and bind the placeholder value
+        LocalizeStringEvent localizeEvent = instructionsTextBox.transform.GetChild(0).gameObject.GetComponent<LocalizeStringEvent>();
+        // Add the "key" parameter to the LocalizeStringEvent
+        if (localizeEvent != null) {
+            StringVariable key = null;
+            key = new StringVariable();
+            key.Value = LevelManager.InteractButton;
+            // Set the key placeholder with the dynamic value
+            localizeEvent.StringReference.Add("key", key);
+
+            // Refresh the localized text to apply the changes
+            localizeEvent.RefreshString();
         }
     }
 }

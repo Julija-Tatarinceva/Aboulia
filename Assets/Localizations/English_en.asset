@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: English_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 9051c5969276930478f53b9522e0c565, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 14789611520
+    m_Localized: New Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 190514171904
+    m_Localized: Load Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274685464576
+    m_Localized: Options
+    m_Metadata:
+      m_Items: []
+  - m_Id: 356835102720
+    m_Localized: Records
+    m_Metadata:
+      m_Items: []
+  - m_Id: 443791413248
+    m_Localized: Exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 672410341376
+    m_Localized: Are you sure you want to start a new game?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 996000894976
+    m_Localized: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1022257238016
+    m_Localized: No
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1128545095680
+    m_Localized: Select
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3089440935936
+    m_Localized: Click anywhere to continue...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3215622377472
+    m_Localized: Move around using A and D (or the arrow keys) and Space
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3370379612160
+    m_Localized: Press all the buttons you can find
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3513346658304
+    m_Localized: Then leave through the door
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

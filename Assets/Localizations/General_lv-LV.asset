@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: General_lv-LV
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: lv-LV
+  m_SharedData: {fileID: 11400000, guid: 2517b5c465308b849be1ff5e703a5661, type: 2}
+  m_Metadata:
+    m_Items:
+    - rid: 3487917027401138191
+  m_TableData:
+  - m_Id: 14789611520
+    m_Localized: "S\u0101kt no jauna"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 190514171904
+    m_Localized: "Iel\u0101d\u0113t saglab\u0101to"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274685464576
+    m_Localized: "Iestat\u012Bjumi"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 356835102720
+    m_Localized: Ieraksti
+    m_Metadata:
+      m_Items: []
+  - m_Id: 443791413248
+    m_Localized: Iziet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 672410341376
+    m_Localized: "Vai tie\u0161\u0101m v\u0113laties s\u0101kt no jauna?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 996000894976
+    m_Localized: "J\u0101"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1022257238016
+    m_Localized: "N\u0113"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1128545095680
+    m_Localized: "Izv\u0113l\u0113ties"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3089440935936
+    m_Localized: "Noklik\u0161\u0137iniet, lai turpin\u0101tu..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3215622377472
+    m_Localized: "P\u0101rvietojieties, izmantojot A un D (vai bulttausti\u0146us)
+      un Space"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3370379612160
+    m_Localized: Nospiediet visas pogas, kuras varat atrast
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3513346658304
+    m_Localized: "Tad izejiet caur durv\u012Bm"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13963564126208
+    m_Localized: Spiediet {key} lai mijiedarbotos
+    m_Metadata:
+      m_Items:
+      - rid: 3487917027401138191
+  - m_Id: 29286304550912
+    m_Localized: Atdzimt
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29575770247168
+    m_Localized: "Galven\u0101 Izv\u0113lne"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30032982937600
+    m_Localized: "S\u0101kt no jauna"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30503474794496
+    m_Localized: "Turpin\u0101t"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30836838076416
+    m_Localized: "Sp\u0113le ir aptur\u0113ta"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31443187634176
+    m_Localized: "J\u016Bs esat miru\u0161i!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31829218791424
+    m_Localized: "L\u012Bmenis neizdev\u0101s"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 3487917027401138191
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 13963564126208

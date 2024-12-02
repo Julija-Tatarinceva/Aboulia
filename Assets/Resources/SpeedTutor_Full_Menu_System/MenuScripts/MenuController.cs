@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
+using UnityEngine.Localization.Settings;
 
 namespace SpeedTutorMainMenuSystem
 {
@@ -285,21 +289,26 @@ namespace SpeedTutorMainMenuSystem
             }
         }
         #endregion
-
-        public void LangChangeLV() {
-            PlayerPrefs.SetInt("lang", 1);
-        }
-
-        public void LangChangeRU()
-        {
-            PlayerPrefs.SetInt("lang", 2);
-        }
-
-        public void LangChangeEN()
-        {
-            PlayerPrefs.SetInt("lang", 0);
+        //Language
+        public void LangChange(string languageCode) {
+            Locale newLocale = LocalizationSettings.AvailableLocales.Locales
+                .FirstOrDefault(locale => locale.Identifier.Code == languageCode);
+            if (newLocale != null)
+            {
+                LocalizationSettings.SelectedLocale = newLocale;
+            }
         }
         
+        // public void LangChangeRU()
+        // {
+        //     PlayerPrefs.SetInt("lang", 2);
+        // }
+        //
+        // public void LangChangeEN()
+        // {
+        //     PlayerPrefs.SetInt("lang", 0);
+        // }
+
         #region Back to Menus
         public void GoBackToOptionsMenu()
         {
