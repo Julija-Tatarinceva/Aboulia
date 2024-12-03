@@ -1,41 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Localization.Components;
+using UnityEngine.SceneManagement;
 
 public class IntroductionInstructions : MonoBehaviour {
     public List<GameObject> instructionsPanels = new List<GameObject>();
     public GameObject tutorialPanel;
-    public string[] instructionsEnglish = new[] {
-        "Click anywhere to continue...",
-        "Move around using A and D (or the arrow keys) and Space",
-        "Press all the buttons you can find", 
-        "Then leave through the door"
-    };
-    public string[] instructionsLatvian = new[] {
-        "Click anywhere to continue...",
-        "Pārvietojieties, izmantojot A un D (vai bulttaustiņus) un Space",
-        "Nospiediet visas pogas, kuras varat atrast",
-        "Tad izejiet caur durvīm"
-    };
-    
-    public string[] instructionsRussian = new[] {
-        "Кликните в любом месте чтобы продолжить...",
-        "Передвигайтесь, используя A и D (или стрелки) и Пробел",
-        "Нажимайте на все кнопки, которые сможете найти",
-        "Затем выходите через дверь"
-    };
     
     // Start is called before the first frame update
     void Start() {
-        // if (!PlayerPrefs.HasKey("Completed2DTutorial")){
+        if (!PlayerPrefs.HasKey("Completed2DTutorial") && SceneManager.GetActiveScene().buildIndex == 1){
             tutorialPanel.SetActive(true);
-
             ShowTutorial(0);
-        //     PlayerPrefs.SetInt("Completed2DTutorial", 1);
-        // }
+            PlayerPrefs.SetInt("Completed2DTutorial", 1);
+            PlayerPrefs.Save();
+        }
+        else if (!PlayerPrefs.HasKey("Completed3DTutorial") && SceneManager.GetActiveScene().buildIndex == 2){
+            tutorialPanel.SetActive(true);
+            ShowTutorial(0);
+            PlayerPrefs.SetInt("Completed3DTutorial", 1);
+            PlayerPrefs.Save();
+        }
     }
 
     public void ShowTutorial(int panelIndex) {
@@ -50,12 +35,25 @@ public class IntroductionInstructions : MonoBehaviour {
         instructionsPanels[panelIndex].SetActive(true);
         
         // Wait for left mouse click to proceed to the next step
-        StartCoroutine(WaitForClick(() =>
-        {
-            // Progress to the next instruction
-            instructionsPanels[panelIndex].SetActive(false);
-            ShowTutorial(panelIndex +1);
-        }));
+        if (SceneManager.GetActiveScene().buildIndex == 1) {
+            StartCoroutine(WaitForClick(() => {
+                // Progress to the next instruction
+                instructionsPanels[panelIndex].SetActive(false);
+                ShowTutorial(panelIndex +1);
+            }));
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == 2 && panelIndex == 0) {
+            StartCoroutine(WaitForKey(KeyCode.T, () => {
+                instructionsPanels[panelIndex].SetActive(false);
+                ShowTutorial(panelIndex + 1);
+            }));
+        }
+        else {
+            StartCoroutine(WaitForKey(KeyCode.Q, () => {
+                instructionsPanels[panelIndex].SetActive(false);
+                ShowTutorial(panelIndex + 1);
+            }));
+        }
     }
 
     private IEnumerator WaitForClick(System.Action onClick) {
@@ -63,7 +61,16 @@ public class IntroductionInstructions : MonoBehaviour {
         yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
         // Add a small delay to prevent rapid clicks
         yield return new WaitForSeconds(.1f);
+        
         // Invoke the action to proceed
         onClick();
+    }
+    private IEnumerator WaitForKey(KeyCode key, System.Action onKeyPress) {
+        // Wait until the specified key is pressed
+        yield return new WaitUntil(() => Input.GetKeyDown(key));
+        // Add a small delay to prevent rapid input
+        yield return new WaitForSeconds(.1f);
+        // Invoke the action to proceed
+        onKeyPress();
     }
 }

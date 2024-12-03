@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement3D : MonoBehaviour {
+    private static readonly int Speed = Animator.StringToHash("Speed");
     public CharacterController characterController;
     public float speed = 8.0f;
     public float turnSmoothTime = 0.1f;
+    private bool audioIsPaused = false;
     public Animator animator;
     float _turnSmoothVelocity;
     float _targetAngle;
@@ -14,6 +16,7 @@ public class PlayerMovement3D : MonoBehaviour {
     public Vector3 velocity;
     public Transform cam;
     public GameObject slicingPlanePreview;
+    public AudioSource stepSound;
 
     // Update is called once per frame
     void Update() {
@@ -37,6 +40,23 @@ public class PlayerMovement3D : MonoBehaviour {
         if (Input.GetKeyUp("q")) {
             slicingPlanePreview.SetActive(false);
         }
-        animator.SetFloat("Speed", Mathf.Abs(horizontal) + Mathf.Abs(vertical));
+        animator.SetFloat(Speed, Mathf.Abs(horizontal) + Mathf.Abs(vertical));
+        // Playing sound of walking when player starts moving
+        if (((Mathf.Abs(horizontal) + Mathf.Abs(vertical)) > 0) && !stepSound.isPlaying && 
+                characterController.isGrounded && !audioIsPaused) {
+            stepSound.Play();
+        }
+        // Pausing the sound when player stops or is airborne 
+        else if (stepSound.isPlaying && ((Mathf.Abs(horizontal) + Mathf.Abs(vertical)) > 0) || 
+                characterController.isGrounded) {
+            stepSound.Pause();
+            audioIsPaused = true;
+        }
+        // Unpausing when player moves again to avoid unpleasant repeated sounds of first seconds of the track
+        else if(((Mathf.Abs(horizontal) + Mathf.Abs(vertical)) > 0) && !stepSound.isPlaying &&
+                characterController.isGrounded && audioIsPaused) {
+            stepSound.UnPause();
+            audioIsPaused = false;
+        }
     }
 }

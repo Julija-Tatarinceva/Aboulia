@@ -105,6 +105,26 @@ MonoBehaviour:
     m_Localized: "L\u012Bmenis neizdev\u0101s"
     m_Metadata:
       m_Items: []
+  - m_Id: 90881990823936
+    m_Localized: "Nospiediet T, lai p\u0101rsl\u0113gtos uz 3D! Bet atcerieties:
+      j\u016Bs nevar\u0113sit l\u0113kt, jo j\u016Bs esat 2D b\u016Btne, j\u016Bs
+      varat izmantot tikai 2 dimensijas vienlaikus."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 91590849171456
+    m_Localized: "Nospiediet Q, lai skat\u012Btu grie\u0161anas plaknes priek\u0161skat\u012Bjumu.
+      Nospie\u017Eot T v\u0113lreiz, j\u016Bs non\u0101ksit jaun\u0101 2D pasaul\u0113,
+      vien\u0101 3D pasaules da\u013C\u0101."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 107279429373952
+    m_Localized: "Spiediet T, lai turpin\u0101tu..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 107824789557248
+    m_Localized: "Spiediet Q, lai turpin\u0101tu..."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

@@ -329,6 +329,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorOpening: {fileID: 1121727914}
   textInstructions: {fileID: 46991558}
+  levelManager: {fileID: 0}
   playerIsClose: 0
   newSprite: {fileID: 21300000, guid: 95085cbfc9b6b6d4dac36912e007ab4e, type: 3}
   spriteRenderer: {fileID: 46991554}
@@ -404,7 +405,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3537,69 +3538,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 526159a68169f444eb615e1e71cf878d, type: 3}
---- !u!1 &775545508 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5376949804901344555, guid: df8e1e522e1ef9944bca554906109fe1, type: 3}
-  m_PrefabInstance: {fileID: 2697825510026541168}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &775545511 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9142407024046872733, guid: df8e1e522e1ef9944bca554906109fe1, type: 3}
-  m_PrefabInstance: {fileID: 2697825510026541168}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 775545508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &775545513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 775545508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: GUID:2517b5c465308b849be1ff5e703a5661
-    m_TableEntryReference:
-      m_KeyId: 13963564126208
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables:
-    - name: key
-      variable:
-        rid: 3487917027401138192
-  m_FormatArguments: []
-  m_UpdateString:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 775545511}
-        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  references:
-    version: 2
-    RefIds:
-    - rid: 3487917027401138192
-      type: {class: StringVariable, ns: UnityEngine.Localization.SmartFormat.PersistentVariables, asm: Unity.Localization}
-      data:
-        m_Value: x
 --- !u!1 &810711740 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1390007941534803056, guid: c7d49fbc3efbd0d4baad14618cfe9c57, type: 3}
@@ -3756,6 +3694,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorOpening: {fileID: 1121727914}
   textInstructions: {fileID: 819792580}
+  levelManager: {fileID: 0}
   playerIsClose: 0
   newSprite: {fileID: 21300000, guid: 95085cbfc9b6b6d4dac36912e007ab4e, type: 3}
   spriteRenderer: {fileID: 819792575}
@@ -4253,6 +4192,126 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3383625329231758812, guid: 4c0cd671a49120448bb4d6e56f9738de, type: 3}
   m_PrefabInstance: {fileID: 4494615752848856340}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &1042531968
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042531967}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: a043114cda8888e4eaa4bbe2eb2d5eb4, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &1042531975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042531967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 441b95afe688b7145b4d7da72c08b413, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioIsPaused: 0
+  stepSound: {fileID: 1042531968}
+  stepClips:
+  - {fileID: 8300000, guid: a9949f43685942c4d942b4eb92875c16, type: 3}
+  - {fileID: 8300000, guid: 07c1d5726056e394d9180937dd505d4d, type: 3}
+  - {fileID: 8300000, guid: b40027b9c1d69b040810152e27677e45, type: 3}
+  - {fileID: 8300000, guid: a4f06dcccbdbd834799fa136694b6eb0, type: 3}
+  - {fileID: 8300000, guid: d111e57b11f08c64e9346616db55b4f5, type: 3}
+  - {fileID: 8300000, guid: f631ed596640b0b40a2d30540ac45a4d, type: 3}
+  - {fileID: 8300000, guid: 8ce9b5e938f27f044b156c62609c3999, type: 3}
+  - {fileID: 8300000, guid: 027e4387f83aa344bb0359672b68e16a, type: 3}
+  - {fileID: 8300000, guid: 8800018c18138854b99e32792027c56f, type: 3}
 --- !u!4 &1050969682 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2093586522849443817, guid: d0239134bd0821442bf9643c614202fb, type: 3}
@@ -4920,6 +4979,8 @@ MonoBehaviour:
   life1: {fileID: 1163166367}
   timeText: {fileID: 538623286}
   lostLifeSprite: {fileID: -184495110, guid: b078621268c5b954aae54d2bade0cf6d, type: 3}
+  footsteps: {fileID: 0}
+  switchesPressed: 0
   lives: 3
   timePassed: 0
 --- !u!4 &1289109740
@@ -4952,7 +5013,7 @@ AudioSource:
   m_Volume: 0.21
   m_Pitch: 1
   Loop: 0
-  Mute: 0
+  Mute: 1
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
@@ -5050,27 +5111,6 @@ MonoBehaviour:
   - {fileID: 560665423}
   - {fileID: 615346682}
   tutorialPanel: {fileID: 1543647726}
-  instructionsEnglish:
-  - Click anywhere to continue...
-  - Move around using A and D (or the arrow keys) and Space
-  - Press all the buttons you can find
-  - Then leave through the door
-  instructionsLatvian:
-  - Click anywhere to continue...
-  - "P\u0101rvietojieties, izmantojot A un D (vai bulttausti\u0146us) un Space"
-  - Nospiediet visas pogas, kuras varat atrast
-  - "Tad izejiet caur durv\u012Bm"
-  instructionsRussian:
-  - "\u041A\u043B\u0438\u043A\u043D\u0438\u0442\u0435 \u0432 \u043B\u044E\u0431\u043E\u043C
-    \u043C\u0435\u0441\u0442\u0435 \u0447\u0442\u043E\u0431\u044B \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C..."
-  - "\u041F\u0435\u0440\u0435\u0434\u0432\u0438\u0433\u0430\u0439\u0442\u0435\u0441\u044C,
-    \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u044F A \u0438 D (\u0438\u043B\u0438
-    \u0441\u0442\u0440\u0435\u043B\u043A\u0438) \u0438 \u041F\u0440\u043E\u0431\u0435\u043B"
-  - "\u041D\u0430\u0436\u0438\u043C\u0430\u0439\u0442\u0435 \u043D\u0430 \u0432\u0441\u0435
-    \u043A\u043D\u043E\u043F\u043A\u0438, \u043A\u043E\u0442\u043E\u0440\u044B\u0435
-    \u0441\u043C\u043E\u0436\u0435\u0442\u0435 \u043D\u0430\u0439\u0442\u0438"
-  - "\u0417\u0430\u0442\u0435\u043C \u0432\u044B\u0445\u043E\u0434\u0438\u0442\u0435
-    \u0447\u0435\u0440\u0435\u0437 \u0434\u0432\u0435\u0440\u044C"
 --- !u!4 &1305408863 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3851784439742431676, guid: 49e4001d1d972274dabd0792746600e4, type: 3}
@@ -6485,7 +6525,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: c
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7750,10 +7790,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5376949804901344555, guid: df8e1e522e1ef9944bca554906109fe1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 775545513}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df8e1e522e1ef9944bca554906109fe1, type: 3}
 --- !u!1 &2703678288214963012
 GameObject:
@@ -8197,7 +8234,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4053840974219125472, guid: 4c0cd671a49120448bb4d6e56f9738de, type: 3}
       propertyPath: jumpForce
-      value: 250
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 4053840974219125472, guid: 4c0cd671a49120448bb4d6e56f9738de, type: 3}
       propertyPath: whatIsGround.m_Bits
@@ -8260,6 +8297,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 90153419}
     - target: {fileID: 7525634187927763361, guid: 4c0cd671a49120448bb4d6e56f9738de, type: 3}
+      propertyPath: stepSound
+      value: 
+      objectReference: {fileID: 1042531968}
+    - target: {fileID: 7525634187927763361, guid: 4c0cd671a49120448bb4d6e56f9738de, type: 3}
+      propertyPath: soundPlayer
+      value: 
+      objectReference: {fileID: 1042531975}
+    - target: {fileID: 7525634187927763361, guid: 4c0cd671a49120448bb4d6e56f9738de, type: 3}
       propertyPath: levelManager
       value: 
       objectReference: {fileID: 1289109739}
@@ -8282,7 +8327,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3383625329231758812, guid: 4c0cd671a49120448bb4d6e56f9738de, type: 3}
+      insertIndex: 5
+      addedObject: {fileID: 1042531975}
+    - targetCorrespondingSourceObject: {fileID: 3383625329231758812, guid: 4c0cd671a49120448bb4d6e56f9738de, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1042531968}
   m_SourcePrefab: {fileID: 100100000, guid: 4c0cd671a49120448bb4d6e56f9738de, type: 3}
 --- !u!212 &4544996767522030613
 SpriteRenderer:

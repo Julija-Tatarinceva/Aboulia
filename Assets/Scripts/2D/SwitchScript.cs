@@ -6,15 +6,19 @@ using UnityEngine.Serialization;
 public class SwitchScript : MonoBehaviour {
     [FormerlySerializedAs("DoorOpening")] public Door3DOpening doorOpening;
     public InstructionsText textInstructions;
+    public LevelManager levelManager;
     public bool playerIsClose = false;
     public Sprite newSprite;
     public SpriteRenderer spriteRenderer;
     public Collider2D box;
-    
+
+    void Start() {
+        levelManager = FindObjectOfType<LevelManager>();
+    }
     void Update() {
         if (playerIsClose && Input.GetButtonDown("Interact")) {
             spriteRenderer.sprite = newSprite;
-            LevelManager.SwitchesPressed += 1;
+            levelManager.switchesPressed += 1;
             box.enabled = false;
         }
     }

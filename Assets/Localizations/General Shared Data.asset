@@ -99,6 +99,22 @@ MonoBehaviour:
     m_Key: level_failed_ui_text
     m_Metadata:
       m_Items: []
+  - m_Id: 90881990823936
+    m_Key: press_T_instructions_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 91590849171456
+    m_Key: press_Q_instructions_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 107279429373952
+    m_Key: press_T_to_continue_instructions_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 107824789557248
+    m_Key: press_Q_to_continue_instructions_text
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

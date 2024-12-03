@@ -12,7 +12,7 @@ public class DimensionSwitcher : MonoBehaviour {
     List<Vector3> _intersectionPoints3D = new List<Vector3>(); // List to store intersection points in 3D space before projecting
     private String _tagOfSlicedObject;
     private Vector3 _locationOfSlicedObject, _centroidOfSlicedObject;
-    Vector3 centroid3D = Vector3.zero;
+    Vector3 _centroid3D = Vector3.zero;
     public Vector3 planeRight;
     public Sprite groundSprite;
     public Sprite acidSprite;
@@ -22,27 +22,24 @@ public class DimensionSwitcher : MonoBehaviour {
         Vector3 forwardDirection = player.forward; // This is the normal of the slicing plane
         // Slicing plane is used to check for intersections with "slicable" objects
         _slicingPlane = new Plane(forwardDirection, player.position);
-        // DrawSlicingPlane(_slicingPlane, player.position);
         
-        
-        // Slice the object and generate 2D geometry
+        // Slice the objects and generate 2D geometry
         foreach (GameObject objectToSlice in slicableObjects){
             // Perform the intersection check
-            if (!IsObjectIntersectingPlane(objectToSlice, _slicingPlane)) {
-                // Debug.Log($"Skipping object {objectToSlice.name} - no intersection with plane.");
-                continue; // Skip objects that don't intersect the plane at all
-            }
+            if (!IsObjectIntersectingPlane(objectToSlice, _slicingPlane))
+                continue; // Skip this object if it doesn't intersect the plane
             
-            // Getting the tag and location to later assign to the newly created object
+            // Getting the tag and location to later assign them to the newly created object
             _tagOfSlicedObject = objectToSlice.tag;
             _locationOfSlicedObject = objectToSlice.transform.position;
             
+            // Interactable objects aren't sliced, they have their counterpart (connected with TransitionablePar) moved to a new position
             if (objectToSlice.CompareTag("Interactable")) {
-                // It is needed to get the counterpart of the slicable object and move it to the new spot on the slicing plane
-                // Debug.Log("Cutting switch");
-                objectToSlice.GetComponent<TransitionablePair>().target.transform.gameObject.SetActive(true);
-                AdjustPosition(objectToSlice.GetComponent<TransitionablePair>().target.transform.gameObject, _locationOfSlicedObject); // Counterparts are connected with TransitionablePar script
+                GameObject counterpart = objectToSlice.GetComponent<TransitionablePair>().target.transform.gameObject; 
+                counterpart.SetActive(true);
+                AdjustPosition(counterpart, _locationOfSlicedObject); 
             }
+            // Other objects are sliced
             else {
                 SliceObject(objectToSlice); 
                 Create2DObject(_intersectionPoints, objectToSlice);
@@ -55,8 +52,12 @@ public class DimensionSwitcher : MonoBehaviour {
         Bounds bounds; // The object must have either a renderer or a collider for bounds
         if(obj.GetComponent<Renderer>())
             bounds = obj.GetComponent<Renderer>().bounds;
-        else 
+        else if(obj.GetComponent<Collider>())
             bounds = obj.GetComponent<Collider>().bounds;
+        else {
+            Debug.LogError($"Cannot check intersection for {obj.name}");
+            return false;
+        }
         
         Vector3[] corners = {
             bounds.min, bounds.max,
@@ -72,7 +73,7 @@ public class DimensionSwitcher : MonoBehaviour {
         foreach (var corner in corners) {
             if (slicingPlane.GetSide(corner)) anyAbove = true;
             else anyBelow = true;
-            // If we find corners on both sides, the bounds intersect
+            // If we find corners on both sides, the bounds intersect the plane
             if (anyAbove && anyBelow) return true;
         }
         // If all corners are on one side, there's no intersection
@@ -121,21 +122,18 @@ public class DimensionSwitcher : MonoBehaviour {
             // Checking if this triangle intersects the slicing plane & finding the intersection points on the triangle's edges
             // If needed to stop projecting slices, (ProjectTo2D(intersection, planeRight, planeUp)) can be switched to FindIntersection(x, x)
 
-// Find and store intersection points
-            if (v0Above != v1Above)
-            {
+            // Find and store intersection points
+            if (v0Above != v1Above) {
                 Vector3 intersection = FindIntersection(v0, v1);
                 _intersectionPoints3D.Add(intersection);
                 _intersectionPoints.Add(ProjectTo2D(intersection, planeUp));
             }
-            if (v1Above != v2Above)
-            {
+            if (v1Above != v2Above) {
                 Vector3 intersection = FindIntersection(v1, v2);
                 _intersectionPoints3D.Add(intersection);
                 _intersectionPoints.Add(ProjectTo2D(intersection, planeUp));
             }
-            if (v2Above != v0Above)
-            {
+            if (v2Above != v0Above) {
                 Vector3 intersection = FindIntersection(v2, v0);
                 _intersectionPoints3D.Add(intersection);
                 _intersectionPoints.Add(ProjectTo2D(intersection, planeUp));
@@ -181,23 +179,24 @@ public class DimensionSwitcher : MonoBehaviour {
         
         SortVerticesClockwise(ref polygon2D, centroid);
         
-        // Calculating the centroid (center point) of the 3D intersection points
-        centroid3D = Vector3.zero;
+        // Calculating the centroid (center point) of the 3D intersection points (used to correctly place the object later)
+        _centroid3D = Vector3.zero;
         foreach (var point in _intersectionPoints3D)
-            centroid3D += point;
-        centroid3D /= _intersectionPoints3D.Count;
-        Debug.Log($"Centroid of the polygon is: {centroid3D} for {objectToSlice.name}");
+            _centroid3D += point;
+        _centroid3D /= _intersectionPoints3D.Count;
+        Debug.Log($"Centroid of the polygon is: {_centroid3D} for {objectToSlice.name}");
 
         // Create a 2D collider using the 2D vertices
         Vector2[] colliderPoints = new Vector2[polygon2D.Count];
         PolygonCollider2D polygonCollider = polygonObject.GetComponent<PolygonCollider2D>();
+        
         // The collider needs to be centered relative to the center of the game object
         for (int i = 0; i < polygon2D.Count; i++) 
             colliderPoints[i] = polygon2D[i] - centroid;
         polygonCollider.points = colliderPoints;
         
         SetUpSpriteRenderer(polygonObject, polygonCollider); // Set up the SpriteRenderer
-        AdjustPosition(polygonObject, centroid3D); // Placing the new object in the 2D world
+        AdjustPosition(polygonObject, _centroid3D); // Placing the new object in the 2D world
     }
 
     // The sliced object's 3D position needs to be projected onto the slicing plane
@@ -206,10 +205,10 @@ public class DimensionSwitcher : MonoBehaviour {
         Vector3 zOffset = (centerPoint - player.position).z * _slicingPlane.normal;
         if (Vector3.Dot(planeRight, Vector3.right) > 0) { // If plane right is not facing the same direction as x-axis, world needs to be mirrored
             float xOffset = centerPoint.x - player.transform.position.x; // This is the distance from the sliced object to the plane origin
-            polygonObject.transform.position = new Vector3(centerPoint.x-xOffset*2, centerPoint.y, 0f) - zOffset;
+            polygonObject.transform.position = new Vector3(centerPoint.x-xOffset*2-zOffset.x, _locationOfSlicedObject.y, 0f);
         }
         else
-            polygonObject.transform.position = new Vector3(centerPoint.x, centerPoint.y, 0) - zOffset; // +zOffset or -zOffset flips the 2D world
+            polygonObject.transform.position = new Vector3(centerPoint.x-zOffset.x, _locationOfSlicedObject.y, 0); // +zOffset or -zOffset flips the 2D world
     }
 
     void CleanupVertices(ref List<Vector3> polygon2D) {
@@ -259,14 +258,12 @@ public class DimensionSwitcher : MonoBehaviour {
     Vector2 ProjectTo2D(Vector3 point, Vector3 planeUp) {
         // Translate the point relative to the slicing plane origin
         Vector3 localPoint = point - player.position;
-        
         float x = Vector3.Dot(localPoint, planeRight);   // X-coordinate
         float y = Vector3.Dot(localPoint, planeUp);      // Y-coordinate
-        
         return new Vector2(x, y);
     }
 
-    // Here we set up the new sprite renderer, add sprite and fit it to the collider
+    // Here we set up the new sprite renderer, add a sprite and fit it to the collider
     // Also the layer mask is set here
     void SetUpSpriteRenderer(GameObject polygonObject, PolygonCollider2D coll) {
         SpriteRenderer spriteRenderer = polygonObject.GetComponent<SpriteRenderer>();
@@ -290,7 +287,7 @@ public class DimensionSwitcher : MonoBehaviour {
         coll.autoTiling = true; //Fixes little offsets after assigning a sprite
     }
     
-    // For debug purposes
+    // For debug purposes drawing the resulting plane in the editor
     void DrawSlicingPlane(Plane slicingPlane, Vector3 planeCenter, float planeSize = 5.0f){
         Vector3 planeNormal = slicingPlane.normal; // Get the normal of the plane
         // Draw the normal direction

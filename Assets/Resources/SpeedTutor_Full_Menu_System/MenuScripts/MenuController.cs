@@ -42,6 +42,7 @@ namespace SpeedTutorMainMenuSystem
         [SerializeField] private GameObject noSaveDialog;
         [SerializeField] private GameObject newGameDialog;
         [SerializeField] private GameObject loadGameDialog;
+        [SerializeField] private GameObject recordsDialog;
         #endregion
 
         #region Slider Linking
@@ -160,6 +161,12 @@ namespace SpeedTutorMainMenuSystem
                 menuDefaultCanvas.SetActive(false);
                 newGameDialog.SetActive(true);
                 _menuNumber = 7;
+            }
+            if (buttonType == "Records")
+            {
+                menuDefaultCanvas.SetActive(false);
+                recordsDialog.SetActive(true);
+                _menuNumber = 2;
             }
         }
         #endregion
@@ -298,16 +305,6 @@ namespace SpeedTutorMainMenuSystem
                 LocalizationSettings.SelectedLocale = newLocale;
             }
         }
-        
-        // public void LangChangeRU()
-        // {
-        //     PlayerPrefs.SetInt("lang", 2);
-        // }
-        //
-        // public void LangChangeEN()
-        // {
-        //     PlayerPrefs.SetInt("lang", 0);
-        // }
 
         #region Back to Menus
         public void GoBackToOptionsMenu()
@@ -334,6 +331,7 @@ namespace SpeedTutorMainMenuSystem
             graphicsMenu.SetActive(false);
             soundMenu.SetActive(false);
             gameplayMenu.SetActive(false);
+            recordsDialog.SetActive(false);
             _menuNumber = 1;
         }
 

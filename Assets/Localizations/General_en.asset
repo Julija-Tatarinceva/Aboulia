@@ -104,6 +104,24 @@ MonoBehaviour:
     m_Localized: Level failed
     m_Metadata:
       m_Items: []
+  - m_Id: 90881990823936
+    m_Localized: 'Press T to switch to 3D! But remember: you will not be able to
+      jump, since you are a 2D creature, you can only use 2 dimensions at one time.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 91590849171456
+    m_Localized: Press Q to see a preview of the slicing plane. When you press T
+      again, you will now be in a new 2D world, in a single slice of the 3D world.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 107279429373952
+    m_Localized: Press T to continue...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 107824789557248
+    m_Localized: Press Q to continue...
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

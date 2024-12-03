@@ -14,6 +14,7 @@ public class PlayerMovement2D : MonoBehaviour {
     public Animator animator;
     public Rigidbody2D playerRigidbody2D;
     public GameObject player, spawn;
+    public SoundPlayer soundPlayer;
     
     private void Update(){
         // Using keys as input, these keys can be changed in project's settings
@@ -24,6 +25,7 @@ public class PlayerMovement2D : MonoBehaviour {
         if (Input.GetButtonDown("Jump") && !jump){
             jump = true;
         }
+        soundPlayer.PlayStepSound(Mathf.Abs(_horizontalMove) > 0, characterController2D.grounded);
     }
     // Since movement is a physics operation, it should be done through Fixed Update, which is not tied to frame rate
     // This helps in avoiding collision and speed calculation mistakes

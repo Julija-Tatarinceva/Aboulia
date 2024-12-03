@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class LevelManager : MonoBehaviour {
     public DimensionSwitcher dimensionSwitcher;
@@ -14,9 +15,10 @@ public class LevelManager : MonoBehaviour {
 
     public Text timeText;
     public Sprite lostLifeSprite;
+    public AudioSource footsteps;
     public static bool IsIn2D = false; //for now
     
-    public static int SwitchesPressed = 0;
+    public int switchesPressed = 0;
     public int lives = 3;
     public static int Language = 0; // 0 = English (default), 1 = Latvian, 2 = Russian
     private int _seconds, _minutes, _startSeconds;
@@ -36,9 +38,14 @@ public class LevelManager : MonoBehaviour {
         }
         
         // Applying user settings
-        if (PlayerPrefs.HasKey("lang")){
+        if (PlayerPrefs.HasKey("lang")){ // Language settings
             Language = PlayerPrefs.GetInt("lang");
             Debug.Log(Language);
+        }
+        if(PlayerPrefs.HasKey("masterVolume")){ // Volume settings
+            GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("masterVolume");
+            // footsteps.volume = PlayerPrefs.GetFloat("masterVolume");
+            // footsteprs3D.volume = PlayerPrefs.GetFloat("masterVolume");
         }
         if (!inputActions) {
             Debug.LogError("Interact action not found! Set it manually!");
@@ -107,8 +114,8 @@ public class LevelManager : MonoBehaviour {
     #endregion
     
     public void SwitchPressed(){
-        SwitchesPressed++;
-        Debug.Log(SwitchesPressed + " Pressed");
+        switchesPressed++;
+        Debug.Log(switchesPressed + " Pressed");
     }
 
     public void LostLife() {
@@ -127,7 +134,33 @@ public class LevelManager : MonoBehaviour {
         }
         gameMenu.SetDeathMenuActive();
     }
-    public static void LoadNextLevel() {
+    public void LoadNextLevel() {
         SceneManager.LoadScene((SceneManager.GetActiveScene().buildIndex)+1);
+    }
+    public void SaveLevel() {
+        int levelNumber = SceneManager.GetActiveScene().buildIndex;
+        if (PlayerPrefs.HasKey("Best raw time at level " + levelNumber)){
+            int previousRecord = PlayerPrefs.GetInt("Best raw time at level " + levelNumber);
+            int newRecord = _seconds;
+            if (previousRecord > newRecord) {
+                PlayerPrefs.SetString("Best time at level " + levelNumber, timeText.text);
+                PlayerPrefs.SetInt("Best raw time at level " + levelNumber, _seconds);
+                Debug.Log(previousRecord + " you got better! " + newRecord);
+            }
+            else
+            {
+                Debug.Log(previousRecord + " not better :( " + newRecord);
+            }
+        }
+        else
+        {
+            PlayerPrefs.SetString("Best time at level " + levelNumber, timeText.text);
+            PlayerPrefs.SetInt("Best raw time at level " + levelNumber, _seconds);
+            Debug.Log("First record set! " + _seconds);
+        }
+
+        PlayerPrefs.SetInt("Level where we stopped", SceneManager.GetActiveScene().buildIndex);
+        
+        PlayerPrefs.Save();
     }
 }
