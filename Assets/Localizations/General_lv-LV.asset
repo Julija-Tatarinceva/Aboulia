@@ -112,7 +112,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 91590849171456
-    m_Localized: "Nospiediet Q, lai skat\u012Btu grie\u0161anas plaknes priek\u0161skat\u012Bjumu.
+    m_Localized: "Nospiediet Q, lai redz\u0113tu grie\u0161anas plaknes priek\u0161skat\u012Bjumu.
       Nospie\u017Eot T v\u0113lreiz, j\u016Bs non\u0101ksit jaun\u0101 2D pasaul\u0113,
       vien\u0101 3D pasaules da\u013C\u0101."
     m_Metadata:
@@ -125,6 +125,55 @@ MonoBehaviour:
     m_Localized: "Spiediet Q, lai turpin\u0101tu..."
     m_Metadata:
       m_Items: []
+  - m_Id: 1074188253630464
+    m_Localized: "Ska\u0146a"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1074254485884928
+    m_Localized: "Sp\u0113le"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1074345162543104
+    m_Localized: "Ska\u013Cums"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1075102762897408
+    m_Localized: "Uz noklus\u0113juma v\u0113rt\u012Bbam"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1075543387115520
+    m_Localized: Lietot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1075864054239232
+    m_Localized: "Atpaka\u013C"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1076272491368448
+    m_Localized: 'Mijiedarboties:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1082359533768704
+    m_Localized: "J\u016Bs aizg\u0101j\u0101t {lvl}. l\u012Bmen\u012B. Vai tie\u0161\u0101m
+      v\u0113laties iel\u0101d\u0113t to?"
+    m_Metadata:
+      m_Items:
+      - rid: 3487917027401138191
+  - m_Id: 1082799524646912
+    m_Localized: "Nav saglab\u0101ta l\u012Bme\u0146a."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1086218243117056
+    m_Localized: "L\u012Bmenis {lvl}: {record}"
+    m_Metadata:
+      m_Items:
+      - rid: 3487917027401138191
+  - m_Id: 1089963152609280
+    m_Localized: "Darbs proces\u0101, tikai 2 l\u012Bme\u0146i, opciju izv\u0113ln\u0113
+      iesp\u0113jams main\u012Bt tikai ska\u0146as ska\u013Cumu un mijiedarb\u012Bbas
+      pogu."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -134,3 +183,5 @@ MonoBehaviour:
         m_Entries: 
         m_SharedEntries:
         - id: 13963564126208
+        - id: 1082359533768704
+        - id: 1086218243117056

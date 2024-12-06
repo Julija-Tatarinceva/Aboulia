@@ -16,7 +16,7 @@ public class PlayerMovement3D : MonoBehaviour {
     public Vector3 velocity;
     public Transform cam;
     public GameObject slicingPlanePreview;
-    public AudioSource stepSound;
+    public SoundPlayer soundPlayer;
 
     // Update is called once per frame
     void Update() {
@@ -32,7 +32,6 @@ public class PlayerMovement3D : MonoBehaviour {
             Vector3 direction = Quaternion.Euler(0f, _targetAngle, 0f) * Vector3.forward; 
             // The controller component handles the movement of the body
             characterController.Move(direction.normalized * (speed * Time.deltaTime));
-            // characterController.Move(velocity * Time.deltaTime); // not much of a difference
         }
         if (Input.GetKeyDown("q")) {
             slicingPlanePreview.SetActive(true);
@@ -41,22 +40,6 @@ public class PlayerMovement3D : MonoBehaviour {
             slicingPlanePreview.SetActive(false);
         }
         animator.SetFloat(Speed, Mathf.Abs(horizontal) + Mathf.Abs(vertical));
-        // Playing sound of walking when player starts moving
-        if (((Mathf.Abs(horizontal) + Mathf.Abs(vertical)) > 0) && !stepSound.isPlaying && 
-                characterController.isGrounded && !audioIsPaused) {
-            stepSound.Play();
-        }
-        // Pausing the sound when player stops or is airborne 
-        else if (stepSound.isPlaying && ((Mathf.Abs(horizontal) + Mathf.Abs(vertical)) > 0) || 
-                characterController.isGrounded) {
-            stepSound.Pause();
-            audioIsPaused = true;
-        }
-        // Unpausing when player moves again to avoid unpleasant repeated sounds of first seconds of the track
-        else if(((Mathf.Abs(horizontal) + Mathf.Abs(vertical)) > 0) && !stepSound.isPlaying &&
-                characterController.isGrounded && audioIsPaused) {
-            stepSound.UnPause();
-            audioIsPaused = false;
-        }
+        soundPlayer.PlayStepSound(Mathf.Abs(horizontal) > 0, characterController.isGrounded);
     }
 }

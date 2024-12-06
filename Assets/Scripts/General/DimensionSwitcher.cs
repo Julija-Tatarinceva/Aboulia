@@ -8,6 +8,7 @@ public class DimensionSwitcher : MonoBehaviour {
     private Plane _slicingPlane; // The plane that is used for slicing 3D objects when switching from 3D to 2D
     public GameObject[] slicableObjects = new GameObject[1]; //All the objects that will be sliced after dimension switch, can be modified in th editor
     public List<GameObject> slicedObjects;
+    public GameObject spawnPoint;
     private List<Vector3> _intersectionPoints = new List<Vector3>(); // Store the intersection points
     List<Vector3> _intersectionPoints3D = new List<Vector3>(); // List to store intersection points in 3D space before projecting
     private String _tagOfSlicedObject;
@@ -22,7 +23,6 @@ public class DimensionSwitcher : MonoBehaviour {
         Vector3 forwardDirection = player.forward; // This is the normal of the slicing plane
         // Slicing plane is used to check for intersections with "slicable" objects
         _slicingPlane = new Plane(forwardDirection, player.position);
-        
         // Slice the objects and generate 2D geometry
         foreach (GameObject objectToSlice in slicableObjects){
             // Perform the intersection check

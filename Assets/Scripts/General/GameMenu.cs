@@ -6,7 +6,6 @@ public class GameMenu : MonoBehaviour {
     public GameObject deathMenu;
     public GameObject levelFailedMenu;
     public GameObject player;
-    public GameObject player3D;
     public static bool GameIsPaused = false;
 
     void Update() {
@@ -52,7 +51,7 @@ public class GameMenu : MonoBehaviour {
     }
 
     public void Exit() {
-        Debug.Log("Quit");
+        Application.Quit();
     }
 
     public void LevelFailed() {

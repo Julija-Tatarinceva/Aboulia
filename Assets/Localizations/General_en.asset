@@ -122,6 +122,53 @@ MonoBehaviour:
     m_Localized: Press Q to continue...
     m_Metadata:
       m_Items: []
+  - m_Id: 1074188253630464
+    m_Localized: Sound
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1074254485884928
+    m_Localized: Gameplay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1074345162543104
+    m_Localized: Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1075102762897408
+    m_Localized: Reset to default
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1075543387115520
+    m_Localized: Apply
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1075864054239232
+    m_Localized: Back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1076272491368448
+    m_Localized: 'Interact:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1082359533768704
+    m_Localized: You left at level {lvl}. Are you sure you want to load it?
+    m_Metadata:
+      m_Items:
+      - rid: 3487917027401138183
+  - m_Id: 1082799524646912
+    m_Localized: No saved level.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1086218243117056
+    m_Localized: 'Level {lvl}: {record}'
+    m_Metadata:
+      m_Items:
+      - rid: 3487917027401138183
+  - m_Id: 1089963152609280
+    m_Localized: Work in progress, only 2 levels, in the options menu it is only
+      possible to change the sound's volume and the button for interaction.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -131,3 +178,5 @@ MonoBehaviour:
         m_Entries: 
         m_SharedEntries:
         - id: 13963564126208
+        - id: 1082359533768704
+        - id: 1086218243117056

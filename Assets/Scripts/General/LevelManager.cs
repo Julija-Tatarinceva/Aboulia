@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 public class LevelManager : MonoBehaviour {
     public DimensionSwitcher dimensionSwitcher;
@@ -25,37 +24,34 @@ public class LevelManager : MonoBehaviour {
     
     string _strMinutes = "00"; 
     string _strSeconds = "0";
-    public static string InteractButton = "";
+    public string interactButton = "";
+    public InputAction interactAction;
     
     public float timePassed = 0;
     
     void Start(){
         // Need to create the initial 2D space
-        if (SceneManager.GetActiveScene().buildIndex != 1)
-        {
+        if (SceneManager.GetActiveScene().buildIndex != 1) {
             Vector3 planeRight = dimensionSwitcher.Slice3DWorld();
             SwitchTo2D(planeRight);
         }
         
         // Applying user settings
-        if (PlayerPrefs.HasKey("lang")){ // Language settings
-            Language = PlayerPrefs.GetInt("lang");
-            Debug.Log(Language);
-        }
         if(PlayerPrefs.HasKey("masterVolume")){ // Volume settings
-            GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("masterVolume");
-            // footsteps.volume = PlayerPrefs.GetFloat("masterVolume");
-            // footsteprs3D.volume = PlayerPrefs.GetFloat("masterVolume");
+            AudioListener.volume = PlayerPrefs.GetFloat("masterVolume");
         }
         if (!inputActions) {
             Debug.LogError("Interact action not found! Set it manually!");
             return;
         }
-        var interactAction = inputActions.FindAction("Interact"); // Find the action by name
+        var playerActionMap = inputActions.FindActionMap("Player");
+        playerActionMap.Enable();
+        interactAction = inputActions.FindAction("Interact"); // Find the action by name
+        interactAction.Enable();
             
         // Retrieve the binding
         var binding = interactAction.bindings[0];
-        InteractButton = InputControlPath.ToHumanReadableString( // Getting the exact key name out of the control path
+        interactButton = InputControlPath.ToHumanReadableString( // Getting the exact key name out of the control path
             binding.effectivePath,
             InputControlPath.HumanReadableStringOptions.OmitDevice
         );
@@ -135,32 +131,33 @@ public class LevelManager : MonoBehaviour {
         gameMenu.SetDeathMenuActive();
     }
     public void LoadNextLevel() {
-        SceneManager.LoadScene((SceneManager.GetActiveScene().buildIndex)+1);
+        int nextScene = SceneManager.GetActiveScene().buildIndex + 1;
+        SceneManager.LoadScene(SceneManager.sceneCountInBuildSettings == nextScene ? 0 : nextScene);
     }
     public void SaveLevel() {
         int levelNumber = SceneManager.GetActiveScene().buildIndex;
-        if (PlayerPrefs.HasKey("Best raw time at level " + levelNumber)){
-            int previousRecord = PlayerPrefs.GetInt("Best raw time at level " + levelNumber);
-            int newRecord = _seconds;
+        if (PlayerPrefs.HasKey("BestRawTimeLVL " + levelNumber)){
+            int previousRecord = PlayerPrefs.GetInt("BestRawTimeLVL " + levelNumber);
+            int newRecord = (int)timePassed;
             if (previousRecord > newRecord) {
-                PlayerPrefs.SetString("Best time at level " + levelNumber, timeText.text);
-                PlayerPrefs.SetInt("Best raw time at level " + levelNumber, _seconds);
+                PlayerPrefs.SetString("BestTimeLVL " + levelNumber, timeText.text);
+                PlayerPrefs.SetInt("BestRawTimeLVL " + levelNumber, (int)timePassed);
                 Debug.Log(previousRecord + " you got better! " + newRecord);
             }
-            else
-            {
+            else {
                 Debug.Log(previousRecord + " not better :( " + newRecord);
             }
         }
-        else
-        {
-            PlayerPrefs.SetString("Best time at level " + levelNumber, timeText.text);
-            PlayerPrefs.SetInt("Best raw time at level " + levelNumber, _seconds);
-            Debug.Log("First record set! " + _seconds);
+        else {
+            PlayerPrefs.SetString("BestTimeLVL " + levelNumber, timeText.text);
+            PlayerPrefs.SetInt("BestRawTimeLVL " + levelNumber, (int)timePassed);
+            Debug.Log("First record set! " + (int)timePassed);
         }
-
-        PlayerPrefs.SetInt("Level where we stopped", SceneManager.GetActiveScene().buildIndex);
         
+        // The level which player will be able to load is the next one after the last completed one
+        // But if there is no next level, then this current level is the one to be loaded
+        PlayerPrefs.SetInt("SavedLevel", SceneManager.sceneCountInBuildSettings == SceneManager.GetActiveScene().buildIndex+1 ? 
+            SceneManager.GetActiveScene().buildIndex : SceneManager.GetActiveScene().buildIndex+1);
         PlayerPrefs.Save();
     }
 }

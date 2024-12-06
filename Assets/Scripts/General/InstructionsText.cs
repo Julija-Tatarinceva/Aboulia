@@ -4,7 +4,7 @@ using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
 public class InstructionsText : MonoBehaviour{
     public GameObject instructionsTextBox;
-    static GameObject _instructionsInstance;
+    public GameObject _instructionsInstance;
     static GameObject _mainCanvas;
     private float _height;
     
@@ -32,14 +32,14 @@ public class InstructionsText : MonoBehaviour{
         // Copy and reposition the template
         instructionsTextBox = Instantiate(_instructionsInstance, _mainCanvas.transform); // the copy has Canvas as the parent
         _height = GetComponent<BoxCollider2D>().size.y; // Getting the height of the trigger collider
-        instructionsTextBox.transform.position = new Vector2(transform.position.x, transform.position.y + _height);
+        instructionsTextBox.transform.position = new Vector2(transform.position.x, transform.position.y + _height/2);
             
         // Get the LocalizeStringEvent and bind the placeholder value
         LocalizeStringEvent localizeEvent = instructionsTextBox.transform.GetChild(0).gameObject.GetComponent<LocalizeStringEvent>();
         // Add the "key" parameter to the LocalizeStringEvent
         if (localizeEvent != null) {
             StringVariable key = new StringVariable();
-            key.Value = LevelManager.InteractButton;
+            key.Value = FindObjectOfType<LevelManager>().interactButton;
             localizeEvent.StringReference.Add("key", key); // Set the key placeholder with the dynamic value
             localizeEvent.RefreshString(); // Refresh the localized text to apply the changes
         }

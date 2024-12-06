@@ -12,10 +12,17 @@ public class DialogueManager : MonoBehaviour
     public Animator nameAnimator;
 
     private Queue<string> sentences;
-
+    public bool Enemy = false;
     public GameObject button;
     public GameObject dialogueTextBox;
     public GameObject Detectors;
+    public GameObject redScreen;
+    public Animator redScreenAnimator;
+
+    public GrabArm grabArm;
+    
+    public bool redScreenIsOpen = false;
+    public bool startedSearching = false;
 
     void Start() {
         sentences = new Queue<string>();
@@ -37,6 +44,16 @@ public class DialogueManager : MonoBehaviour
 
     public void DisplayNextSentence() {
         if (sentences.Count == 0) {
+            if (Enemy == true) {
+                FindObjectOfType<GrabArm>().StartSearching();
+                Enemy = false;
+                Debug.Log("Dialogue1 - EndDialogue function fired");
+            }
+            else if (startedSearching == true) {
+                Debug.Log("Dialogue2 - EndDialogue function fired");
+                FindObjectOfType<EnemyDialogueTrigger>().TellToRun();
+                return;
+            }
             EndDialogue();
             CheckForFloatingStuff();
             return;

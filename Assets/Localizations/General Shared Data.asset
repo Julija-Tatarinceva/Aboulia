@@ -115,6 +115,50 @@ MonoBehaviour:
     m_Key: press_Q_to_continue_instructions_text
     m_Metadata:
       m_Items: []
+  - m_Id: 1074188253630464
+    m_Key: sound_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1074254485884928
+    m_Key: gameplay_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1074345162543104
+    m_Key: volume_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1075102762897408
+    m_Key: reset_to_default_but_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1075543387115520
+    m_Key: apply_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1075864054239232
+    m_Key: back_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1076272491368448
+    m_Key: interact_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1082359533768704
+    m_Key: are_you_sure_to_load_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1082799524646912
+    m_Key: no_saved_level_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1086218243117056
+    m_Key: level_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1089963152609280
+    m_Key: warning_text
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.InputSystem;
 
 public class SwitchScript : MonoBehaviour {
     [FormerlySerializedAs("DoorOpening")] public Door3DOpening doorOpening;
@@ -16,7 +15,7 @@ public class SwitchScript : MonoBehaviour {
         levelManager = FindObjectOfType<LevelManager>();
     }
     void Update() {
-        if (playerIsClose && Input.GetButtonDown("Interact")) {
+        if (playerIsClose && Input.GetKeyDown(levelManager.interactButton.ToLower())) {
             spriteRenderer.sprite = newSprite;
             levelManager.switchesPressed += 1;
             box.enabled = false;

@@ -1,28 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundPlayer : MonoBehaviour {
     public bool audioIsPaused = false;
     public AudioSource stepSound;
     public AudioClip[] stepClips; // Array of step sounds
-    // Start is called before the first frame update
 
     public void PlayStepSound(bool moving, bool grounded) {
         // Playing sound of walking when player starts moving
-        if (moving && !stepSound.isPlaying && grounded && !audioIsPaused) {
+        if (moving && !stepSound.isPlaying && grounded)
             PlayRandomStepSound();
-        }
         // Pausing the sound when player stops or is airborne 
-        else if (stepSound.isPlaying && (!moving || !grounded)) {
-            stepSound.Pause();
-            audioIsPaused = true;
-        }
+        // else if (stepSound.isPlaying && (!moving || !grounded)) {
+        //     stepSound.Pause();
+        //     audioIsPaused = true;
+        // }
         // Unpausing when player moves again to avoid unpleasant repeated sounds
-        else if (moving && !stepSound.isPlaying && grounded && audioIsPaused) {
-            stepSound.UnPause();
-            audioIsPaused = false;
-        }
+        // else if (moving && !stepSound.isPlaying && grounded && audioIsPaused) {
+        //     stepSound.UnPause();
+        //     audioIsPaused = false;
+        // }
     }
 
     void PlayRandomStepSound() {
@@ -30,8 +26,7 @@ public class SoundPlayer : MonoBehaviour {
             // Pick a random sound from the array
             stepSound.clip = stepClips[Random.Range(0, stepClips.Length)];
             stepSound.Play();
-        } else {
+        } else
             Debug.LogWarning("Step clips array is empty!");
-        }
     }
 }
