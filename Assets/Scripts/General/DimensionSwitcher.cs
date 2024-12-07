@@ -8,12 +8,11 @@ public class DimensionSwitcher : MonoBehaviour {
     private Plane _slicingPlane; // The plane that is used for slicing 3D objects when switching from 3D to 2D
     public GameObject[] slicableObjects = new GameObject[1]; //All the objects that will be sliced after dimension switch, can be modified in th editor
     public List<GameObject> slicedObjects;
-    public GameObject spawnPoint;
     private List<Vector3> _intersectionPoints = new List<Vector3>(); // Store the intersection points
     List<Vector3> _intersectionPoints3D = new List<Vector3>(); // List to store intersection points in 3D space before projecting
     private String _tagOfSlicedObject;
     private Vector3 _locationOfSlicedObject, _centroidOfSlicedObject;
-    Vector3 _centroid3D = Vector3.zero;
+    private Vector3 _centroid3D = Vector3.zero;
     public Vector3 planeRight;
     public Sprite groundSprite;
     public Sprite acidSprite;
@@ -205,10 +204,10 @@ public class DimensionSwitcher : MonoBehaviour {
         Vector3 zOffset = (centerPoint - player.position).z * _slicingPlane.normal;
         if (Vector3.Dot(planeRight, Vector3.right) > 0) { // If plane right is not facing the same direction as x-axis, world needs to be mirrored
             float xOffset = centerPoint.x - player.transform.position.x; // This is the distance from the sliced object to the plane origin
-            polygonObject.transform.position = new Vector3(centerPoint.x-xOffset*2-zOffset.x, _locationOfSlicedObject.y, 0f);
+            polygonObject.transform.position = new Vector3(centerPoint.x-xOffset*2-zOffset.x, _locationOfSlicedObject.y, 2f);
         }
         else
-            polygonObject.transform.position = new Vector3(centerPoint.x-zOffset.x, _locationOfSlicedObject.y, 0); // +zOffset or -zOffset flips the 2D world
+            polygonObject.transform.position = new Vector3(centerPoint.x-zOffset.x, _locationOfSlicedObject.y, 2f); // +zOffset or -zOffset flips the 2D world
     }
 
     void CleanupVertices(ref List<Vector3> polygon2D) {

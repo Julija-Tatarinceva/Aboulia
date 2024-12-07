@@ -14,7 +14,7 @@ public class Door3DOpening : MonoBehaviour {
         levelManager = FindObjectOfType<LevelManager>();
     }
     void Update() {
-        if (!_playerNear || !Input.GetButtonDown("Interact")) return;
+        if (!_playerNear || !Input.GetKeyDown(levelManager.interactButton.ToLower())) return;
         _exitingLevel = true;
         levelManager.SaveLevel();
         levelManager.LoadNextLevel();
