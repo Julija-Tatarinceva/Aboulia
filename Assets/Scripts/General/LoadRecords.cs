@@ -3,41 +3,32 @@ using UnityEngine.Localization.Components;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;
 using UnityEngine.UI;
 
-public class LoadRecords : MonoBehaviour
-{
+public class LoadRecords : MonoBehaviour {
     public Text level1Record;
     public Text level2Record;
     public Text level3Record;
     public Text level4Record;
+    
     public Text loadGame;
     void Start() {
+        Text[] levelRecords = { level1Record, level2Record, level3Record };
         LocalizeStringEvent localizeEvent;
-        if (PlayerPrefs.HasKey("BestTimeLVL 1")) {
-            localizeEvent = level1Record.GetComponent<LocalizeStringEvent>();
-            // Add the "lvl" parameter to the LocalizeStringEvent
-            if (localizeEvent != null) {
-                IntVariable lvl = new IntVariable();
-                StringVariable record = new StringVariable();
-                lvl.Value = 1;
-                record.Value = PlayerPrefs.GetString("BestTimeLVL 1");
-                localizeEvent.StringReference.Add("lvl", lvl); // Set the key placeholder with the dynamic value
-                localizeEvent.StringReference.Add("record", record); // Set the key placeholder with the dynamic value
+        for (int i = 0; i < levelRecords.Length; i++) {
+            int levelIndex = i + 1; // Levels start from 1
+            string playerPrefKey = $"BestTimeLVL {levelIndex}";
+
+            if (PlayerPrefs.HasKey(playerPrefKey)) {
+                localizeEvent = levelRecords[i].GetComponent<LocalizeStringEvent>();
+                if (localizeEvent != null) {
+                    IntVariable lvl = new IntVariable { Value = levelIndex };
+                    StringVariable record = new StringVariable { Value = PlayerPrefs.GetString(playerPrefKey) };
+
+                    localizeEvent.StringReference.Add("lvl", lvl); // Set the key placeholder with the dynamic value
+                    localizeEvent.StringReference.Add("record", record); // Set the key placeholder with the dynamic value
+                    localizeEvent.RefreshString();
+                }
             }
         }
-        if (PlayerPrefs.HasKey("BestTimeLVL 2")) {
-            localizeEvent = level2Record.GetComponent<LocalizeStringEvent>();
-            // Add the "lvl" parameter to the LocalizeStringEvent
-            if (localizeEvent != null) {
-                IntVariable lvl = new IntVariable();
-                StringVariable record = new StringVariable();
-                lvl.Value = 2;
-                record.Value = PlayerPrefs.GetString("BestTimeLVL 2");
-                localizeEvent.StringReference.Add("lvl", lvl); // Set the key placeholder with the dynamic value
-                localizeEvent.StringReference.Add("record", record); // Set the key placeholder with the dynamic value
-            }
-        }
-        // level3Record.text = "Level 3: " + PlayerPrefs.GetString("Best time at level 3");
-        // level4Record.text = "Level 4: " + PlayerPrefs.GetString("Best time at level 4");
         
         // Get the LocalizeStringEvent and bind the placeholder value
         localizeEvent = loadGame.GetComponent<LocalizeStringEvent>();

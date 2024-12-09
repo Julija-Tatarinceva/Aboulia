@@ -14,8 +14,7 @@ public class DimensionSwitcher : MonoBehaviour {
     private Vector3 _locationOfSlicedObject, _centroidOfSlicedObject;
     private Vector3 _centroid3D = Vector3.zero;
     public Vector3 planeRight;
-    public Sprite groundSprite;
-    public Sprite acidSprite;
+    public Sprite topGroundSprite, bottomGroundSprite, acidSprite;
 
     public Vector3 Slice3DWorld() {
         // When switching to 2D all "slicable" objects need to be sliced, since 3D objects can't be used for 2D world
@@ -272,8 +271,10 @@ public class DimensionSwitcher : MonoBehaviour {
             spriteRenderer.sprite = acidSprite;
             polygonObject.layer = LayerMask.NameToLayer("Deadly"); // Needed to create objects deadly to the player
         }
-        else
-            spriteRenderer.sprite = groundSprite;
+        else if(_tagOfSlicedObject == "Ground")
+            spriteRenderer.sprite = topGroundSprite;
+        else   
+            spriteRenderer.sprite = bottomGroundSprite;
         
         // Set the SpriteRenderer to use Tiled mode or Sliced mode, which allows resizing without affecting scale
         spriteRenderer.drawMode = SpriteDrawMode.Tiled;

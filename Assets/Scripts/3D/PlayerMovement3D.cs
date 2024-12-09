@@ -7,6 +7,7 @@ public class PlayerMovement3D : MonoBehaviour {
     public CharacterController characterController;
     public float speed = 8.0f;
     public float turnSmoothTime = 0.1f;
+    public float pushForce = 5.0f;
     private bool audioIsPaused = false;
     public Animator animator;
     float _turnSmoothVelocity;
@@ -41,5 +42,12 @@ public class PlayerMovement3D : MonoBehaviour {
         }
         animator.SetFloat(Speed, Mathf.Abs(horizontal) + Mathf.Abs(vertical));
         soundPlayer.PlayStepSound(Mathf.Abs(horizontal) > 0, characterController.isGrounded);
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit) {
+        Rigidbody body = hit.collider.attachedRigidbody;
+        if (body != null && !body.isKinematic) {
+            body.velocity = hit.moveDirection.normalized * pushForce;
+        }
     }
 }

@@ -403,7 +403,7 @@ GameObject:
   - component: {fileID: 126608667}
   m_Layer: 7
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2987,7 +2987,7 @@ GameObject:
   - component: {fileID: 583486970}
   m_Layer: 7
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3662,7 +3662,7 @@ GameObject:
   - component: {fileID: 644001771}
   m_Layer: 7
   m_Name: Cube (8)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5053,7 +5053,8 @@ MonoBehaviour:
   slicedObjects:
   - {fileID: 1724740517}
   planeRight: {x: 0, y: 0, z: 0}
-  groundSprite: {fileID: 21300000, guid: edba0ee8b4eddf749a80388ff34b71a5, type: 3}
+  topGroundSprite: {fileID: 21300000, guid: edba0ee8b4eddf749a80388ff34b71a5, type: 3}
+  bottomGroundSprite: {fileID: 21300000, guid: 15846f1866051a042bb3607f5f1ea337, type: 3}
   acidSprite: {fileID: 21300000, guid: 5f87d4723f67cdd4d86c9e626e7f74ce, type: 3}
 --- !u!82 &863267979
 AudioSource:
@@ -5440,7 +5441,7 @@ GameObject:
   - component: {fileID: 908109387}
   m_Layer: 7
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7415,6 +7416,7 @@ MonoBehaviour:
   newSprite: {fileID: 21300000, guid: 95085cbfc9b6b6d4dac36912e007ab4e, type: 3}
   spriteRenderer: {fileID: 1308285107}
   box: {fileID: 1308285104}
+  greenMaterial: {fileID: 2100000, guid: fe220807a2f7d794ea5cc3a29b84de9f, type: 2}
 --- !u!212 &1308285107
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8495,6 +8497,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 401564110}
     m_Modifications:
+    - target: {fileID: 463718245402894463, guid: df8e1e522e1ef9944bca554906109fe1, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4608504503068360731, guid: df8e1e522e1ef9944bca554906109fe1, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -10788,7 +10794,7 @@ GameObject:
   - component: {fileID: 1842216375}
   m_Layer: 7
   m_Name: Cube (2)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10967,7 +10973,7 @@ GameObject:
   - component: {fileID: 1861054521}
   m_Layer: 7
   m_Name: Cube (12)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12631,6 +12637,7 @@ MonoBehaviour:
   newSprite: {fileID: 21300000, guid: 95085cbfc9b6b6d4dac36912e007ab4e, type: 3}
   spriteRenderer: {fileID: 2056338957}
   box: {fileID: 2056338954}
+  greenMaterial: {fileID: 2100000, guid: fe220807a2f7d794ea5cc3a29b84de9f, type: 2}
 --- !u!212 &2056338957
 SpriteRenderer:
   m_ObjectHideFlags: 0

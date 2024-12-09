@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.InputSystem;
 
@@ -10,6 +11,7 @@ public class SwitchScript : MonoBehaviour {
     public Sprite newSprite;
     public SpriteRenderer spriteRenderer;
     public Collider2D box;
+    public Material greenMaterial;
 
     void Start() {
         levelManager = FindObjectOfType<LevelManager>();
@@ -19,6 +21,7 @@ public class SwitchScript : MonoBehaviour {
             spriteRenderer.sprite = newSprite;
             levelManager.switchesPressed += 1;
             box.enabled = false;
+            transform.GetComponent<TransitionablePair>().target.transform.Find("Button").GetComponent<Renderer>().material = greenMaterial;
         }
     }
 
