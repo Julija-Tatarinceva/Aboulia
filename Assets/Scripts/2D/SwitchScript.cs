@@ -21,7 +21,8 @@ public class SwitchScript : MonoBehaviour {
             spriteRenderer.sprite = newSprite;
             levelManager.switchesPressed += 1;
             box.enabled = false;
-            transform.GetComponent<TransitionablePair>().target.transform.Find("Button").GetComponent<Renderer>().material = greenMaterial;
+            if(transform.GetComponent<TransitionablePair>())
+                transform.GetComponent<TransitionablePair>().target.transform.Find("Button").GetComponent<Renderer>().material = greenMaterial;
         }
     }
 

@@ -19,7 +19,6 @@ public class LevelManager : MonoBehaviour {
     
     public int switchesPressed = 0;
     public int lives = 3;
-    public static int Language = 0; // 0 = English (default), 1 = Latvian, 2 = Russian
     private int _seconds, _minutes, _startSeconds;
     
     string _strMinutes = "00"; 
@@ -135,13 +134,13 @@ public class LevelManager : MonoBehaviour {
         SceneManager.LoadScene(SceneManager.sceneCountInBuildSettings == nextScene ? 0 : nextScene);
     }
     public void SaveLevel() {
+        SavesSystem savesSystem = FindObjectOfType<SavesSystem>();
         int levelNumber = SceneManager.GetActiveScene().buildIndex;
-        if (PlayerPrefs.HasKey("BestRawTimeLVL " + levelNumber)){
-            int previousRecord = PlayerPrefs.GetInt("BestRawTimeLVL " + levelNumber);
-            int newRecord = (int)timePassed;
+        int previousRecord = savesSystem.GetLevelRecord(levelNumber);
+        int newRecord = (int)timePassed;
+        if (previousRecord != 0){
             if (previousRecord > newRecord) {
-                PlayerPrefs.SetString("BestTimeLVL " + levelNumber, timeText.text);
-                PlayerPrefs.SetInt("BestRawTimeLVL " + levelNumber, (int)timePassed);
+                savesSystem.UpdateLevelRecord(levelNumber, newRecord);
                 Debug.Log(previousRecord + " you got better! " + newRecord);
             }
             else {
@@ -149,15 +148,13 @@ public class LevelManager : MonoBehaviour {
             }
         }
         else {
-            PlayerPrefs.SetString("BestTimeLVL " + levelNumber, timeText.text);
-            PlayerPrefs.SetInt("BestRawTimeLVL " + levelNumber, (int)timePassed);
+            savesSystem.UpdateLevelRecord(levelNumber, newRecord);
             Debug.Log("First record set! " + (int)timePassed);
         }
         
         // The level which player will be able to load is the next one after the last completed one
-        // But if there is no next level, then this current level is the one to be loaded
-        PlayerPrefs.SetInt("SavedLevel", SceneManager.sceneCountInBuildSettings == SceneManager.GetActiveScene().buildIndex+1 ? 
+        // But if there is no next level, then the current level is the one to be loaded
+        savesSystem.UpdateLastSavedLevel(SceneManager.sceneCountInBuildSettings == SceneManager.GetActiveScene().buildIndex+1 ? 
             SceneManager.GetActiveScene().buildIndex : SceneManager.GetActiveScene().buildIndex+1);
-        PlayerPrefs.Save();
     }
 }

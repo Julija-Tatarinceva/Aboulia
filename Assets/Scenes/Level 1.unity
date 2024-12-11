@@ -500,7 +500,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1135395356}
     m_Modifications:
     - target: {fileID: 120334, guid: e4362215d2f4b974a9729be40db2af84, type: 3}
       propertyPath: m_Name
@@ -508,15 +508,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 422434, guid: e4362215d2f4b974a9729be40db2af84, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.69
+      value: 13.301018
       objectReference: {fileID: 0}
     - target: {fileID: 422434, guid: e4362215d2f4b974a9729be40db2af84, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 18.14
+      value: -6.1708927
       objectReference: {fileID: 0}
     - target: {fileID: 422434, guid: e4362215d2f4b974a9729be40db2af84, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.9
+      value: 14.233321
       objectReference: {fileID: 0}
     - target: {fileID: 422434, guid: e4362215d2f4b974a9729be40db2af84, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4957,6 +4957,7 @@ GameObject:
   - component: {fileID: 863267978}
   - component: {fileID: 863267977}
   - component: {fileID: 863267980}
+  - component: {fileID: 863267982}
   - component: {fileID: 863267979}
   m_Layer: 0
   m_Name: Manager
@@ -5183,6 +5184,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &863267982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863267976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f169cc2597bd2e448938265e26509903, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &887766512
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5661,6 +5674,7 @@ MonoBehaviour:
   characterController: {fileID: 951972307}
   speed: 8
   turnSmoothTime: 0.1
+  pushForce: 5
   animator: {fileID: 951972308}
   velocity: {x: 0, y: 0, z: 0}
   cam: {fileID: 1922356619}
@@ -5739,6 +5753,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 3725842079688911003, guid: 7ce2cbeeffa121a4d8a8b34431e6e466, type: 3}
   m_PrefabInstance: {fileID: 988661358}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &993358912 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 422434, guid: e4362215d2f4b974a9729be40db2af84, type: 3}
+  m_PrefabInstance: {fileID: 128540876}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &996762542
 GameObject:
@@ -6430,6 +6449,7 @@ Transform:
   - {fileID: 1745469017}
   - {fileID: 1766078704}
   - {fileID: 1430306264}
+  - {fileID: 993358912}
   m_Father: {fileID: 1470290095}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1138462048
@@ -8499,7 +8519,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 463718245402894463, guid: df8e1e522e1ef9944bca554906109fe1, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4608504503068360731, guid: df8e1e522e1ef9944bca554906109fe1, type: 3}
       propertyPath: m_Pivot.x
@@ -13153,4 +13173,3 @@ SceneRoots:
   - {fileID: 1470290095}
   - {fileID: 996762543}
   - {fileID: 863267981}
-  - {fileID: 128540876}

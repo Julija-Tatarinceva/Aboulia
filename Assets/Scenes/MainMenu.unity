@@ -1753,6 +1753,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1419951460421850, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1925435504}
+    - targetCorrespondingSourceObject: {fileID: 1419951460421850, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1925435506}
     - targetCorrespondingSourceObject: {fileID: 1075552829381442, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 960697091}
@@ -5218,11 +5221,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5d5c31acba0a5a438753f4a661150ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  savesSystem: {fileID: 1925435506}
   level1Record: {fileID: 1513066336}
   level2Record: {fileID: 79084185}
   level3Record: {fileID: 86733867}
   level4Record: {fileID: 605789030}
   loadGame: {fileID: 319190453}
+--- !u!114 &1925435506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1903283208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f169cc2597bd2e448938265e26509903, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1990671179 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1389884527500326, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}

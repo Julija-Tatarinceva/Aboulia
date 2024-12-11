@@ -106,12 +106,14 @@ public class MenuController : MonoBehaviour {
                 OpenMenu(MenuState.OptionsMenu, generalSettingsCanvas, menuDefaultCanvas);
                 break;
             case "LoadGame":
+                FindObjectOfType<LoadRecords>().PopulateLoadGameMenu();
                 OpenMenu(MenuState.LoadGameDialog, loadGameDialog, menuDefaultCanvas);
                 break;
             case "NewGame":
                 OpenMenu(MenuState.NewGameDialog, newGameDialog, menuDefaultCanvas);
                 break;
             case "Records":
+                FindObjectOfType<LoadRecords>().PopulateRecordsMenu();
                 OpenMenu(MenuState.RecordsDialog, recordsDialog, menuDefaultCanvas);
                 break;
             case "Exit":
@@ -206,17 +208,14 @@ public class MenuController : MonoBehaviour {
 
     public void OnLoadGameDialog(string action) {
         if (action == "Yes") {
-            if(PlayerPrefs.HasKey("SavedLevel")) {
-                int levelToLoad = PlayerPrefs.GetInt("SavedLevel");
+            int levelToLoad = FindObjectOfType<SavesSystem>().GetLastSavedLevel();
+            if(levelToLoad != 0)
                 SceneManager.LoadScene(levelToLoad);
-            }
-            else {
+            else 
                 OpenMenu(MenuState.NoSaveDialog, noSaveDialog, loadGameDialog);
-            }
         } 
         else
             GoBackToMainMenu();
-            
     }
     #endregion
 

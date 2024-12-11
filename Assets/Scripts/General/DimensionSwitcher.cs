@@ -119,8 +119,6 @@ public class DimensionSwitcher : MonoBehaviour {
             
             // Checking if this triangle intersects the slicing plane & finding the intersection points on the triangle's edges
             // If needed to stop projecting slices, (ProjectTo2D(intersection, planeRight, planeUp)) can be switched to FindIntersection(x, x)
-
-            // Find and store intersection points
             if (v0Above != v1Above) {
                 Vector3 intersection = FindIntersection(v0, v1);
                 _intersectionPoints3D.Add(intersection);
