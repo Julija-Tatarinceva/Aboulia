@@ -1,10 +1,8 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Serialization;
-using UnityEngine.InputSystem;
 
 public class SwitchScript : MonoBehaviour {
-    [FormerlySerializedAs("DoorOpening")] public Door3DOpening doorOpening;
+    public Door3DOpening doorOpening;
     public InstructionsText textInstructions;
     public LevelManager levelManager;
     public bool playerIsClose = false;
@@ -13,27 +11,28 @@ public class SwitchScript : MonoBehaviour {
     public Collider2D box;
     public Material greenMaterial;
 
-    void Start() {
+    private void Start() {
         levelManager = FindObjectOfType<LevelManager>();
     }
-    void Update() {
+
+    private void Update() {
         if (playerIsClose && Input.GetKeyDown(levelManager.interactButton.ToLower())) {
             spriteRenderer.sprite = newSprite;
-            levelManager.switchesPressed += 1;
+            levelManager.SwitchPressed();
             box.enabled = false;
             if(transform.GetComponent<TransitionablePair>())
                 transform.GetComponent<TransitionablePair>().target.transform.Find("Button").GetComponent<Renderer>().material = greenMaterial;
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other) {
+    private void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("Player")) {
             playerIsClose = true;
             textInstructions.SetActive();
         }
     }
 
-    void OnTriggerExit2D(Collider2D other) {
+    private void OnTriggerExit2D(Collider2D other) {
         if (other.CompareTag("Player")) {
             playerIsClose = false;
             textInstructions.SetInactive();

@@ -9,12 +9,13 @@ public class Brightness : MonoBehaviour
     /// Provides a shader property that is set in the inspector
     /// and a material instantiated from the shader
     public Shader shaderDerp;
-    Material _mMaterial;
+
+    private Material _mMaterial;
 
     [Range(0.5f, 2f)]
     public float brightness = 1f;
 
-    void Start()
+    private void Start()
     {
         // Disable if we don't support image effects
         if (!SystemInfo.supportsImageEffects)
@@ -30,7 +31,7 @@ public class Brightness : MonoBehaviour
     }
 
 
-    Material Material
+    private Material Material
     {
         get
         {
@@ -44,7 +45,7 @@ public class Brightness : MonoBehaviour
     }
 
 
-    void OnDisable()
+    private void OnDisable()
     {
         if (_mMaterial)
         {
@@ -52,7 +53,7 @@ public class Brightness : MonoBehaviour
         }
     }
 
-    void OnRenderImage(RenderTexture source, RenderTexture destination)
+    private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
         Material.SetFloat("_Brightness", brightness);
         Graphics.Blit(source, destination, Material);

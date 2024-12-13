@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyDialogueTrigger : MonoBehaviour
-{
-  public Collider2D Collider;
-    public GameObject Cat;
-    public GameObject Saw;
-    public GameObject Restriction;
+public class EnemyDialogueTrigger : MonoBehaviour {
+    public Collider2D collider;
+    public GameObject cat;
+    public GameObject saw;
+    public GameObject restriction;
     public Dialogue dialogue1;
     public Dialogue dialogue2;
     public Dialogue dialogue3;
@@ -16,7 +13,7 @@ public class EnemyDialogueTrigger : MonoBehaviour
     public void Say()
     {
         FindObjectOfType<DialogueManager>().StartDialogue(dialogue1);
-        FindObjectOfType<DialogueManager>().Enemy = true;
+        FindObjectOfType<DialogueManager>().enemy = true;
     }
     public void SayAboutDisposal()
     {
@@ -26,7 +23,7 @@ public class EnemyDialogueTrigger : MonoBehaviour
     public void TellToRun()
     {
         FindObjectOfType<DialogueManager>().StartDialogue(dialogue3);
-        Saw.SetActive(true);
-        Restriction.SetActive(false);
+        saw.SetActive(true);
+        restriction.SetActive(false);
     }
 }

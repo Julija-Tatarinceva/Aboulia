@@ -7,14 +7,14 @@ public class CharacterController2D : MonoBehaviour {
     [SerializeField] private LayerMask whatIsGround;                          // A mask determining what is ground to the character
     [SerializeField] private Transform groundCheck;                           // A position marking where to check if the player is grounded.
 
-    const float GroundedRadius = .3f; // Radius of the overlap circle to determine if grounded
+    private const float GroundedRadius = .3f; // Radius of the overlap circle to determine if grounded
     public bool grounded;            // Whether the player is grounded.
     private Rigidbody2D _rigidbody; // Player's rigidbody component
     private bool _facingRight = true;  // For determining which way the player is currently facing.
     private Vector3 _velocity = Vector3.zero;
     private PlayerMovement2D _movementScript;
-    
-    float _originalScaleToKeep;
+
+    private float _originalScaleToKeep;
 
     private void Awake(){
         _rigidbody = GetComponent<Rigidbody2D>();

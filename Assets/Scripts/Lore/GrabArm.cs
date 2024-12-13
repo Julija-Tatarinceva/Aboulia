@@ -1,18 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GrabArm : MonoBehaviour
 {
-    public GameObject arm_General;
-    public GameObject arm_Functional;
-    public GameObject ArmParent;
-    public GameObject Place;
+    public GameObject armGeneral;
+    public GameObject armFunctional;
+    public GameObject armParent;
+    public GameObject place;
     public GameObject redScreen;
     public GameObject ceilingCheck;
-    public GameObject Player;
-
-    public Transform arm_FunctionalParent;
+    public GameObject player;
+    public Transform armFunctionalParent;
 
     public Collider2D colliderForDetecting;
 
@@ -20,11 +18,11 @@ public class GrabArm : MonoBehaviour
     public Animator playerAnimator;
     public Animator redScreenAnimator;
 
-    void Update() {
+    private void Update() {
         if (FindObjectOfType<DialogueManager>().startedSearching&& playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("run") && !FindObjectOfType<GameOverLauncher>().gameIsOver) {
             redScreen.SetActive(true);
             redScreenAnimator.Play("flashingRedScreen");
-            arm_General.SetActive(false);
+            armGeneral.SetActive(false);
             StartDisposalProcedure(); //it is supposed to start dialogue
         }
     }
@@ -33,26 +31,30 @@ public class GrabArm : MonoBehaviour
         FindObjectOfType<DialogueManager>().startedSearching = true;
         animator.Play("SearchForPlayer");
     }
-    void OnTriggerEnter2D(Collider2D other) {
+
+    private void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "Player") {
-            ArmParent.transform.position = Place.transform.position;
+            armParent.transform.position = place.transform.position;
             animator.SetBool("Found", true);
             Invoke("MergeObjects", 1f);
         }
     }
-    void MergeObjects() {
-        FixedJoint2D joint = arm_Functional.GetComponent<FixedJoint2D>();
+
+    private void MergeObjects() {
+        FixedJoint2D joint = armFunctional.GetComponent<FixedJoint2D>();
         joint.anchor = ceilingCheck.transform.position;
-        joint.connectedBody = Player.transform.GetComponentInParent<Rigidbody2D>();
+        joint.connectedBody = player.transform.GetComponentInParent<Rigidbody2D>();
         joint.enableCollision = false;
-        Player.transform.SetParent(arm_FunctionalParent);
+        player.transform.SetParent(armFunctionalParent);
         Debug.Log("Anchor created at " + ceilingCheck.transform.position.x + " " + ceilingCheck.transform.position.y);
     }
-    void StartDisposalProcedure() {
+
+    private void StartDisposalProcedure() {
         FindObjectOfType<EnemyDialogueTrigger>().SayAboutDisposal();
         Invoke("DisableRedScreen", 2);
     }
-    void DisableRedScreen() {
+
+    private void DisableRedScreen() {
         redScreen.SetActive(false);
     }
 }

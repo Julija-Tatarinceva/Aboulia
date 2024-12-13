@@ -40,7 +40,7 @@ public class MenuController : MonoBehaviour {
     [SerializeField] private InputAction interactAction;
     
     [Header("Values To Apply")]
-    private float masterVolume;
+    private float _masterVolume;
     public string newBindingPath = "<Keyboard>/E";
 
     #endregion
@@ -127,7 +127,7 @@ public class MenuController : MonoBehaviour {
     public void VolumeSlider(float volume) {
         AudioListener.volume = volume;
         volumeText.text = volume.ToString("0.0");
-        masterVolume = volume;
+        _masterVolume = volume;
     }
     
     public void ApplyVolumeSettings() {
@@ -193,7 +193,7 @@ public class MenuController : MonoBehaviour {
             case "Audio":
                 VolumeSlider(defaultVolume);
                 volumeSlider.value = defaultVolume;
-                masterVolume = defaultVolume;
+                _masterVolume = defaultVolume;
                 ApplyVolumeSettings();
                 break;
         }
@@ -202,8 +202,10 @@ public class MenuController : MonoBehaviour {
 
     #region Dialog Actions
     public void OnNewGameDialog(string action) {
-        if (action == "Yes") SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        else GoBackToMainMenu();
+        if (action == "Yes") 
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        else 
+            GoBackToMainMenu();
     }
 
     public void OnLoadGameDialog(string action) {
@@ -223,13 +225,15 @@ public class MenuController : MonoBehaviour {
     public void ChangeLanguage(string languageCode) {
         Locale selectedLocale = LocalizationSettings.AvailableLocales.Locales
             .FirstOrDefault(locale => locale.Identifier.Code == languageCode);
-        if (selectedLocale != null) LocalizationSettings.SelectedLocale = selectedLocale;
+        if (selectedLocale != null) 
+            LocalizationSettings.SelectedLocale = selectedLocale;
     }
     #endregion
 
     #region Menu Navigation
     private void OpenMenu(MenuState newMenuState, GameObject newMenu, GameObject oldMenu) {
-        if(oldMenu) oldMenu.SetActive(false);
+        if(oldMenu) 
+            oldMenu.SetActive(false);
         newMenu.SetActive(true);
         _currentMenu = newMenuState;
     }
@@ -273,7 +277,8 @@ public class MenuController : MonoBehaviour {
         confirmationMenu.SetActive(false);
     }
     private void PlayClickSound() {
-        if (clickSoundSource) clickSoundSource.Play();
+        if (clickSoundSource) 
+            clickSoundSource.Play();
     }
     #endregion
 }

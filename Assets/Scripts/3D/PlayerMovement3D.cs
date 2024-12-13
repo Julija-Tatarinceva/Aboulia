@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement3D : MonoBehaviour {
@@ -8,19 +6,17 @@ public class PlayerMovement3D : MonoBehaviour {
     public float speed = 8.0f;
     public float turnSmoothTime = 0.1f;
     public float pushForce = 5.0f;
-    private bool audioIsPaused = false;
     public Animator animator;
-    float _turnSmoothVelocity;
-    float _targetAngle;
-    float _verticalSpeed;
-    Vector3 _moveDirection;
-    public Vector3 velocity;
+    private float _turnSmoothVelocity;
+    private float _targetAngle;
+    private float _verticalSpeed;
+    private Vector3 _moveDirection;
     public Transform cam;
     public GameObject slicingPlanePreview;
     public SoundPlayer soundPlayer;
 
     // Update is called once per frame
-    void Update() {
+    private void Update() {
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         _moveDirection = new Vector3(horizontal, 0f, vertical).normalized; // Turning the inputs into a normalized vector

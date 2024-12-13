@@ -8,7 +8,7 @@ public class IntroductionInstructions : MonoBehaviour {
     public GameObject tutorialPanel;
     
     // Start is called before the first frame update
-    void Start() {
+    private void Start() {
         if (!PlayerPrefs.HasKey("Completed2DTutorial") && SceneManager.GetActiveScene().buildIndex == 1){
             tutorialPanel.SetActive(true);
             ShowTutorial(0);

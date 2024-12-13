@@ -5,8 +5,8 @@ using UnityEngine;
 public class WaterReflection : MonoBehaviour
 {
     // referenses
-    Camera _mainCamera;
-    Camera _reflectionCamera;
+    private Camera _mainCamera;
+    private Camera _reflectionCamera;
 
     [Tooltip("The plane where the camera will be reflected, the water plane or any object with the same position and rotation")]
     public Transform reflectionPlane;

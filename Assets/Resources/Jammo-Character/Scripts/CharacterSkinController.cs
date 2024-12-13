@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CharacterSkinController : MonoBehaviour
 {
-    Animator _animator;
-    Renderer[] _characterMaterials;
+    private Animator _animator;
+    private Renderer[] _characterMaterials;
 
     public Texture2D[] albedoList;
     [ColorUsage(true,true)]
@@ -14,7 +14,7 @@ public class CharacterSkinController : MonoBehaviour
     public EyePosition eyeState;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _animator = GetComponent<Animator>();
         _characterMaterials = GetComponentsInChildren<Renderer>();
@@ -22,7 +22,7 @@ public class CharacterSkinController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -50,12 +50,12 @@ public class CharacterSkinController : MonoBehaviour
         }
     }
 
-    void ChangeAnimatorIdle(string trigger)
+    private void ChangeAnimatorIdle(string trigger)
     {
         _animator.SetTrigger(trigger);
     }
 
-    void ChangeMaterialSettings(int index)
+    private void ChangeMaterialSettings(int index)
     {
         for (int i = 0; i < _characterMaterials.Length; i++)
         {
@@ -66,7 +66,7 @@ public class CharacterSkinController : MonoBehaviour
         }
     }
 
-    void ChangeEyeOffset(EyePosition pos)
+    private void ChangeEyeOffset(EyePosition pos)
     {
         Vector2 offset = Vector2.zero;
 

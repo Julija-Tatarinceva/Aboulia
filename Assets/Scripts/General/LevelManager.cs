@@ -15,20 +15,20 @@ public class LevelManager : MonoBehaviour {
     public Text timeText;
     public Sprite lostLifeSprite;
     public AudioSource footsteps;
-    public static bool IsIn2D = false; //for now
+    private static bool _isIn2D = false; //for now
     
     public int switchesPressed = 0;
     public int lives = 3;
     private int _seconds, _minutes, _startSeconds;
     
-    string _strMinutes = "00"; 
-    string _strSeconds = "0";
+    private string _strMinutes = "00"; 
+    private string _strSeconds = "0";
     public string interactButton = "";
     public InputAction interactAction;
     
     public float timePassed = 0;
-    
-    void Start(){
+
+    private void Start(){
         // Need to create the initial 2D space
         if (SceneManager.GetActiveScene().buildIndex != 1) {
             Vector3 planeRight = dimensionSwitcher.Slice3DWorld();
@@ -36,11 +36,10 @@ public class LevelManager : MonoBehaviour {
         }
         
         // Applying user settings
-        if(PlayerPrefs.HasKey("masterVolume")){ // Volume settings
+        if(PlayerPrefs.HasKey("masterVolume")) // Volume settings
             AudioListener.volume = PlayerPrefs.GetFloat("masterVolume");
-        }
         if (!inputActions) {
-            Debug.LogError("Interact action not found! Set it manually!");
+            Debug.LogWarning("Interact action not found! Set it manually!");
             return;
         }
         var playerActionMap = inputActions.FindActionMap("Player");
@@ -57,13 +56,13 @@ public class LevelManager : MonoBehaviour {
     } 
 
     // Update is called once per frame
-    void Update(){
-        if (Input.GetKeyDown(KeyCode.T) && IsIn2D == false) { // Trigger dimension switch to 2D world
+    private void Update(){
+        if (Input.GetKeyDown(KeyCode.T) && _isIn2D == false) { // Trigger dimension switch to 2D world
             // planeRight is passed to all paired objects to determine which way they should be moved in 3D to match the 2D counterpart
             Vector3 planeRight = dimensionSwitcher.Slice3DWorld();
             SwitchTo2D(planeRight);
         }
-        else if (Input.GetKeyDown(KeyCode.T) && IsIn2D) { // Trigger dimension switch to 3D world
+        else if (Input.GetKeyDown(KeyCode.T) && _isIn2D) { // Trigger dimension switch to 3D world
             SwitchTo3D();
             dimensionSwitcher.Clean2DWorld(); // Free scene of no longer needed 2D objects
         }
@@ -89,28 +88,26 @@ public class LevelManager : MonoBehaviour {
     }
 
     #region Dimension Switching
-    public void SwitchTo2D(Vector3 planeRight){
+
+    private void SwitchTo2D(Vector3 planeRight){
         ide2D.SetActive(true);
-        foreach (var pair in transitionablePairs3D) { // Every object is moved if its counterpart has moved
+        foreach (var pair in transitionablePairs3D) // Every object is moved if its counterpart has moved
             pair.BeginTransition(planeRight);
-        }
         ide3D.SetActive(false);
-        IsIn2D = true;
+        _isIn2D = true;
     }
 
-    public void SwitchTo3D(){
+    private void SwitchTo3D(){
         ide3D.SetActive(true);
-        foreach (var pair in transitionablePairs2D) { // Every object is moved if its counterpart has moved
+        foreach (var pair in transitionablePairs2D) // Every object is moved if its counterpart has moved
             pair.BeginTransition();
-        }
         ide2D.SetActive(false);
-        IsIn2D = false;
+        _isIn2D = false;
     }
     #endregion
     
     public void SwitchPressed(){
         switchesPressed++;
-        Debug.Log(switchesPressed + " Pressed");
     }
 
     public void LostLife() {
@@ -139,18 +136,11 @@ public class LevelManager : MonoBehaviour {
         int previousRecord = savesSystem.GetLevelRecord(levelNumber);
         int newRecord = (int)timePassed;
         if (previousRecord != 0){
-            if (previousRecord > newRecord) {
+            if (previousRecord > newRecord)
                 savesSystem.UpdateLevelRecord(levelNumber, newRecord);
-                Debug.Log(previousRecord + " you got better! " + newRecord);
-            }
-            else {
-                Debug.Log(previousRecord + " not better :( " + newRecord);
-            }
         }
-        else {
+        else
             savesSystem.UpdateLevelRecord(levelNumber, newRecord);
-            Debug.Log("First record set! " + (int)timePassed);
-        }
         
         // The level which player will be able to load is the next one after the last completed one
         // But if there is no next level, then the current level is the one to be loaded

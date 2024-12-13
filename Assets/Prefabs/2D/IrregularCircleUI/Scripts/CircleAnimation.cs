@@ -7,12 +7,12 @@ public class CircleAnimation : MonoBehaviour {
     public GameObject[] animObjects;
 
 	// Use this for initialization
-	void Start () {
+	private void Start () {
 		
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	private void Update () {
 		foreach(GameObject go in animObjects)
         {
             Vector3 angle = go.transform.eulerAngles;

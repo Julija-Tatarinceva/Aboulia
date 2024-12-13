@@ -8,7 +8,7 @@ public class PlayerMovement2D : MonoBehaviour {
     private static readonly int IsDead = Animator.StringToHash("IsDead");
     
     public CharacterController2D characterController2D;
-    private DimensionSwitcher dimensionSwitcher;
+    private DimensionSwitcher _dimensionSwitcher;
     public LevelManager levelManager;
     private float _horizontalMove = 0f;
     public bool jump;
@@ -54,10 +54,10 @@ public class PlayerMovement2D : MonoBehaviour {
     public void Respawn() {
         if (FindObjectOfType<LevelManager>().ide3D) {
             GetComponent<TransitionablePair>().target.transform.position = spawn.transform.position;
-            if (!dimensionSwitcher) 
-                dimensionSwitcher = FindObjectOfType<DimensionSwitcher>();
-            dimensionSwitcher.Clean2DWorld();
-            dimensionSwitcher.Slice3DWorld();
+            if (!_dimensionSwitcher) 
+                _dimensionSwitcher = FindObjectOfType<DimensionSwitcher>();
+            _dimensionSwitcher.Clean2DWorld();
+            _dimensionSwitcher.Slice3DWorld();
         }
         player.transform.position = spawn.transform.position;
     }

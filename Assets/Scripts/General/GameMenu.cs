@@ -8,7 +8,7 @@ public class GameMenu : MonoBehaviour {
     public GameObject player;
     public static bool GameIsPaused = false;
 
-    void Update() {
+    private void Update() {
         if (Input.GetButtonDown("Cancel")) {
             if (GameIsPaused)
                 Resume();
@@ -23,7 +23,7 @@ public class GameMenu : MonoBehaviour {
         GameIsPaused = false;
     }
 
-    void Pause() {
+    private void Pause() {
         pauseMenuUI.SetActive(true);
         GameIsPaused = true;
         Time.timeScale = 0f;

@@ -39,14 +39,14 @@ public class MovementInput : MonoBehaviour {
     private Vector3 _moveVector;
 
 	// Use this for initialization
-	void Start () {
+	private void Start () {
 		anim = this.GetComponent<Animator> ();
 		cam = Camera.main;
 		controller = this.GetComponent<CharacterController> ();
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	private void Update () {
 		InputMagnitude ();
 
         isGrounded = controller.isGrounded;
@@ -64,7 +64,7 @@ public class MovementInput : MonoBehaviour {
 
     }
 
-    void PlayerMoveAndRotation() {
+	private void PlayerMoveAndRotation() {
 		inputX = Input.GetAxis ("Horizontal");
 		inputZ = Input.GetAxis ("Vertical");
 
@@ -103,7 +103,7 @@ public class MovementInput : MonoBehaviour {
         t.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMoveDirection), desiredRotationSpeed);
     }
 
-	void InputMagnitude() {
+    private void InputMagnitude() {
 		//Calculate Input Vectors
 		inputX = Input.GetAxis ("Horizontal");
 		inputZ = Input.GetAxis ("Vertical");

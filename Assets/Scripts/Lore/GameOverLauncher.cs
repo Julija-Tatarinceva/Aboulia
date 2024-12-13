@@ -1,20 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class GameOverLauncher : MonoBehaviour
-{
-    public GameObject GameOverScreen;
-    //public GameObject Player;
+public class GameOverLauncher : MonoBehaviour {
+    public GameObject gameOverScreen;
     public GameObject retryButton;
     public bool gameIsOver;
-    public void GameOver()
-    {
-        GameOverScreen.SetActive(true);
+    public void GameOver() {
+        gameOverScreen.SetActive(true);
         gameIsOver = true;
     }
-    public void TurnOnRetry()
-    {
+    public void TurnOnRetry() {
         retryButton.SetActive(true);
     }
 }
