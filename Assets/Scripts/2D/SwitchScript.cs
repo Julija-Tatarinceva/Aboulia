@@ -15,7 +15,7 @@ public class SwitchScript : MonoBehaviour {
         levelManager = FindObjectOfType<LevelManager>();
     }
 
-    private void Update() {
+    private void Update() { // LM_F04
         if (playerIsClose && Input.GetKeyDown(levelManager.interactButton.ToLower())) {
             spriteRenderer.sprite = newSprite;
             levelManager.SwitchPressed();
@@ -25,17 +25,17 @@ public class SwitchScript : MonoBehaviour {
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        if (other.CompareTag("Player")) {
-            playerIsClose = true;
-            textInstructions.SetActive();
-        }
+    private void OnTriggerEnter2D(Collider2D other) { // LM_F02
+        if (!other.CompareTag("Player")) 
+            return;
+        playerIsClose = true;
+        textInstructions.SetActive();
     }
 
-    private void OnTriggerExit2D(Collider2D other) {
-        if (other.CompareTag("Player")) {
-            playerIsClose = false;
-            textInstructions.SetInactive();
-        }
+    private void OnTriggerExit2D(Collider2D other) { // LM_F03
+        if (!other.CompareTag("Player")) 
+            return;
+        playerIsClose = false;
+        textInstructions.SetInactive();
     }
 }

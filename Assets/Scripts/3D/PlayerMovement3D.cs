@@ -16,7 +16,7 @@ public class PlayerMovement3D : MonoBehaviour {
     public SoundPlayer soundPlayer;
 
     // Update is called once per frame
-    private void Update() {
+    private void Update() { // WM_F07
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         _moveDirection = new Vector3(horizontal, 0f, vertical).normalized; // Turning the inputs into a normalized vector
@@ -40,7 +40,7 @@ public class PlayerMovement3D : MonoBehaviour {
         soundPlayer.PlayStepSound(Mathf.Abs(horizontal) > 0, characterController.isGrounded);
     }
 
-    private void OnControllerColliderHit(ControllerColliderHit hit) {
+    private void OnControllerColliderHit(ControllerColliderHit hit) { // WM_F08
         Rigidbody body = hit.collider.attachedRigidbody;
         if (body != null && !body.isKinematic) {
             body.velocity = hit.moveDirection.normalized * pushForce;

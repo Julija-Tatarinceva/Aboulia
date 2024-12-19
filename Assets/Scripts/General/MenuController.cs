@@ -58,7 +58,7 @@ public class MenuController : MonoBehaviour {
     }
 
     #region Initialization
-    private void Start() {
+    private void Start() { 
         _currentMenu = MenuState.MainMenu; // Start in the main menu
         interactAction = inputActions.FindAction("Interact"); // Find the action by name to have as placeholder in the options menu
         // Retrieve the binding
@@ -67,34 +67,20 @@ public class MenuController : MonoBehaviour {
             binding.effectivePath,
             InputControlPath.HumanReadableStringOptions.OmitDevice
         );
+        volumeSlider.value = PlayerPrefs.GetFloat("Volume", defaultVolume);
     }
     #endregion
 
     #region Update - Handle Escape Key
-    private void Update() {
+    private void Update() { 
         if (Input.GetKeyDown(KeyCode.Escape)) {
-            switch (_currentMenu) {
-                case MenuState.OptionsMenu:
-                case MenuState.RecordsDialog:
-                case MenuState.LoadGameDialog:
-                case MenuState.NewGameDialog:
-                    GoBackToMainMenu();
-                    break;
-                case MenuState.SoundMenu:
-                case MenuState.GameplayMenu:
-                    GoBackToOptionsMenu();
-                    break;
-                case MenuState.ControlsMenu:
-                    GoBackToGameplayMenu();
-                    break;
-            }
-            PlayClickSound();
+            GoBackToPreviousMenu();
         }
     }
     #endregion
 
     #region Button Click Handlers
-    public void OnMouseClick(string buttonType) {
+    public void OnMouseClick(string buttonType) { // MM_F12
         switch (buttonType) {
             case "Sound":
                 OpenMenu(MenuState.SoundMenu, soundMenu, generalSettingsCanvas);
@@ -119,23 +105,47 @@ public class MenuController : MonoBehaviour {
             case "Exit":
                 Application.Quit();
                 break;
+            case "Back":
+                GoBackToPreviousMenu();
+                break;
         }
+    }
+
+    public void GoBackToPreviousMenu() {
+        switch (_currentMenu) {
+            case MenuState.OptionsMenu:
+            case MenuState.RecordsDialog:
+            case MenuState.LoadGameDialog:
+            case MenuState.NewGameDialog:
+                GoBackToMainMenu();
+                break;
+            case MenuState.SoundMenu:
+            case MenuState.GameplayMenu:
+                OpenMenu(MenuState.OptionsMenu, generalSettingsCanvas, null);
+                soundMenu.SetActive(false);
+                gameplayMenu.SetActive(false);
+                break;
+            case MenuState.ControlsMenu:
+                OpenMenu(MenuState.GameplayMenu, gameplayMenu, null);
+                break;
+        }
+        PlayClickSound();
     }
     #endregion
 
     #region Volume
-    public void VolumeSlider(float volume) {
+    public void VolumeSlider(float volume) { // MM_F12
         AudioListener.volume = volume;
         volumeText.text = volume.ToString("0.0");
         _masterVolume = volume;
     }
     
-    public void ApplyVolumeSettings() {
+    public void ApplyVolumeSettings() { // MM_F
         PlayerPrefs.SetFloat("masterVolume", AudioListener.volume);
         PlayerPrefs.Save();
-        ShowConfirmation();
+        StartCoroutine(ShowConfirmationCoroutine());
     }
-    public void TMP_InputField(string userInput) {
+    public void TMP_InputField(string userInput) { // MM_F07
         // Convert the character to lowercase to handle case-insensitivity
         if(string.IsNullOrEmpty(userInput) || userInput.Length != 1) return;
         char lowerChar = char.ToLower(userInput[0]);
@@ -160,15 +170,15 @@ public class MenuController : MonoBehaviour {
                     return; // Return null for unmapped characters
             }
     }
-    public void ApplyInteractionSettings() {
+    public void ApplyInteractionSettings() { // MM_F07
         // Find the "Interact" action
         var interactAction = inputActions.FindAction("Interact");
         if (interactAction == null) {
             Debug.LogError("Interact action not found.");
             return;
         }
-        // Find the binding you want to change (e.g., the first one)
-        var bindingIndex = 0; // Change this if you want to target a different binding
+        // Find the binding the player wants to change (e.g., the first one)
+        var bindingIndex = 0;
         if (bindingIndex >= interactAction.bindings.Count) {
             Debug.LogError("Invalid binding index.");
             return;
@@ -183,12 +193,12 @@ public class MenuController : MonoBehaviour {
             binding.effectivePath,
             InputControlPath.HumanReadableStringOptions.OmitDevice
         );
-        ShowConfirmation();
+        StartCoroutine(ShowConfirmationCoroutine());
     }
     #endregion
 
     #region Reset Settings
-    public void ResetSettings(string resetType) {
+    public void ResetSettings(string resetType) { // MM_F09
         switch (resetType) {
             case "Audio":
                 VolumeSlider(defaultVolume);
@@ -196,19 +206,23 @@ public class MenuController : MonoBehaviour {
                 _masterVolume = defaultVolume;
                 ApplyVolumeSettings();
                 break;
+            case "InteractKeybind":
+                newBindingPath = defaultInteractButton;
+                ApplyInteractionSettings();
+                break;
         }
     }
     #endregion
 
     #region Dialog Actions
-    public void OnNewGameDialog(string action) {
+    public void OnNewGameDialog(string action) { // MM_F09
         if (action == "Yes") 
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         else 
             GoBackToMainMenu();
     }
 
-    public void OnLoadGameDialog(string action) {
+    public void OnLoadGameDialog(string action) { // MM_F10
         if (action == "Yes") {
             int levelToLoad = FindObjectOfType<SavesSystem>().GetLastSavedLevel();
             if(levelToLoad != 0)
@@ -222,39 +236,25 @@ public class MenuController : MonoBehaviour {
     #endregion
 
     #region Localization
-    public void ChangeLanguage(string languageCode) {
+    public void ChangeLanguage(string languageCode) { // MM_F11
         Locale selectedLocale = LocalizationSettings.AvailableLocales.Locales
             .FirstOrDefault(locale => locale.Identifier.Code == languageCode);
         if (selectedLocale != null) 
             LocalizationSettings.SelectedLocale = selectedLocale;
+        StartCoroutine(ShowConfirmationCoroutine());
     }
     #endregion
 
     #region Menu Navigation
-    private void OpenMenu(MenuState newMenuState, GameObject newMenu, GameObject oldMenu) {
+    private void OpenMenu(MenuState newMenuState, GameObject newMenu, GameObject oldMenu) { // MM_F06
         if(oldMenu) 
             oldMenu.SetActive(false);
         newMenu.SetActive(true);
         _currentMenu = newMenuState;
     }
 
-    public void GoBackToOptionsMenu() {
-        OpenMenu(MenuState.OptionsMenu, generalSettingsCanvas, null);
-        soundMenu.SetActive(false);
-        gameplayMenu.SetActive(false);
-    }
-
-    public void GoBackToMainMenu() {
+    public void GoBackToMainMenu() { // MM_F13
         menuDefaultCanvas.SetActive(true);
-        DisableAllMenus();
-        _currentMenu = MenuState.MainMenu;
-    }
-
-    public void GoBackToGameplayMenu() {
-        OpenMenu(MenuState.GameplayMenu, gameplayMenu, null);
-    }
-
-    private void DisableAllMenus() {
         generalSettingsCanvas.SetActive(false);
         soundMenu.SetActive(false);
         gameplayMenu.SetActive(false);
@@ -263,13 +263,11 @@ public class MenuController : MonoBehaviour {
         newGameDialog.SetActive(false);
         loadGameDialog.SetActive(false);
         recordsDialog.SetActive(false);
+        _currentMenu = MenuState.MainMenu;
     }
     #endregion
 
     #region Utility
-    private void ShowConfirmation() {
-        StartCoroutine(ShowConfirmationCoroutine());
-    }
 
     private IEnumerator ShowConfirmationCoroutine() {
         confirmationMenu.SetActive(true);

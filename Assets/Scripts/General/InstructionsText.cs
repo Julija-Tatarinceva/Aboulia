@@ -9,26 +9,29 @@ public class InstructionsText : MonoBehaviour{
     private static GameObject _mainCanvas;
     private float _height;
     
-    public void SetActive(){
+    public void SetActive(){ // TM_F01
         if (!instructionsTextBox) // Create instructions for the first time
             InstantiateText();
         else {
             // The instructions for this object have already been generated, we just need to reposition them
             instructionsTextBox.SetActive(true);
-            instructionsTextBox.transform.position = new Vector2(transform.position.x, transform.position.y + _height);
+            instructionsTextBox.transform.position = new Vector2(transform.position.x, transform.position.y + _height/2);
         }
     }
 
-    public void SetInactive(){
+    public void SetInactive(){ // TM_F02
         if (!instructionsTextBox) // Create instructions for the first time
             InstantiateText();
         instructionsTextBox.SetActive(false);
     }
 
-    private void InstantiateText() {
+    private void InstantiateText() { // TM_F03
         // Canvas and the instruction template only need to be found once for this class
         if(!instructionsInstance) instructionsInstance = GameObject.Find("InstructionsParent");
         if(!_mainCanvas) _mainCanvas = GameObject.Find("ingame text");
+        if (!_mainCanvas || !instructionsTextBox) {
+            Debug.Log("Not able to create instructionsText");
+        }
             
         // Copy and reposition the template
         instructionsTextBox = Instantiate(instructionsInstance, _mainCanvas.transform); // the copy has Canvas as the parent

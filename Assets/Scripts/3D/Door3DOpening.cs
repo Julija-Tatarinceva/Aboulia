@@ -12,14 +12,14 @@ public class Door3DOpening : MonoBehaviour {
         levelManager = FindObjectOfType<LevelManager>();
     }
 
-    private void Update() {
+    private void Update() { // LM_F07
         if (!_playerNear || !Input.GetKeyDown(levelManager.interactButton.ToLower())) return;
         _exitingLevel = true;
         levelManager.SaveLevel();
         levelManager.LoadNextLevel();
     }
 
-    private void OnTriggerEnter2D(Collider2D coll) {
+    private void OnTriggerEnter2D(Collider2D coll) { // LM_F05
         if (levelManager.switchesPressed == 2 && coll.CompareTag("Player")) {
             _playerNear = true;
             doorFragAnim.SetBool(PlayerIsNear, true);
@@ -27,7 +27,7 @@ public class Door3DOpening : MonoBehaviour {
         }
     }
 
-    private void OnTriggerExit2D(Collider2D coll) {
+    private void OnTriggerExit2D(Collider2D coll) { // LM_F06
         if(levelManager.switchesPressed == 2 && coll.CompareTag("Player") && !_exitingLevel) {
             _playerNear = false;
             doorFragAnim.SetBool(PlayerIsNear, false);

@@ -28,7 +28,7 @@ public class LevelManager : MonoBehaviour {
     
     public float timePassed = 0;
 
-    private void Start(){
+    private void Start(){ // LM_F08
         // Need to create the initial 2D space
         if (SceneManager.GetActiveScene().buildIndex != 1) {
             Vector3 planeRight = dimensionSwitcher.Slice3DWorld();
@@ -56,7 +56,7 @@ public class LevelManager : MonoBehaviour {
     } 
 
     // Update is called once per frame
-    private void Update(){
+    private void Update(){ // LM_F09
         if (Input.GetKeyDown(KeyCode.T) && _isIn2D == false) { // Trigger dimension switch to 2D world
             // planeRight is passed to all paired objects to determine which way they should be moved in 3D to match the 2D counterpart
             Vector3 planeRight = dimensionSwitcher.Slice3DWorld();
@@ -89,7 +89,7 @@ public class LevelManager : MonoBehaviour {
 
     #region Dimension Switching
 
-    private void SwitchTo2D(Vector3 planeRight){
+    private void SwitchTo2D(Vector3 planeRight){ // LM_F10
         ide2D.SetActive(true);
         foreach (var pair in transitionablePairs3D) // Every object is moved if its counterpart has moved
             pair.BeginTransition(planeRight);
@@ -97,7 +97,7 @@ public class LevelManager : MonoBehaviour {
         _isIn2D = true;
     }
 
-    private void SwitchTo3D(){
+    private void SwitchTo3D(){ // LM_F11
         ide3D.SetActive(true);
         foreach (var pair in transitionablePairs2D) // Every object is moved if its counterpart has moved
             pair.BeginTransition();
@@ -110,7 +110,7 @@ public class LevelManager : MonoBehaviour {
         switchesPressed++;
     }
 
-    public void LostLife() {
+    public void LostLife() { // LM_F12
         lives--;
         switch (lives) { // Using switch since there are only 3 discrete situations
             case 2:
@@ -121,16 +121,16 @@ public class LevelManager : MonoBehaviour {
                 break;
             case 0: // If there are no lives left then the level is failed
                 life1.GetComponent<Image>().sprite = lostLifeSprite;
-                gameMenu.LevelFailed();
+                gameMenu.OpenMenu("Level failed");
                 return;
         }
-        gameMenu.SetDeathMenuActive();
+        gameMenu.OpenMenu("Death");
     }
-    public void LoadNextLevel() {
+    public void LoadNextLevel() { // LM_F13
         int nextScene = SceneManager.GetActiveScene().buildIndex + 1;
         SceneManager.LoadScene(SceneManager.sceneCountInBuildSettings == nextScene ? 0 : nextScene);
     }
-    public void SaveLevel() {
+    public void SaveLevel() { // LM_F14
         SavesSystem savesSystem = FindObjectOfType<SavesSystem>();
         int levelNumber = SceneManager.GetActiveScene().buildIndex;
         int previousRecord = savesSystem.GetLevelRecord(levelNumber);

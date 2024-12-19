@@ -8,54 +8,53 @@ public class GameMenu : MonoBehaviour {
     public GameObject player;
     public static bool GameIsPaused = false;
 
-    private void Update() {
-        if (Input.GetButtonDown("Cancel")) {
-            if (GameIsPaused)
-                Resume();
-            else
-                Pause();
-        }
+    private void Update() { // MM_F01
+        if (!Input.GetButtonDown("Cancel")) 
+            return;
+        if (GameIsPaused)
+            Resume();
+        else
+            OpenMenu("Pause");
     }
 
-    public void Resume() {
+    public void Resume() { // MM_F03
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
     }
-
-    private void Pause() {
-        pauseMenuUI.SetActive(true);
-        GameIsPaused = true;
+    
+    public void OpenMenu(string menuName) { // MM_F02
+        switch (menuName) {
+            case "Death":
+                deathMenu.SetActive(true);
+                break;
+            case "Level failed":
+                levelFailedMenu.SetActive(true);
+                break;
+            case "Pause":
+                pauseMenuUI.SetActive(true);
+                GameIsPaused = true;
+                break;
+            case "Main menu":
+                SceneManager.LoadScene("MainMenu");
+                Time.timeScale = 1f;
+                return;
+        }
         Time.timeScale = 0f;
     }
-
-    public void MainMenu() {
-        SceneManager.LoadScene("MainMenu");
-        Time.timeScale = 1f;
-    }
-
-    public void SetDeathMenuActive() {
-        deathMenu.SetActive(true);
-        Time.timeScale = 0f;
-    }
-
-    public void Restart() {
+    
+    public void Restart() { // MM_F04
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Time.timeScale = 1f;
     }
 
-    public void Respawn() {
+    public void Respawn() { // MM_F05
         deathMenu.SetActive(false);
         Time.timeScale = 1f;
         player.GetComponent<PlayerMovement2D>().Respawn();
     }
 
-    public void Exit() {
+    public void Exit() { // MM_F06
         Application.Quit();
-    }
-
-    public void LevelFailed() {
-        levelFailedMenu.SetActive(true);
-        Time.timeScale = 0f;
     }
 }

@@ -165,7 +165,7 @@ MonoBehaviour:
       m_Items:
       - rid: 3487917027401138183
   - m_Id: 1089963152609280
-    m_Localized: Work in progress, only 2 levels, in the options menu it is only
+    m_Localized: Work in progress, only 3 levels, in the options menu it is only
       possible to change the sound's volume and the button for interaction.
     m_Metadata:
       m_Items: []

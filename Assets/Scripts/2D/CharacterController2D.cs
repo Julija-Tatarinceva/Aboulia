@@ -12,29 +12,23 @@ public class CharacterController2D : MonoBehaviour {
     private Rigidbody2D _rigidbody; // Player's rigidbody component
     private bool _facingRight = true;  // For determining which way the player is currently facing.
     private Vector3 _velocity = Vector3.zero;
-    private PlayerMovement2D _movementScript;
 
     private float _originalScaleToKeep;
 
     private void Awake(){
         _rigidbody = GetComponent<Rigidbody2D>();
-        _movementScript = GetComponent<PlayerMovement2D>();
     }
-    private void FixedUpdate(){
-        // bool wasGrounded = grounded; // Saving the old value to check later if it has changed between frame updates
+    private void FixedUpdate(){ // WM_F02
         grounded = false; // The player is not grounded by default
 
-        // Here we are checking if the player is touching ground by creating a sphere around the Ground Check
-        // position with the radius of Grounded Radius, and if the sphere overlaps with an object of the What Is Ground
-        // layer, then the player is grounded.
+        // Here we are checking if the player is touching ground by creating a sphere around the Ground Check position with the
+        // radius of Grounded Radius, and if the sphere overlaps with an object of the What Is Ground layer, then the player is grounded.
         Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, GroundedRadius, whatIsGround);
-        foreach (var t in colliders){
-            if (t.gameObject != gameObject){ // excluding the component bearer
+        foreach (var t in colliders)
+            if (t.gameObject != gameObject)// excluding the component bearer
                 grounded = true;
-            }
-        }
     }
-    public void Move(float move, bool jump){
+    public void Move(float move, bool jump){ // WM_F02
         // Using the physics engine to set velocity (not to apply force!) to the player's body
         float horizontalMove = move * runSpeed * Time.fixedDeltaTime;
         Vector3 targetVelocity = new Vector2(horizontalMove, _rigidbody.velocity.y);
@@ -52,7 +46,7 @@ public class CharacterController2D : MonoBehaviour {
     
     // Since the player is represented by a 2D sprite, it has to be flipped (mirrored) when facing left or right.
     // This is done by rotating the sprite 180 degrees around the Y axis.
-    private void Flip(){
+    private void Flip(){ // WM_F02
         _facingRight = !_facingRight;
         transform.Rotate(0f, 180f, 0f);
     }

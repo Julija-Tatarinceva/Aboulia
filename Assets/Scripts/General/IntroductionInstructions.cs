@@ -9,21 +9,22 @@ public class IntroductionInstructions : MonoBehaviour {
     
     // Start is called before the first frame update
     private void Start() {
-        if (!PlayerPrefs.HasKey("Completed2DTutorial") && SceneManager.GetActiveScene().buildIndex == 1){
+        Invoke(nameof(StartTutorial), 0.1f);
+    }
+
+    private void StartTutorial() { // TM_F04
+        SavesSystem savesSystem = FindObjectOfType<SavesSystem>();
+        if (savesSystem.GetTutorialCompletion("2D tutorial") && SceneManager.GetActiveScene().buildIndex == 1){
             tutorialPanel.SetActive(true);
             ShowTutorial(0);
-            PlayerPrefs.SetInt("Completed2DTutorial", 1);
-            PlayerPrefs.Save();
         }
-        else if (!PlayerPrefs.HasKey("Completed3DTutorial") && SceneManager.GetActiveScene().buildIndex == 2){
+        else if (savesSystem.GetTutorialCompletion("3D tutorial") && SceneManager.GetActiveScene().buildIndex == 2){
             tutorialPanel.SetActive(true);
             ShowTutorial(0);
-            PlayerPrefs.SetInt("Completed3DTutorial", 1);
-            PlayerPrefs.Save();
         }
     }
 
-    public void ShowTutorial(int panelIndex) {
+    private void ShowTutorial(int panelIndex) { // TM_F05
         // Base case: If we are out of instructions, end the tutorial
         if (panelIndex >= instructionsPanels.Count) {
             tutorialPanel.SetActive(false);

@@ -19,10 +19,10 @@ public class LoadRecords : MonoBehaviour {
     }
 
     // Loading in the last save level from the JSON file
-    public void PopulateLoadGameMenu() {
+    public void PopulateLoadGameMenu() { // DM_F02
         // Get the LocalizeStringEvent and bind the placeholder value
         _localizeEvent = loadGame.GetComponent<LocalizeStringEvent>();
-        int lastLevel = savesSystem.LoadLastLevel();
+        int lastLevel = savesSystem.GetLastSavedLevel();
         if (lastLevel != 0) {
             _localizeEvent.StringReference.TableEntryReference = "are_you_sure_to_load_text";
             // Add the "lvl" parameter to the LocalizeStringEvent
@@ -38,7 +38,7 @@ public class LoadRecords : MonoBehaviour {
     }
     
     // Loading in records from the JSON file
-    public void PopulateRecordsMenu() {
+    public void PopulateRecordsMenu() { // DM_F01
         for (int i = 1; i <= SceneManager.sceneCountInBuildSettings-1; i++) {
             _localizeEvent = levelRecords[i-1].GetComponent<LocalizeStringEvent>();
             if (_localizeEvent != null) {

@@ -17,7 +17,7 @@ public class PlayerMovement2D : MonoBehaviour {
     public GameObject player, spawn;
     public SoundPlayer soundPlayer;
     
-    private void Update(){
+    private void Update(){ // WM_F01
         // Using keys as input, these keys can be changed in project's settings
         _horizontalMove = Input.GetAxisRaw("Horizontal");
         animator.SetFloat(Speed, Mathf.Abs(_horizontalMove));
@@ -30,7 +30,7 @@ public class PlayerMovement2D : MonoBehaviour {
     }
     // Since movement is a physics operation, it should be done through Fixed Update, which is not tied to frame rate
     // This helps in avoiding collision and speed calculation mistakes
-    private void FixedUpdate(){
+    private void FixedUpdate(){ // WM_F01
         characterController2D.Move(_horizontalMove, jump);
         jump = false;
         if (transform.position.y < -25) { // Killing the player if they fall out of the map
@@ -38,20 +38,19 @@ public class PlayerMovement2D : MonoBehaviour {
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D coll){
-        if (coll.gameObject.layer == LayerMask.NameToLayer("Deadly")) {
+    private void OnTriggerEnter2D(Collider2D coll){ // WM_03
+        if (coll.gameObject.layer == LayerMask.NameToLayer("Deadly"))
             animator.SetBool(IsDead, true); // The animation then calls HandlePlayerDeath() via an event
-        }
     }
 
     // Animation Events can't call methods of other objects, so this is an intermediary method
-    private void HandlePlayerDeath(){ 
+    private void HandlePlayerDeath(){ // WM_F04
         levelManager.LostLife();
         animator.Play("Idle");
         animator.SetBool(IsDead, false);
     }
 
-    public void Respawn() {
+    public void Respawn(){ // WM_F05
         if (FindObjectOfType<LevelManager>().ide3D) {
             GetComponent<TransitionablePair>().target.transform.position = spawn.transform.position;
             if (!_dimensionSwitcher) 

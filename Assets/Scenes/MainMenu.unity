@@ -1149,6 +1149,14 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114000792297464864, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GoBackToPreviousMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000792297464864, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MenuController, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 114021933306572124, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnMouseClick
@@ -1164,6 +1172,14 @@ PrefabInstance:
     - target: {fileID: 114086273960398430, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
       propertyPath: m_Navigation.m_SelectOnDown
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114086273960398430, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GoBackToPreviousMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 114086273960398430, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MenuController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 114190828022327494, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
       propertyPath: m_Navigation.m_SelectOnUp
@@ -1269,6 +1285,14 @@ PrefabInstance:
       propertyPath: m_Navigation.m_SelectOnDown
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 114313963922766500, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GoBackToMainMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 114313963922766500, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MenuController, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 114414691622253428, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: SpeedTutorMainMenuSystem.MenuController, Assembly-CSharp
@@ -1276,6 +1300,14 @@ PrefabInstance:
     - target: {fileID: 114415109990658320, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
       propertyPath: m_Navigation.m_SelectOnDown
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114415109990658320, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GoBackToPreviousMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 114415109990658320, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MenuController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 114425169954994756, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -1474,8 +1506,12 @@ PrefabInstance:
       value: 79.24013
       objectReference: {fileID: 0}
     - target: {fileID: 224039881596624934, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 224039881596624934, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -526.9
+      value: -540
       objectReference: {fileID: 0}
     - target: {fileID: 224122112887627724, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
       propertyPath: m_SizeDelta.x
@@ -3089,8 +3125,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 384942025}
-        m_TargetAssemblyTypeName: SpeedTutorMainMenuSystem.MenuController, Assembly-CSharp
-        m_MethodName: GoBackToMainMenu
+        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
+        m_MethodName: GoBackToPreviousMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5226,6 +5262,7 @@ MonoBehaviour:
   level2Record: {fileID: 79084185}
   level3Record: {fileID: 86733867}
   level4Record: {fileID: 605789030}
+  levelRecords: []
   loadGame: {fileID: 319190453}
 --- !u!114 &1925435506
 MonoBehaviour:
