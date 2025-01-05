@@ -174,6 +174,15 @@ MonoBehaviour:
       pogu."
     m_Metadata:
       m_Items: []
+  - m_Id: 7594827038822400
+    m_Localized: "Vai tie\u0161\u0101m v\u0113laties izdz\u0113st saglab\u0101to
+      sp\u0113les failu ar VISU progresu?  "
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7599200905170944
+    m_Localized: "Izdz\u0113st saglab\u0101to failu"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

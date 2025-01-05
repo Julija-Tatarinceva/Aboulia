@@ -159,6 +159,14 @@ MonoBehaviour:
     m_Key: warning_text
     m_Metadata:
       m_Items: []
+  - m_Id: 7594827038822400
+    m_Key: are_you_sure_to_delete_save_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7599200905170944
+    m_Key: delete_save_file_button_text
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

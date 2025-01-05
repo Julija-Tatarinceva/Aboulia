@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EntityFramework.Testing.NSubstitute</name>
+    </assembly>
+    <members>
+        <member name="T:NSubstitute.NSubstituteDbSetExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.Data.Entity.DbSet`1"/>.
+            </summary>
+        </member>
+        <member name="M:NSubstitute.NSubstituteDbSetExtensions.SetupData``1(System.Data.Entity.DbSet{``0},System.Collections.Generic.ICollection{``0},System.Func{System.Object[],``0})">
+            <summary>
+            Setup data to <see cref="T:System.Data.Entity.DbSet`1"/>.
+            </summary>
+            <typeparam name="TEntity">The entity type.</typeparam>
+            <param name="dbSet">The <see cref="T:System.Data.Entity.DbSet`1"/>.</param>
+            <param name="data">The seed data.</param>
+            <param name="find">The find action.</param>
+            <returns>The updated <see cref="T:System.Data.Entity.DbSet`1"/>.</returns>
+        </member>
+    </members>
+</doc>

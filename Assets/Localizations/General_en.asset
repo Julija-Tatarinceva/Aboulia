@@ -169,6 +169,14 @@ MonoBehaviour:
       possible to change the sound's volume and the button for interaction.
     m_Metadata:
       m_Items: []
+  - m_Id: 7594827038822400
+    m_Localized: Are you sure you wish to delete your save file with ALL your progress?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7599200905170944
+    m_Localized: Delete save file
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
