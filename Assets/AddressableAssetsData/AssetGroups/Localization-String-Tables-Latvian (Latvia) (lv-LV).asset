@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Localization-String-Tables-Latvian (Latvia) (lv-LV)
+  m_EditorClassIdentifier: 
+  m_GroupName: Localization-String-Tables-Latvian (Latvia) (lv-LV)
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 18711e62e4175c048878360b9521f538
+  m_SerializeEntries:
+  - m_GUID: 6706ac148c65d4147bb7c4403f622fb6
+    m_Address: Latvian_lv-LV
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-lv-LV
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e37ecfd075a3df145b20e4c61b5f0c1a
+    m_Address: General_lv-LV
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-lv-LV
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 1
+  m_Settings: {fileID: 11400000, guid: fa57f68731748824f8300d38d5bdc761, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 874ec941a89ac024e9ad1346f2a450d5, type: 2}
+    - {fileID: 11400000, guid: 407754cd873d8574cbc44c5958d8ed19, type: 2}

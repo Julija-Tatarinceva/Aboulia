@@ -1,35 +1,42 @@
-using System.Collections;
-using System.Collections.Generic;
+using General;
 using UnityEngine;
 
-public class Door3DOpening : MonoBehaviour {
-    public InstructionsText instructionsText;
-    public Animator doorFragAnim;
-    bool _playerNear;
+namespace _3D
+{
+    public class Door3DOpening : MonoBehaviour {
+        private static readonly int PlayerIsNear = Animator.StringToHash("playerIsNear");
+        public InstructionsText instructionsText;
+        public LevelManager levelManager;
+        public Animator doorFragAnim;
+        private bool _playerNear;
+        private bool _exitingLevel = false; // Needs to stop the door from trying to disable components when switching scenes (it crashes the game)
 
-    void Update()
-    {
-        if(LevelManager.SwitchesPressed == 2) {
-            // doorFragAnim.Play("3DDoorUnlockedKeyboard");
+        private void Start() {
+            levelManager = FindObjectOfType<LevelManager>();
         }
-        if(_playerNear && Input.GetButtonDown("Interact"))
-        {
-            LevelManager.LoadNextLevel();
-        }
-    }
 
-    void OnTriggerEnter2D(Collider2D coll) {
-        if (LevelManager.SwitchesPressed == 2 && coll.CompareTag("Player")) {
-            _playerNear = true;
-            doorFragAnim.Play("3DDoorOpen");
-            instructionsText.SetActive();
+        private void Update() { // LM_F03
+            if (!_playerNear || !Input.GetKeyDown(levelManager.interactButton.ToLower())) 
+                return;
+            _exitingLevel = true;
+            levelManager.SaveLevel();
+            levelManager.LoadNextLevel();
         }
-    }
-    void OnTriggerExit2D(Collider2D coll) {
-        if(LevelManager.SwitchesPressed == 2 && coll.CompareTag("Player")) {
-            _playerNear = false;
-            doorFragAnim.Play("3DDoorClose");
-            instructionsText.SetInactive();
+
+        private void OnTriggerEnter2D(Collider2D coll) { // LM_F03
+            if (levelManager.switchesPressed == 2 && coll.CompareTag("Player")) {
+                _playerNear = true;
+                doorFragAnim.SetBool(PlayerIsNear, true);
+                instructionsText.SetActive();
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D coll) { // LM_F03
+            if(levelManager.switchesPressed == 2 && coll.CompareTag("Player") && !_exitingLevel) {
+                _playerNear = false;
+                doorFragAnim.SetBool(PlayerIsNear, false);
+                instructionsText.SetInactive();
+            }
         }
     }
 }

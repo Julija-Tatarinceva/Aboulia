@@ -1,0 +1,180 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: General Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: General
+  m_TableCollectionNameGuidString: 2517b5c465308b849be1ff5e703a5661
+  m_Entries:
+  - m_Id: 14789611520
+    m_Key: start_button_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 190514171904
+    m_Key: load_button_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274685464576
+    m_Key: options_button_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 356835102720
+    m_Key: records_button_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 443791413248
+    m_Key: exit_button_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 672410341376
+    m_Key: start_new_game_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 996000894976
+    m_Key: yes_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1022257238016
+    m_Key: no_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1128545095680
+    m_Key: select_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3089440935936
+    m_Key: click_to_continue_instructions_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3215622377472
+    m_Key: move_around_instructions_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3370379612160
+    m_Key: press_buttons_instructions_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3513346658304
+    m_Key: leave_instructions_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13963564126208
+    m_Key: press_key_to_interact_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29286304550912
+    m_Key: respawn_button_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29575770247168
+    m_Key: main_menu_button_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30032982937600
+    m_Key: restart_button_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30503474794496
+    m_Key: resume_button_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30836838076416
+    m_Key: paused_ui_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31443187634176
+    m_Key: died_ui_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31829218791424
+    m_Key: level_failed_ui_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 90881990823936
+    m_Key: press_T_instructions_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 91590849171456
+    m_Key: press_Q_instructions_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 107279429373952
+    m_Key: press_T_to_continue_instructions_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 107824789557248
+    m_Key: press_Q_to_continue_instructions_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1074188253630464
+    m_Key: sound_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1074254485884928
+    m_Key: gameplay_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1074345162543104
+    m_Key: volume_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1075102762897408
+    m_Key: reset_to_default_but_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1075543387115520
+    m_Key: apply_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1075864054239232
+    m_Key: back_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1076272491368448
+    m_Key: interact_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1082359533768704
+    m_Key: are_you_sure_to_load_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1082799524646912
+    m_Key: no_saved_level_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1086218243117056
+    m_Key: level_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1089963152609280
+    m_Key: warning_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7594827038822400
+    m_Key: are_you_sure_to_delete_save_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7599200905170944
+    m_Key: delete_save_file_button_text
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 3487917025056522275
+  references:
+    version: 2
+    RefIds:
+    - rid: 3487917025056522275
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1733160506179

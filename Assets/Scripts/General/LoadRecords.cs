@@ -1,28 +1,70 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.Localization.Components;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LoadRecords : MonoBehaviour
+namespace General
 {
-    [FormerlySerializedAs("Level1Record")] public Text level1Record;
-    [FormerlySerializedAs("Level2Record")] public Text level2Record;
-    [FormerlySerializedAs("Level3Record")] public Text level3Record;
-    [FormerlySerializedAs("Level4Record")] public Text level4Record;
-    [FormerlySerializedAs("LoadGame")] public Text loadGame;
-    void Start()
-    {
-        level1Record.text = "Level 1: " + PlayerPrefs.GetString("Best time at level 1");
-        level2Record.text = "Level 2: " + PlayerPrefs.GetString("Best time at level 2");
-        level3Record.text = "Level 3: " + PlayerPrefs.GetString("Best time at level 3");
-        level4Record.text = "Level 4: " + PlayerPrefs.GetString("Best time at level 4");
-        if (PlayerPrefs.HasKey("Level where we stopped"))
-        {
-            loadGame.text = "You left at level " + PlayerPrefs.GetInt("Level where we stopped") + "\n" + "Are you sure you want to load?";
+    public class LoadRecords : MonoBehaviour {
+        public SavesSystem savesSystem;
+        public Text level1Record;
+        public Text level2Record;
+        public Text level3Record;
+        public Text level4Record;
+        public Text[] levelRecords;
+        private LocalizeStringEvent _localizeEvent;
+        public Text loadGame;
+
+        private void Start() {
+            levelRecords = new Text[] { level1Record, level2Record, level3Record };
         }
-        else{
-            loadGame.text = "No saved level.";
+
+        // Loading in the last save level from the JSON file
+        public void PopulateLoadGameMenu() { // SM_F02
+            // Get the LocalizeStringEvent and bind the placeholder value
+            _localizeEvent = loadGame.GetComponent<LocalizeStringEvent>();
+            int lastLevel = savesSystem.GetLastSavedLevel();
+            if (lastLevel != 0) {
+                _localizeEvent.StringReference.TableEntryReference = "are_you_sure_to_load_text";
+                // Add the "lvl" parameter to the LocalizeStringEvent
+                if (_localizeEvent != null) {
+                    IntVariable lvl = new IntVariable();
+                    lvl.Value = lastLevel;
+                    _localizeEvent.StringReference.Add("lvl", lvl); // Set the key placeholder with the dynamic value
+                }
+            }
+            else
+                _localizeEvent.StringReference.TableEntryReference = "no_saved_level_text";
+            _localizeEvent.RefreshString(); // Refresh the localized text to apply the changes
+        }
+    
+        // Loading in records from the JSON file
+        public void PopulateRecordsMenu() { // SM_F01
+            for (int i = 1; i < SceneManager.sceneCountInBuildSettings; i++) {
+                _localizeEvent = levelRecords[i-1].GetComponent<LocalizeStringEvent>();
+                if (_localizeEvent != null) {
+                    IntVariable lvl = new IntVariable { Value = i };
+                    int recordInSeconds = savesSystem.GetLevelRecord(i);
+                    Debug.Log(recordInSeconds);
+                    int minutes = recordInSeconds / 60;
+                    int seconds = recordInSeconds % 60;
+                    string timeText;
+                    if (minutes == 0 && seconds == 0){
+                        timeText = "-";
+                    }
+                    else {
+                        timeText = $"{minutes:D2}:{seconds:D2}";
+                    }
+                    StringVariable record = new StringVariable { Value = timeText };
+
+                    _localizeEvent.StringReference.Add("lvl", lvl); // Set the key placeholder with the dynamic value
+                    _localizeEvent.StringReference.Add("record", record); // Set the key placeholder with the dynamic value
+                    _localizeEvent.RefreshString();
+                }
+                else 
+                    Warning.ShowWarning("There are more levels than record text objects!");
+            }
         }
     }
 }

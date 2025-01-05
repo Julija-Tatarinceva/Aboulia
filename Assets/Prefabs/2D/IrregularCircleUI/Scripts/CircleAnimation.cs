@@ -1,25 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class CircleAnimation : MonoBehaviour {
+namespace Prefabs._2D.IrregularCircleUI.Scripts
+{
+	public class CircleAnimation : MonoBehaviour {
 
-    public GameObject[] animObjects;
+		public GameObject[] animObjects;
 
-	// Use this for initialization
-	void Start () {
+		// Use this for initialization
+		private void Start () {
 		
-	}
+		}
 	
-	// Update is called once per frame
-	void Update () {
-		foreach(GameObject go in animObjects)
-        {
-            Vector3 angle = go.transform.eulerAngles;
+		// Update is called once per frame
+		private void Update () {
+			foreach(GameObject go in animObjects)
+			{
+				Vector3 angle = go.transform.eulerAngles;
 
-            angle.z += Time.deltaTime * 50f;
+				angle.z += Time.deltaTime * 50f;
 
-            go.transform.eulerAngles = angle;
-        }
+				go.transform.eulerAngles = angle;
+			}
+		}
 	}
 }

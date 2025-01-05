@@ -1,0 +1,190 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: General_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 2517b5c465308b849be1ff5e703a5661, type: 2}
+  m_Metadata:
+    m_Items:
+    - rid: 3487917027401138183
+  m_TableData:
+  - m_Id: 14789611520
+    m_Localized: New Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 190514171904
+    m_Localized: Load Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274685464576
+    m_Localized: Options
+    m_Metadata:
+      m_Items: []
+  - m_Id: 356835102720
+    m_Localized: Records
+    m_Metadata:
+      m_Items: []
+  - m_Id: 443791413248
+    m_Localized: Exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 672410341376
+    m_Localized: Are you sure you want to start a new game?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 996000894976
+    m_Localized: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1022257238016
+    m_Localized: No
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1128545095680
+    m_Localized: Select
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3089440935936
+    m_Localized: Click anywhere to continue...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3215622377472
+    m_Localized: Move around using A and D (or the arrow keys) and Space
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3370379612160
+    m_Localized: Press all the buttons you can find
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3513346658304
+    m_Localized: Then leave through the door
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13963564126208
+    m_Localized: Press {key} to interact
+    m_Metadata:
+      m_Items:
+      - rid: 3487917027401138183
+  - m_Id: 29286304550912
+    m_Localized: Respawn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29575770247168
+    m_Localized: Main menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30032982937600
+    m_Localized: Restart
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30503474794496
+    m_Localized: Resume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30836838076416
+    m_Localized: Game paused
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31443187634176
+    m_Localized: You died!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31829218791424
+    m_Localized: Level failed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 90881990823936
+    m_Localized: 'Press T to switch to 3D! But remember: you will not be able to
+      jump, since you are a 2D creature, you can only use 2 dimensions at one time.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 91590849171456
+    m_Localized: Press Q to see a preview of the slicing plane. When you press T
+      again, you will now be in a new 2D world, in a single slice of the 3D world.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 107279429373952
+    m_Localized: Press T to continue...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 107824789557248
+    m_Localized: Press Q to continue...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1074188253630464
+    m_Localized: Sound
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1074254485884928
+    m_Localized: Gameplay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1074345162543104
+    m_Localized: Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1075102762897408
+    m_Localized: Reset to default
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1075543387115520
+    m_Localized: Apply
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1075864054239232
+    m_Localized: Back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1076272491368448
+    m_Localized: 'Interact:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1082359533768704
+    m_Localized: You left at level {lvl}. Are you sure you want to load it?
+    m_Metadata:
+      m_Items:
+      - rid: 3487917027401138183
+  - m_Id: 1082799524646912
+    m_Localized: No saved level.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1086218243117056
+    m_Localized: 'Level {lvl}: {record}'
+    m_Metadata:
+      m_Items:
+      - rid: 3487917027401138183
+  - m_Id: 1089963152609280
+    m_Localized: Work in progress, only 3 levels, in the options menu it is only
+      possible to change the sound's volume and the button for interaction.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7594827038822400
+    m_Localized: Are you sure you wish to delete your save file with ALL your progress?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7599200905170944
+    m_Localized: Delete save file
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 3487917027401138183
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 13963564126208
+        - id: 1082359533768704
+        - id: 1086218243117056

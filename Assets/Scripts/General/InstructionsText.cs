@@ -1,41 +1,64 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Components;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
-public class InstructionsText : MonoBehaviour{
-    public GameObject instructionsTextBox;
-    static GameObject _instructionsInstance;
-    static GameObject _mainCanvas;
-    
-    public void SetActive(){
-        if (!instructionsTextBox){ // Create instructions for the first time
+namespace General
+{
+    public class InstructionsText : MonoBehaviour{
+        private static GameObject _instructionsTextBox;
+        private static GameObject _instructionsInstance;
+        private static GameObject _mainCanvas;
+        private static float _height;
+
+        public void Start() {
             // Canvas and the instruction template only need to be found once for this class
-            if(!_instructionsInstance) _instructionsInstance = GameObject.Find("InstructionsParent");
-            if(!_mainCanvas) _mainCanvas = GameObject.Find("ingame text");
-            
-            // Copy and reposition the template
-            instructionsTextBox = Instantiate(_instructionsInstance, _mainCanvas.transform); // the copy has Canvas as the parent
-            float height = GetComponent<BoxCollider2D>().size.y; // Getting the height of the trigger collider
-            instructionsTextBox.transform.position = new Vector2(this.transform.position.x, transform.position.y + height);
-            
-            // Getting the right text in, language is determined by the Level Manager
-            TextMeshProUGUI text = instructionsTextBox.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
-            if (LevelManager.Language == 0) {
-                text.text = "Press " + LevelManager.InteractButton + " to interact"; //English
+            if(!_instructionsInstance){ 
+                _instructionsInstance = GameObject.Find("InstructionsParent");
             }
-            else if(LevelManager.Language == 1) {
-                text.text = "Spiediet " + LevelManager.InteractButton + " lai mijiedarbotos"; //Latvian
-            }
-            else if(LevelManager.Language == 2) {
-                text.text = "Нажмите " + LevelManager.InteractButton + " для взаимодействовия"; //Russian
+            if(!_mainCanvas){ 
+                _mainCanvas = GameObject.Find("ingame text");
             }
         }
-        else // The instructions for this object have already been generated
-            instructionsTextBox.SetActive(true);
-    }
 
-    public void SetInactive(){
-        instructionsTextBox.SetActive(false);
+        public void SetActive(){ // TM_F01
+            if (!_instructionsTextBox){ // Create instructions for the first time
+                InstantiateText();
+            }
+            else {
+                // The instructions for this object have already been generated, just need to reposition them
+                _instructionsTextBox.SetActive(true);
+                _instructionsTextBox.transform.position = new Vector2(transform.position.x, transform.position.y + _height/2);
+            }
+        }
+
+        public void SetInactive(){ // TM_F02
+            if (!_instructionsTextBox){ // Create instructions for the first time
+                InstantiateText();
+            }
+            _instructionsTextBox.SetActive(false);
+        }
+
+        private void InstantiateText() { // TM_F03
+            if (!_mainCanvas || !_instructionsInstance) {
+                Warning.ShowWarning("Not able to create instructionsText");
+                return;
+            }
+            
+            // Copy and reposition the template
+            _instructionsTextBox = Instantiate(_instructionsInstance, _mainCanvas.transform); // the copy must have Canvas as the parent
+            _height = GetComponent<BoxCollider2D>().size.y; // Getting the height of the trigger collider
+            _instructionsTextBox.transform.position = new Vector2(transform.position.x, transform.position.y + _height/2);
+            
+            // Get the LocalizeStringEvent and bind the placeholder value
+            LocalizeStringEvent localizeEvent = _instructionsTextBox.transform.GetChild(0).gameObject.GetComponent<LocalizeStringEvent>();
+            // Add the "key" parameter to the LocalizeStringEvent
+            if (localizeEvent != null) {
+                StringVariable key = new StringVariable {
+                    Value = FindObjectOfType<LevelManager>().interactButton
+                };
+                localizeEvent.StringReference.Add("key", key); // Set the key placeholder with the dynamic value
+                localizeEvent.RefreshString(); // Refresh the localized text to apply the changes
+            }
+        }
     }
 }

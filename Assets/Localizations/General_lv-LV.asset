@@ -1,0 +1,196 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: General_lv-LV
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: lv-LV
+  m_SharedData: {fileID: 11400000, guid: 2517b5c465308b849be1ff5e703a5661, type: 2}
+  m_Metadata:
+    m_Items:
+    - rid: 3487917027401138191
+  m_TableData:
+  - m_Id: 14789611520
+    m_Localized: "S\u0101kt no jauna"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 190514171904
+    m_Localized: "Iel\u0101d\u0113t saglab\u0101to"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274685464576
+    m_Localized: "Iestat\u012Bjumi"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 356835102720
+    m_Localized: Ieraksti
+    m_Metadata:
+      m_Items: []
+  - m_Id: 443791413248
+    m_Localized: Iziet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 672410341376
+    m_Localized: "Vai tie\u0161\u0101m v\u0113laties s\u0101kt no jauna?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 996000894976
+    m_Localized: "J\u0101"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1022257238016
+    m_Localized: "N\u0113"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1128545095680
+    m_Localized: "Izv\u0113l\u0113ties"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3089440935936
+    m_Localized: "Noklik\u0161\u0137iniet, lai turpin\u0101tu..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3215622377472
+    m_Localized: "P\u0101rvietojieties, izmantojot A un D (vai bulttausti\u0146us)
+      un Space"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3370379612160
+    m_Localized: Nospiediet visas pogas, kuras varat atrast
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3513346658304
+    m_Localized: "Tad izejiet caur durv\u012Bm"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13963564126208
+    m_Localized: Spiediet {key} lai mijiedarbotos
+    m_Metadata:
+      m_Items:
+      - rid: 3487917027401138191
+  - m_Id: 29286304550912
+    m_Localized: Atdzimt
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29575770247168
+    m_Localized: "Galven\u0101 Izv\u0113lne"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30032982937600
+    m_Localized: "S\u0101kt no jauna"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30503474794496
+    m_Localized: "Turpin\u0101t"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30836838076416
+    m_Localized: "Sp\u0113le ir aptur\u0113ta"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31443187634176
+    m_Localized: "J\u016Bs esat miru\u0161i!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31829218791424
+    m_Localized: "L\u012Bmenis neizdev\u0101s"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 90881990823936
+    m_Localized: "Nospiediet T, lai p\u0101rsl\u0113gtos uz 3D! Bet atcerieties:
+      j\u016Bs nevar\u0113sit l\u0113kt, jo j\u016Bs esat 2D b\u016Btne, j\u016Bs
+      varat izmantot tikai 2 dimensijas vienlaikus."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 91590849171456
+    m_Localized: "Nospiediet Q, lai redz\u0113tu grie\u0161anas plaknes priek\u0161skat\u012Bjumu.
+      Nospie\u017Eot T v\u0113lreiz, j\u016Bs non\u0101ksit jaun\u0101 2D pasaul\u0113,
+      vien\u0101 3D pasaules da\u013C\u0101."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 107279429373952
+    m_Localized: "Spiediet T, lai turpin\u0101tu..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 107824789557248
+    m_Localized: "Spiediet Q, lai turpin\u0101tu..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1074188253630464
+    m_Localized: "Ska\u0146a"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1074254485884928
+    m_Localized: "Sp\u0113le"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1074345162543104
+    m_Localized: "Ska\u013Cums"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1075102762897408
+    m_Localized: "Uz noklus\u0113juma v\u0113rt\u012Bbam"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1075543387115520
+    m_Localized: Lietot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1075864054239232
+    m_Localized: "Atpaka\u013C"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1076272491368448
+    m_Localized: 'Mijiedarboties:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1082359533768704
+    m_Localized: "J\u016Bs aizg\u0101j\u0101t {lvl}. l\u012Bmen\u012B. Vai tie\u0161\u0101m
+      v\u0113laties iel\u0101d\u0113t to?"
+    m_Metadata:
+      m_Items:
+      - rid: 3487917027401138191
+  - m_Id: 1082799524646912
+    m_Localized: "Nav saglab\u0101ta l\u012Bme\u0146a."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1086218243117056
+    m_Localized: "L\u012Bmenis {lvl}: {record}"
+    m_Metadata:
+      m_Items:
+      - rid: 3487917027401138191
+  - m_Id: 1089963152609280
+    m_Localized: "Darbs proces\u0101, tikai 3 l\u012Bme\u0146i, opciju izv\u0113ln\u0113
+      iesp\u0113jams main\u012Bt tikai ska\u0146as ska\u013Cumu un mijiedarb\u012Bbas
+      pogu."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7594827038822400
+    m_Localized: "Vai tie\u0161\u0101m v\u0113laties izdz\u0113st saglab\u0101to
+      sp\u0113les failu ar VISU progresu?  "
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7599200905170944
+    m_Localized: "Izdz\u0113st saglab\u0101to failu"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 3487917027401138191
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 13963564126208
+        - id: 1082359533768704
+        - id: 1086218243117056

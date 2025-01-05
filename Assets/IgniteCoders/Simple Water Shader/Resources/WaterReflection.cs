@@ -1,95 +1,96 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class WaterReflection : MonoBehaviour
+namespace IgniteCoders.Simple_Water_Shader.Resources
 {
-    // referenses
-    Camera _mainCamera;
-    Camera _reflectionCamera;
-
-    [Tooltip("The plane where the camera will be reflected, the water plane or any object with the same position and rotation")]
-    public Transform reflectionPlane;
-    [Tooltip("The texture used by the Water shader to display the reflection")]
-    public RenderTexture outputTexture;
-
-    // parameters
-    public bool copyCameraParamerers;
-    public float verticalOffset;
-    private bool _isReady;
-
-    // cache
-    private Transform _mainCamTransform;
-    private Transform _reflectionCamTransform;
-
-    public void Awake()
+    public class WaterReflection : MonoBehaviour
     {
-        _mainCamera = Camera.main;
+        // referenses
+        private Camera _mainCamera;
+        private Camera _reflectionCamera;
 
-        _reflectionCamera = GetComponent<Camera>();
+        [Tooltip("The plane where the camera will be reflected, the water plane or any object with the same position and rotation")]
+        public Transform reflectionPlane;
+        [Tooltip("The texture used by the Water shader to display the reflection")]
+        public RenderTexture outputTexture;
 
-        Validate();
-    }
+        // parameters
+        public bool copyCameraParamerers;
+        public float verticalOffset;
+        private bool _isReady;
 
-    private void Update()
-    {
-        if (_isReady)
-            RenderReflection();
-    }
+        // cache
+        private Transform _mainCamTransform;
+        private Transform _reflectionCamTransform;
 
-    private void RenderReflection()
-    {
-        // take main camera directions and position world space
-        Vector3 cameraDirectionWorldSpace = _mainCamTransform.forward;
-        Vector3 cameraUpWorldSpace = _mainCamTransform.up;
-        Vector3 cameraPositionWorldSpace = _mainCamTransform.position;
-
-        cameraPositionWorldSpace.y += verticalOffset;
-
-        // transform direction and position by reflection plane
-        Vector3 cameraDirectionPlaneSpace = reflectionPlane.InverseTransformDirection(cameraDirectionWorldSpace);
-        Vector3 cameraUpPlaneSpace = reflectionPlane.InverseTransformDirection(cameraUpWorldSpace);
-        Vector3 cameraPositionPlaneSpace = reflectionPlane.InverseTransformPoint(cameraPositionWorldSpace);
-
-        // invert direction and position by reflection plane
-        cameraDirectionPlaneSpace.y *= -1;
-        cameraUpPlaneSpace.y *= -1;
-        cameraPositionPlaneSpace.y *= -1;
-
-        // transform direction and position from reflection plane local space to world space
-        cameraDirectionWorldSpace = reflectionPlane.TransformDirection(cameraDirectionPlaneSpace);
-        cameraUpWorldSpace = reflectionPlane.TransformDirection(cameraUpPlaneSpace);
-        cameraPositionWorldSpace = reflectionPlane.TransformPoint(cameraPositionPlaneSpace);
-
-        // apply direction and position to reflection camera
-        _reflectionCamTransform.position = cameraPositionWorldSpace;
-        _reflectionCamTransform.LookAt(cameraPositionWorldSpace + cameraDirectionWorldSpace, cameraUpWorldSpace);
-    }
-
-    private void Validate()
-    {
-        if (_mainCamera != null)
+        public void Awake()
         {
-            _mainCamTransform = _mainCamera.transform;
-            _isReady = true;
+            _mainCamera = Camera.main;
+
+            _reflectionCamera = GetComponent<Camera>();
+
+            Validate();
         }
-        else
-            _isReady = false;
 
-        if (_reflectionCamera != null)
+        private void Update()
         {
-            _reflectionCamTransform = _reflectionCamera.transform;
-            _isReady = true;
+            if (_isReady)
+                RenderReflection();
         }
-        else
-            _isReady = false;
 
-        if (_isReady && copyCameraParamerers)
+        private void RenderReflection()
         {
-            copyCameraParamerers = !copyCameraParamerers;
-            _reflectionCamera.CopyFrom(_mainCamera);
+            // take main camera directions and position world space
+            Vector3 cameraDirectionWorldSpace = _mainCamTransform.forward;
+            Vector3 cameraUpWorldSpace = _mainCamTransform.up;
+            Vector3 cameraPositionWorldSpace = _mainCamTransform.position;
 
-            _reflectionCamera.targetTexture = outputTexture;
+            cameraPositionWorldSpace.y += verticalOffset;
+
+            // transform direction and position by reflection plane
+            Vector3 cameraDirectionPlaneSpace = reflectionPlane.InverseTransformDirection(cameraDirectionWorldSpace);
+            Vector3 cameraUpPlaneSpace = reflectionPlane.InverseTransformDirection(cameraUpWorldSpace);
+            Vector3 cameraPositionPlaneSpace = reflectionPlane.InverseTransformPoint(cameraPositionWorldSpace);
+
+            // invert direction and position by reflection plane
+            cameraDirectionPlaneSpace.y *= -1;
+            cameraUpPlaneSpace.y *= -1;
+            cameraPositionPlaneSpace.y *= -1;
+
+            // transform direction and position from reflection plane local space to world space
+            cameraDirectionWorldSpace = reflectionPlane.TransformDirection(cameraDirectionPlaneSpace);
+            cameraUpWorldSpace = reflectionPlane.TransformDirection(cameraUpPlaneSpace);
+            cameraPositionWorldSpace = reflectionPlane.TransformPoint(cameraPositionPlaneSpace);
+
+            // apply direction and position to reflection camera
+            _reflectionCamTransform.position = cameraPositionWorldSpace;
+            _reflectionCamTransform.LookAt(cameraPositionWorldSpace + cameraDirectionWorldSpace, cameraUpWorldSpace);
+        }
+
+        private void Validate()
+        {
+            if (_mainCamera != null)
+            {
+                _mainCamTransform = _mainCamera.transform;
+                _isReady = true;
+            }
+            else
+                _isReady = false;
+
+            if (_reflectionCamera != null)
+            {
+                _reflectionCamTransform = _reflectionCamera.transform;
+                _isReady = true;
+            }
+            else
+                _isReady = false;
+
+            if (_isReady && copyCameraParamerers)
+            {
+                copyCameraParamerers = !copyCameraParamerers;
+                _reflectionCamera.CopyFrom(_mainCamera);
+
+                _reflectionCamera.targetTexture = outputTexture;
+            }
         }
     }
 }
